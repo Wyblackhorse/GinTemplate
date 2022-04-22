@@ -14,6 +14,7 @@ import (
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/dao/redis"
 	"github.com/wangyi/GinTemplate/logger"
+	"github.com/wangyi/GinTemplate/model"
 	"github.com/wangyi/GinTemplate/router"
 	"github.com/wangyi/GinTemplate/setting"
 	"github.com/wangyi/GinTemplate/tools"
@@ -82,6 +83,9 @@ func run(cmd *cobra.Command, args []string) {
 		return
 	}
 	defer redis.Close()
+
+	//比较特殊的 数据库初始化  admin
+	model.CheckIsExistModelAdminModel(mysql.DB, redis.Rdb)
 
 	router.Setup()
 }

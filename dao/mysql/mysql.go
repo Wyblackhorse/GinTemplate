@@ -12,6 +12,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/spf13/viper"
+	"github.com/wangyi/GinTemplate/model"
 )
 
 var (
@@ -39,8 +40,8 @@ func Init() error {
 	DB.DB().SetMaxIdleConns(10)
 	DB.DB().SetMaxOpenConns(100)
 	////////////////////////////////////////////////////////////////////////模型初始化
-
-
+	model.CheckIsExistModelLoggers(DB)
+	model.CheckIsExistModelMenu(DB)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err
 }

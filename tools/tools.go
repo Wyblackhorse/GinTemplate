@@ -79,7 +79,8 @@ func InArray(arr []string, param string) bool {
 	return false
 }
 
-//封装返回方法
+
+//json返回
 func JsonWrite(context *gin.Context, status int, result interface{}, msg string) {
 	context.JSON(http.StatusOK, gin.H{
 		"code":   status,

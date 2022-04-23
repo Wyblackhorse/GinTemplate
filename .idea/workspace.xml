@@ -20,23 +20,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/rule/AdminController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/rule/DataForValidator.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/worker/worker.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/AdminModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/MenuModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/goole.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/worker/ApplyController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/worker/DataForValidator.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/ApplyModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/ConfigModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/DailyStatisticsModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/RoleAndMenuModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/RoleModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/WorkerModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MgHash.sock" beforeDir="false" afterPath="$PROJECT_DIR$/MgHash.sock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/Worker.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/mysql/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/mysql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/Admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/LoggerModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/AdminModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/AdminModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/MenuModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/MenuModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web_app.log" beforeDir="false" afterPath="$PROJECT_DIR$/web_app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

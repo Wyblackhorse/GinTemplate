@@ -11,4 +11,5 @@ import "github.com/wangyi/GinTemplate/cmd"
 
 func main() {
 	cmd.Execute()
+
 }

@@ -33,10 +33,9 @@ func Setup() *gin.Engine {
 	user := r.Group("/user")
 	{
 		//用户登录
-		user.POST("/login", func(context *gin.Context) {
-
-		})
+		user.POST("/login", worker.Login)
 		user.POST("/register", worker.Register)
+		user.GET("/generateCaptcha", worker.GenerateCaptcha)
 	}
 
 	admin := r.Group("/rule")
@@ -57,7 +56,7 @@ func CheckToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//检查url 是否在白名单里面
 		path := c.Request.URL.Path
-		whiteUrl := []string{"/user/register", "/rule/login"}
+		whiteUrl := []string{"/user/register", "/rule/login", "/user/generateCaptcha", "/user/login"}
 		if tools.InArray(whiteUrl, path) {
 			c.Next()
 			return

@@ -41,7 +41,13 @@ func Init() error {
 	DB.DB().SetMaxOpenConns(100)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	model.CheckIsExistModelLoggers(DB)
+	model.CheckIsExistModelRole(DB)
+	model.CheckIsExistModelRoleAndMenu(DB)
 	model.CheckIsExistModelMenu(DB)
+	model.CheckIsExistModelConfig(DB)
+	model.CheckIsExistModelWorker(DB)
+	model.CheckIsExistModelDailyStatistics(DB)
+	model.CheckIsExistModelApply(DB)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err
 }

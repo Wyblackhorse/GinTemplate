@@ -65,7 +65,7 @@ func Register(c *gin.Context) {
 	fmt.Println(verifyResult)
 	if verifyResult == false {
 		//验证码校验没有通过
-		ReturnErr101(c, "The invitation code is err")
+		ReturnErr101(c, "The verify code is err")
 		return
 	}
 
@@ -75,7 +75,7 @@ func Register(c *gin.Context) {
 		ReturnErr101(c, "The account already exists")
 		return
 	}
-	token := tools.RandStringRunes(40)
+	token := tools.RandStringRunes(60)
 	newWork.Password = register.Password
 	newWork.Phone = register.Phone
 	newWork.Token = token
@@ -94,6 +94,7 @@ func Register(c *gin.Context) {
 	redis.Rdb.HSet("Worker_Token", token, newWork.Phone)
 	redis.Rdb.HMSet("Worker_"+newWork.Phone, structs.Map(&newWork))
 	ReturnSuccess(c, "注册成功")
+	return
 }
 
 ///登录
@@ -111,6 +112,11 @@ func Login(c *gin.Context) {
 		ReturnErr101(c, "The account or password is incorrect")
 		return
 	}
+	redis.Rdb.Set("Worker_Login_Token_"+worker.Token, login.Phone, time.Second*3600*24)
 	ReturnSuccessData(c, worker, "success")
 	return
 }
+
+
+
+

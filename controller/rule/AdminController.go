@@ -59,7 +59,8 @@ func Login(c *gin.Context) {
 	return
 }
 
-//获取菜单
-func GetMenu(c *gin.Context) {
 
-}
+
+
+
+

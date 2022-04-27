@@ -26,7 +26,15 @@ type AdminModel struct {
 	GoogleCode string //谷歌  用来验证
 	Token      string //48字符串
 	Created    int64  //注册时间
+	RoleName   string `gorm:"-"`
 }
+
+
+
+
+
+
+
 
 func CheckIsExistModelAdminModel(db *gorm.DB, redis *redis.Client) {
 	if db.HasTable(&AdminModel{}) {

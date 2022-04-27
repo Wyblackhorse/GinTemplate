@@ -16,10 +16,11 @@ import (
 // 应用
 
 type Apply struct {
-	ID      uint   `gorm:"primaryKey;comment:'主键'"`
-	Name    string //菜单名称
-	Status  int    //1正常 2禁用
-	Created int64  //创建时间
+	ID       uint   `gorm:"primaryKey;comment:'主键'"`
+	Name     string //菜单名称
+	Status   int    //1正常 2禁用
+	ImageUrl string // 图片路径 (应用图片)
+	Created  int64  //创建时间
 }
 
 //添加数据
@@ -57,7 +58,3 @@ func CheckIsExistModelApply(db *gorm.DB) {
 		}
 	}
 }
-
-
-
-

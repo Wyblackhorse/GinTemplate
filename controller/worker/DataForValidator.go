@@ -9,6 +9,7 @@ package worker
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/wangyi/GinTemplate/model"
 	"github.com/wangyi/GinTemplate/tools"
 )
 
@@ -22,6 +23,12 @@ type RegisterRequest struct {
 	InvitationCode   string `form:"invitation_code"  binding:"omitempty,min=6,max=6"`  //邀请码
 	VerificationId   string `form:"verification_id"  binding:"required"`
 }
+
+type VipsReturnData struct {
+	  MeVip  interface{}
+	  Its   []model.Vip
+}
+
 
 //登录验证
 type LoginRequest struct {

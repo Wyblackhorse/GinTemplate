@@ -20,27 +20,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/worker/ApplyController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/worker/DataForValidator.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/ApplyModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/ConfigModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/DailyStatisticsModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/RoleAndMenuModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/RoleModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/WorkerModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/rule/ApplyManagementController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/rule/JurisdictionManagementController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/rule/RoleController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/rule/TaskManagementController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/worker/TaskController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/worker/VipController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/BillingDetailsModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/TaskModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/TaskOrderModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/VipModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MgHash.sock" beforeDir="false" afterPath="$PROJECT_DIR$/MgHash.sock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/Worker.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/rule/AdminController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/AdminController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/rule/DataForValidator.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/DataForValidator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/ApplyController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/ApplyController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/DataForValidator.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/DataForValidator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/Worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/Worker.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/mysql/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/mysql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/AdminModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/AdminModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/ApplyModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ApplyModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/MenuModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/MenuModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/WorkerModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/WorkerModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_app.log" beforeDir="false" afterPath="$PROJECT_DIR$/web_app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +67,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -131,27 +135,31 @@
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state x="2544" y="246" key="#SSH_Configurations/1680.-111.2560.1415/48.25.1632.1025@1680.-111.2560.1415" timestamp="1650525967983" />
-    <state width="2518" height="400" key="GridCell.Tab.0.bottom" timestamp="1650601829512">
+    <state width="2518" height="400" key="GridCell.Tab.0.bottom" timestamp="1650958292031">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
+    <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292031" />
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829512" />
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/47.25.1633.1025@1680.-111.2560.1415" timestamp="1650601476426" />
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/49.25.1631.1025@1680.-111.2560.1415" timestamp="1650525499521" />
-    <state width="2518" height="400" key="GridCell.Tab.0.center" timestamp="1650601829511">
+    <state width="2518" height="400" key="GridCell.Tab.0.center" timestamp="1650958292030">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
+    <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292030" />
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829511" />
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/47.25.1633.1025@1680.-111.2560.1415" timestamp="1650601476425" />
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/49.25.1631.1025@1680.-111.2560.1415" timestamp="1650525499520" />
-    <state width="2518" height="400" key="GridCell.Tab.0.left" timestamp="1650601829510">
+    <state width="2518" height="400" key="GridCell.Tab.0.left" timestamp="1650958292029">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
+    <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292029" />
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829510" />
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/47.25.1633.1025@1680.-111.2560.1415" timestamp="1650601476424" />
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/49.25.1631.1025@1680.-111.2560.1415" timestamp="1650525499520" />
-    <state width="2518" height="400" key="GridCell.Tab.0.right" timestamp="1650601829512">
+    <state width="2518" height="400" key="GridCell.Tab.0.right" timestamp="1650958292030">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
+    <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292030" />
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829512" />
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/47.25.1633.1025@1680.-111.2560.1415" timestamp="1650601476425" />
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/49.25.1631.1025@1680.-111.2560.1415" timestamp="1650525499521" />
@@ -163,5 +171,20 @@
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state x="2866" y="251" key="ftp.server.browser/1680.-111.2560.1415/48.25.1632.1025@1680.-111.2560.1415" timestamp="1650525980646" />
+    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup" timestamp="1651044593541">
+      <screen x="1680" y="-111" width="2560" height="1415" />
+    </state>
+    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/60.25.1620.1025@1680.-111.2560.1415" timestamp="1651044593541" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/worker/TaskController.go</url>
+          <line>53</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

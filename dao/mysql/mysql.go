@@ -48,6 +48,10 @@ func Init() error {
 	model.CheckIsExistModelWorker(DB)
 	model.CheckIsExistModelDailyStatistics(DB)
 	model.CheckIsExistModelApply(DB)
+	model.CheckIsExistModelTask(DB)
+	model.CheckIsExistModelVip(DB)
+	model.CheckIsExistModelTaskOrder(DB)
+	model.CheckIsExistModelBillingDetails(DB)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err
 }

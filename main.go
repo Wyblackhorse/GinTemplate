@@ -1,6 +1,6 @@
 /**
  * @Author $
- * @Description //TODO $
+ * @Description //TODO
  * @Date $ $
  * @Param $
  * @return $
@@ -11,5 +11,4 @@ import "github.com/wangyi/GinTemplate/cmd"
 
 func main() {
 	cmd.Execute()
-
 }

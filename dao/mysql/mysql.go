@@ -52,6 +52,9 @@ func Init() error {
 	model.CheckIsExistModelVip(DB)
 	model.CheckIsExistModelTaskOrder(DB)
 	model.CheckIsExistModelBillingDetails(DB)
+	model.CheckIsExistModelYuEBao(DB)
+	model.CheckIsExistModelMoneyManagement(DB)
+	model.CheckIsExistModelRecord(DB)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err
 }

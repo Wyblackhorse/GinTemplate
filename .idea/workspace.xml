@@ -20,28 +20,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/rule/ApplyManagementController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/rule/JurisdictionManagementController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/rule/RoleController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/rule/TaskManagementController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/worker/TaskController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/worker/VipController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/BillingDetailsModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/TaskModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/TaskOrderModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/VipModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/rule/BillManagement.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/rule/ConfigController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/rule/VipManagementController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/rule/YuEBao.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/worker/MoneyManagenment.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/worker/RecordController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/MoneyManagement.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/RecordModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/YuEBao.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/AdminController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/AdminController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/DataForValidator.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/DataForValidator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/ApplyController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/ApplyController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/DataForValidator.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/DataForValidator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/Worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/Worker.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/stop.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/stop.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/mysql/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/AdminModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/AdminModel.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/ApplyModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ApplyModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/ConfigModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ConfigModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/MenuModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/MenuModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/VipModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/VipModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/WorkerModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/WorkerModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
     </list>
@@ -171,9 +164,11 @@
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state x="2866" y="251" key="ftp.server.browser/1680.-111.2560.1415/48.25.1632.1025@1680.-111.2560.1415" timestamp="1650525980646" />
-    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup" timestamp="1651044593541">
+    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup" timestamp="1651134938605">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
+    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/56.25.1624.1025@1680.-111.2560.1415" timestamp="1651134938605" />
+    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/59.25.1621.1025@1680.-111.2560.1415" timestamp="1651131345012" />
     <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/60.25.1620.1025@1680.-111.2560.1415" timestamp="1651044593541" />
   </component>
   <component name="XDebuggerManager">
@@ -183,6 +178,11 @@
           <url>file://$PROJECT_DIR$/controller/worker/TaskController.go</url>
           <line>53</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/rule/VipManagementController.go</url>
+          <line>18</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

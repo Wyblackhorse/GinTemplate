@@ -139,7 +139,7 @@ func CheckIsExistModelMenu(db *gorm.DB) {
 			r = RoleAndMenu{ID: 512, MenuId: 512}
 			r.SuperAdminCreate(db)
 
-			m = Menu{ID: 6, Name: "财政管理"}
+			m = Menu{ID: 6, Name: "财政管理", EnglishName: "fiscalManagement"}
 			m.AddStairMenu(db)
 			r = RoleAndMenu{ID: 6, MenuId: 6}
 			r.SuperAdminCreate(db)
@@ -159,7 +159,7 @@ func CheckIsExistModelMenu(db *gorm.DB) {
 			r = RoleAndMenu{ID: 8, MenuId: 8}
 			r.SuperAdminCreate(db)
 
-			m = Menu{ID: 811, Name: "团队列表", Level: 7, EnglishName: "teamList"}
+			m = Menu{ID: 811, Name: "团队列表", Level: 8, EnglishName: "teamList"}
 			m.AddSecondMenu(db)
 			r = RoleAndMenu{ID: 811, MenuId: 811}
 			r.SuperAdminCreate(db)
@@ -168,15 +168,15 @@ func CheckIsExistModelMenu(db *gorm.DB) {
 			m.AddStairMenu(db)
 			r = RoleAndMenu{ID: 9, MenuId: 9}
 			r.SuperAdminCreate(db)
-			m = Menu{ID: 911, Name: "登录日志", Level: 7, EnglishName: "loginLog"}
+			m = Menu{ID: 911, Name: "登录日志", Level: 9, EnglishName: "loginLog"}
 			m.AddSecondMenu(db)
 			r = RoleAndMenu{ID: 911, MenuId: 911}
 			r.SuperAdminCreate(db)
-			m = Menu{ID: 912, Name: "系统日志", Level: 7, EnglishName: "systemLog"}
+			m = Menu{ID: 912, Name: "系统日志", Level: 9, EnglishName: "systemLog"}
 			m.AddSecondMenu(db)
 			r = RoleAndMenu{ID: 912, MenuId: 912}
 			r.SuperAdminCreate(db)
-			m = Menu{ID: 913, Name: "管理操作日志", Level: 7, EnglishName: "adminLog"}
+			m = Menu{ID: 913, Name: "管理操作日志", Level: 9, EnglishName: "adminLog"}
 			m.AddSecondMenu(db)
 			r = RoleAndMenu{ID: 913, MenuId: 913}
 			r.SuperAdminCreate(db)

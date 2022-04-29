@@ -48,6 +48,10 @@ func Setup() *gin.Engine {
 		//GetTaskOrder   //获取订单任务     提交审核
 		user.GET("/task/getTaskOrder", worker.GetTaskOrder)
 		user.POST("/task/getTaskOrder", worker.GetTaskOrder)
+		//提现 RecordController
+		user.GET("/record/getRecord", worker.GetRecord)
+
+
 
 	}
 
@@ -63,8 +67,11 @@ func Setup() *gin.Engine {
 		//任务管理 taskManagement SetTasks taskList     审核任务 reviewTheTask
 		admin.GET("/taskManagement/taskList/setTasks", rule.SetTasks)
 		admin.GET("/taskManagement/reviewTheTask/setTasksOrder", rule.SetTasksOrder)
-
-
+		//系统设置  SetConfig
+		admin.GET("/settingManagement/basicSetting/setConfig", rule.SetConfig)
+		//会员管理   普通会员  会员等级
+		admin.GET("/memberManagement/gradeOfMembership/getVipLevel", rule.GetVipLevel)
+		admin.GET("/memberManagement/regularMembers/getVipWorkers", rule.GetVipWorkers)
 	}
 
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))

@@ -57,10 +57,21 @@ func CheckIsExistModelVip(db *gorm.DB) {
 	}
 }
 
+//添加会员
 func (v *Vip) Add(db *gorm.DB) {
 	v.Created = time.Now().Unix()
 	err := db.Where("name=?", v.Name).First(&Vip{}).Error
 	if err != nil {
 		db.Save(&v)
 	}
+}
+
+//获取会员等级
+func (v *Vip) GetLevelName(db *gorm.DB) string {
+	vip := Vip{}
+	err := db.Where("id=?", v.ID).First(&vip).Error
+	if err != nil {
+		return ""
+	}
+	return vip.Name
 }

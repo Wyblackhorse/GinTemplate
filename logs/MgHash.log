@@ -1,0 +1,17 @@
+2022/05/01 13:28:49 程序运行路径:C:\Users\Administrator\Desktop\GinTemplate
+2022/05/01 13:28:49 5124 : 启动子进程成功: -> 19376 
+ 
+2022/05/01 13:28:49 程序运行路径:C:\Users\Administrator\Desktop\GinTemplate
+2022/05/01 13:28:49 子进程pid=19376: 开始运行...
+值:paymentPlatform读取配置成功
+数据库已经存在了!
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /v2/getPayInformation     --> github.com/wangyi/GinTemplate/controller/v2.GetPayInformationBack (2 handlers)
+[GIN-debug] GET    /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] HEAD   /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :7777

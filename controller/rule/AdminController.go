@@ -34,22 +34,22 @@ func Login(c *gin.Context) {
 		tools.JsonWrite(c, -101, []string{}, "该账号已经停用")
 		return
 	}
-	if adminTwo.GoogleCode == "" {
-		secret, _, qrCodeUrl := tools.InitAuth(adminTwo.Username)
-		err := mysql.DB.Model(&model.AdminModel{}).Where("id=?", adminTwo.ID).Update(model.AdminModel{GoogleCode: secret}).Error
-		if err != nil {
-			tools.JsonWrite(c, -101, []string{}, "err:"+err.Error())
-			return
-		}
-		tools.JsonWrite(c, -102, map[string]string{"codeUrl": qrCodeUrl}, "请先绑定谷歌账号")
-		return
-	}
-	//校验谷歌验证
-	verifyCode, _ := tools.NewGoogleAuth().VerifyCode(adminTwo.GoogleCode, admin.GoogleCode)
-	if !verifyCode {
-		tools.JsonWrite(c, -101, map[string]string{}, "谷歌验证失败")
-		return
-	}
+	//if adminTwo.GoogleCode == "" {
+	//	secret, _, qrCodeUrl := tools.InitAuth(adminTwo.Username)
+	//	err := mysql.DB.Model(&model.AdminModel{}).Where("id=?", adminTwo.ID).Update(model.AdminModel{GoogleCode: secret}).Error
+	//	if err != nil {
+	//		tools.JsonWrite(c, -101, []string{}, "err:"+err.Error())
+	//		return
+	//	}
+	//	tools.JsonWrite(c, -102, map[string]string{"codeUrl": qrCodeUrl}, "请先绑定谷歌账号")
+	//	return
+	//}
+	////校验谷歌验证
+	//verifyCode, _ := tools.NewGoogleAuth().VerifyCode(adminTwo.GoogleCode, admin.GoogleCode)
+	//if !verifyCode {
+	//	tools.JsonWrite(c, -101, map[string]string{}, "谷歌验证失败")
+	//	return
+	//}
 	//登录成功
 	redis.Rdb.Set("Admin_Login_Token_"+adminTwo.Token, adminTwo.Username, time.Second*3600*24)
 	//登录日志

@@ -149,7 +149,6 @@ func GetJurisdiction(c *gin.Context) {
 	action := c.Query("action")
 	//获取权限列表
 	if action == "GET" {
-
 		admin := make([]model.AdminModel, 0)
 		page, _ := strconv.Atoi(c.Query("page"))
 		limit, _ := strconv.Atoi(c.Query("limit"))

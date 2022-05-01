@@ -22,6 +22,11 @@ func GetRecord(c *gin.Context) {
 
 	//获取账单
 	if action == "GET" {
+		kinds, _ := strconv.Atoi(c.Query("kinds"))
+		record := make([]model.Record, 0)
+		mysql.DB.Where("kinds=?", kinds).Find(&record)
+		ReturnSuccessData(c, record, "success")
+		return
 
 	}
 
@@ -29,7 +34,6 @@ func GetRecord(c *gin.Context) {
 	if action == "withdraw" {
 		//获取提现金额
 		money, _ := strconv.ParseFloat(c.Query("money"), 64)
-
 		//获取系统配置 最低的 提现金额
 		config := model.Config{}
 		err := mysql.DB.Where("id=?", 1).First(&config).Error
@@ -50,6 +54,11 @@ func GetRecord(c *gin.Context) {
 		}
 		ReturnSuccess(c, "Withdrawal successful, waiting for administrator review")
 		return
+	}
+
+	//充值
+	if action == "recharge" {
+
 	}
 
 }

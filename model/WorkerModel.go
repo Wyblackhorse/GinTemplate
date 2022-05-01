@@ -43,7 +43,7 @@ type WorkerBalance struct {
 	ID              int     //用户的 id
 	AddBalance      float64 //增加多少钱 减少
 	ChangeMoneyLock sync.RWMutex
-	Kinds           int //类型 1充值  2提现 3做单任务 4购买业务 5佣金奖励 6充值到余额宝
+	Kinds           int //类型 1充值  2用户提现 3做单任务 4购买业务 5佣金奖励 6充值到余额宝   7管理员审核提现失败   8管理员审核提现成功
 	OrderId         int
 	YuEBaoId        int //余额宝产品id
 	Days            int //理财产品的时间
@@ -81,7 +81,7 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 
 	//加钱操作
 	var newBalance float64
-	if w.Kinds == 3 {
+	if w.Kinds == 3 || w.Kinds == 7 {
 		newBalance = worker.Balance + w.AddBalance
 		err = db.Model(&Worker{}).Where("id=?", w.ID).Update(&Worker{Balance: newBalance}).Error
 		if err != nil {
@@ -103,6 +103,7 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 			return false, err
 		}
 	}
+
 	//金额改变成功 类型 1充值  2提现 3做单任务 4购买业务 5佣金奖励
 	if w.Kinds == 3 {
 		add := BillingDetails{
@@ -148,8 +149,38 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 			db.Rollback() //事务回滚
 			return false, err
 		}
-	}
+	} else if w.Kinds == 8 || w.Kinds == 7 {
+		//管理员审核提现订单成功  余额不动  扣除 冻结提现金额
+		newBalance := worker.WithdrawalToFreeze - w.AddBalance
+		ps := map[string]interface{}{}
+		ps["WithdrawalToFreeze"] = newBalance
 
+		//审核失败  要把钱返回给余额
+		if w.Kinds == 7 {
+			newBalanceTwo := worker.Balance + w.AddBalance
+			ps["Balance"] = newBalanceTwo
+			add := BillingDetails{
+				WorkerId:    int(worker.ID),
+				ChangeMoney: w.AddBalance,
+				InitMoney:   worker.Balance,
+				NowMoney:    newBalanceTwo,
+				Created:     time.Now().Unix(),
+				Kinds:       w.Kinds,
+			}
+			err = db.Save(&add).Error
+			if err != nil {
+				db.Rollback() //事务回滚
+				return false, err
+			}
+
+		}
+		err = db.Model(&Worker{}).Where("id=?", w.ID).Update(ps).Error
+		if err != nil {
+			db.Rollback() //事务回滚
+			return false, err
+		}
+
+	}
 	db.Commit() //事务提交
 	return true, nil
 }

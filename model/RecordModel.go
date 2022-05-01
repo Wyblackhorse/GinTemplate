@@ -15,9 +15,8 @@ import (
 )
 
 type Record struct {
-	ID       uint `gorm:"primaryKey;comment:'主键'"`
-	WorkerId int  //用户id
-
+	ID        uint    `gorm:"primaryKey;comment:'主键'"`
+	WorkerId  int     //用户id
 	Kinds     int     //类型 1充值  2提现   4购买业务 5佣金奖励 6充值到余额宝
 	Money     float64 `gorm:"type:decimal(10,2)"` //购买金额
 	Status    int     //1已完成  2审核中  3失败
@@ -47,6 +46,48 @@ func (r *Record) AddRecord(db *gorm.DB) (bool, error) {
 	err := db.Save(&r).Error
 	if err != nil {
 		return false, err
+	}
+	return true, nil
+}
+
+//是否存在这个订单  如果存在就返回 订单数据
+func (r *Record) IsExistRecord(db *gorm.DB) (bool, Record) {
+	err := db.Where("id=?", r.ID).First(&r).Error
+	if err != nil {
+		return false, Record{}
+	}
+	return true, *r
+}
+
+//管理员审核订单
+func (r *Record) WithdrawDeposit(db *gorm.DB, status int) (bool, error) {
+	//通过
+	if status == 1 {
+		//修改订单状态
+		err := db.Model(&Record{}).Where("id=?", r.ID).Update(&Record{Status: 1, Updated: time.Now().Unix()}).Error
+		if err != nil {
+			//更新失败
+			return false, err
+		}
+		worker := WorkerBalance{ID: r.WorkerId, AddBalance: r.Money, Kinds: 8}
+		resultBool, err := worker.AddBalanceFuc(db)
+		if resultBool == false {
+			return false, err
+		}
+
+	} else if status == 3 {
+		//不通过
+		err := db.Model(&Record{}).Where("id=?", r.ID).Update(&Record{Status: 3, Updated: time.Now().Unix()}).Error
+		if err != nil {
+			//更新失败
+			return false, err
+		}
+
+		worker := WorkerBalance{ID: r.WorkerId, AddBalance: r.Money, Kinds: 7}
+		resultBool, err := worker.AddBalanceFuc(db)
+		if resultBool == false {
+			return false, err
+		}
 	}
 	return true, nil
 }

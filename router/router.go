@@ -51,8 +51,6 @@ func Setup() *gin.Engine {
 		//提现 RecordController
 		user.GET("/record/getRecord", worker.GetRecord)
 
-
-
 	}
 
 	admin := r.Group("/rule")
@@ -72,6 +70,9 @@ func Setup() *gin.Engine {
 		//会员管理   普通会员  会员等级
 		admin.GET("/memberManagement/gradeOfMembership/getVipLevel", rule.GetVipLevel)
 		admin.GET("/memberManagement/regularMembers/getVipWorkers", rule.GetVipWorkers)
+		//账单管理  充值账单  提现账单  佣金账单 推广奖励
+		admin.GET("/billManagement/withdrawalBill/getRecord", rule.GetRecords)
+
 	}
 
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))

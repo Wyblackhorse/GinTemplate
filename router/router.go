@@ -25,6 +25,8 @@ func Setup() *gin.Engine {
 	GroupV2 := r.Group("/v2")
 	GroupV2.POST("/getPayInformation", v2.GetPayInformationBack)
 	GroupV2.GET("/getPayInformation", v2.GetPayInformation)
+	//资金归集
+	//GroupV2.GET("/getPayInformation", v2.GetPayInformation)
 
 	//充值订单管理
 	GroupV2.POST("/createPrepaidPhoneOrders", v2.CreatePrepaidPhoneOrders)

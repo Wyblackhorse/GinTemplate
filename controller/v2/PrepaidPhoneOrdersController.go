@@ -26,7 +26,7 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 	}
 
 	//生成充值订单
-	p := model.PrepaidPhoneOrders{ThreeOrder: jsonData.ThreeOrder, RechargeAddress: jsonData.RechargeAddress, CollectionAddress: jsonData.CollectionAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType}
+	p := model.PrepaidPhoneOrders{ThreeOrder: jsonData.ThreeOrder, CollectionAddress: jsonData.CollectionAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType}
 	_, err = p.CreatePrepaidPhoneOrders(mysql.DB)
 	if err != nil {
 		tools.ReturnError101(c, err.Error())
@@ -52,6 +52,15 @@ func GetPrepaidPhoneOrders(c *gin.Context) {
 		if err != nil {
 			tools.ReturnError101(c, "ERR:"+err.Error())
 			return
+		}
+
+		for k, v := range role {
+			address := model.ReceiveAddress{}
+			err := mysql.DB.Where("username=?", v.Username).First(&address).Error
+			if err == nil {
+				role[k].RechargeAddress = address.Address
+			}
+
 		}
 
 		c.JSON(http.StatusOK, gin.H{

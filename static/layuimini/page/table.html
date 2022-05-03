@@ -53,10 +53,32 @@
         </fieldset>
 
         <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">IP地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="ipaddress"  autocomplete="off" class="layui-input" value="127.0.0.1:7777">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">gas</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="gas" autocomplete="off" class="layui-input" value="10000000">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">min</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="min" autocomplete="off" class="layui-input" value="2000000000">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add">资金归集</button>
+                </div>
+
             </div>
+
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
@@ -79,7 +101,7 @@
             elem: '#currentTableId',
             url: '/v2/getPayInformation?action=GET',
             toolbar: '#toolbarDemo',
-            height:screen.height*0.7,
+            height: screen.height * 0.7,
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
                 layEvent: 'LAYTABLE_TIPS',
@@ -88,17 +110,21 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'ID', width: 80, title: 'ID', sort: true},
-                {field: 'TxHash', width: 300, title: '交易Hash',align:"center"},
-                {field: 'BlockNumber', width: 100, title: '区块号', sort: true,align:"center"},
-                {field: 'Amount', width: 100, title: '充值金额',align:"center"},
-                {field: 'From', title: '充值地址', minWidth: 150,align:"center"},
-                {field: 'ToAddress', width: 150, title: '收账地址', sort: true,align:"center"},
-                {field: 'Token', width: 100, title: '充值类型', sort: true,align:"center"},
-                {field: 'UserID', width: 100, title: '用户ID',align:"center"},
-                {field: 'Timestamp', width: 200, title: '区块时间', sort: true,align:"center",
-                    templet: "<div>{{layui.util.toDateString(d.Timestamp*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
-                {field: 'Created', width: 200, title: '入库时间', sort: true,align:"center",
-                    templet: "<div>{{layui.util.toDateString(d.Created*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
+                {field: 'TxHash', width: 300, title: '交易Hash', align: "center"},
+                {field: 'BlockNumber', width: 100, title: '区块号', sort: true, align: "center"},
+                {field: 'Amount', width: 100, title: '充值金额', align: "center"},
+                {field: 'From', title: '充值地址', minWidth: 150, align: "center"},
+                {field: 'ToAddress', width: 150, title: '收账地址', sort: true, align: "center"},
+                {field: 'Token', width: 100, title: '充值类型', sort: true, align: "center"},
+                {field: 'UserID', width: 100, title: '用户ID', align: "center"},
+                {
+                    field: 'Timestamp', width: 200, title: '区块时间', sort: true, align: "center",
+                    templet: "<div>{{layui.util.toDateString(d.Timestamp*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+                },
+                {
+                    field: 'Created', width: 200, title: '入库时间', sort: true, align: "center",
+                    templet: "<div>{{layui.util.toDateString(d.Created*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+                },
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [10, 15, 20, 25, 50, 100],
@@ -131,18 +157,43 @@
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {  // 监听添加操作
-                var index = layer.open({
-                    title: '添加用户',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin: true,
-                    shadeClose: true,
-                    area: ['100%', '100%'],
-                    content: '../page/table/add.html',
+
+
+                // http://127.0.0.1:7777/collect?gas=10000000&min=2000000000&ts=12345678
+                let paramUrl = "http://"
+                paramUrl = paramUrl + $("#ipaddress").val() + '/collect'
+                paramUrl = paramUrl + "?gas=" +$("#gas").val()
+                paramUrl = paramUrl +"&min=" +$("#min").val()
+                paramUrl = paramUrl +"&ts=" +Date.now()
+
+                $.ajax({
+                    url: paramUrl,
+                    type: 'GET',
+                    dataType:"json",
+                    success: function (resultJson) {
+
+                        if(resultJson.code === 200){
+                            layui.msg(resultJson.msg)
+                        }
+
+                    },
+
+
                 });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
+
+
+                // var index = layer.open({
+                //     title: '添加用户',
+                //     type: 2,
+                //     shade: 0.2,
+                //     maxmin: true,
+                //     shadeClose: true,
+                //     area: ['100%', '100%'],
+                //     content: '../page/table/add.html',
+                // });
+                // $(window).on("resize", function () {
+                //     layer.full(index);
+                // });
             } else if (obj.event === 'delete') {  // 监听删除操作
                 var checkStatus = table.checkStatus('currentTableId')
                     , data = checkStatus.data;

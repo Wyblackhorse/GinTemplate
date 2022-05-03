@@ -97,11 +97,34 @@
                 {field: 'Username', width: 100, title: '用户ID', align: "center"},
                 {field: 'AccountPractical', width: 120, title: '实际回调金额', align: "center"},
                 {
-                    field: 'Status', width: 100, title: '订单状态', align: "center",
-                    templet: "<a class='layui-btn layui-btn-normal layui-btn-xs '>{{d.Status}}</a>"
+                    field: 'Status', width: 100, title: '订单状态', align: "center",templet:function(d){
+                        var state = "";
+
+                        if(d.Status == "1"){//未支付
+                            state ='<button class="layui-btn layui-btn-xs" style="background-color: #FF5722">'+'未支付'+'</button>';
+                        }else if(d.Status == "2"){//已支付
+                            state = '<button class="layui-btn layui-btn-xs" >'+'已支付'+'</button>';
+                        }else{
+                            state =  ''
+                        }
+                        return state;
+                    }
 
                 },
-                {field: 'ThreeBack', width: 100, title: '是否回调', align: "center"},
+                {field: 'ThreeBack', width: 100, title: '是否回调', align: "center",templet:function(d){
+                        var state = "";
+
+                        if(d.ThreeBack == "1"){//未回调
+                            state ='<button class="layui-btn layui-btn-xs" style="background-color: #FF5722">'+'未回调'+'</button>';
+                        }else if(d.ThreeBack == "2"){//已回调
+                            state = '<button class="layui-btn layui-btn-xs" >'+'已回调'+'</button>';
+                        }else{
+                            state =  ''
+                        }
+                        return state;
+                    }
+
+                },
                 {
                     field: 'Successfully', width: 200, title: '区块时间', sort: true, align: "center",
                     templet: "<div>{{layui.util.toDateString(d.Timestamp*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"

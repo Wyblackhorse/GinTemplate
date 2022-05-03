@@ -17,6 +17,7 @@ type ReceiveAddress struct {
 	ReceiveNums    int    //收款笔数
 	LastGetAccount int    //最后一次的入账金额
 	Address        string //收账地址
+	Money          int64  //账户余额
 	Created        int64
 	Updated        int64
 }

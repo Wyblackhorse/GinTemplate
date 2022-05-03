@@ -14,7 +14,7 @@ type GetPayInformationBackData struct {
 type CreatePrepaidPhoneOrdersData struct {
 	ThreeOrder        string `json:"ThreeOrder" binding:"required"`
 	CollectionAddress string `json:"CollectionAddress" binding:"required"`
-	RechargeAddress   string `json:"RechargeAddress" binding:"required"`
+//	RechargeAddress   string `json:"RechargeAddress" binding:"required"`
 	Username          string `json:"Username" binding:"required"`
 	AccountOrders     int    `json:"AccountOrders"  binding:"required"`
 	RechargeType      string `json:"RechargeType"  binding:"required"`

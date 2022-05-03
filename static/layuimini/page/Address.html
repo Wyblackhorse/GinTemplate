@@ -93,6 +93,7 @@
                 {type: "checkbox", width: 50},
                 {field: 'ID', width: 80, title: 'ID', sort: true},
                 {field: 'Username', width: 300, title: '用户名', align: "center"},
+                {field: 'Money', width: 300, title: '账户余额', align: "center"},
                 {field: 'ReceiveNums', width: 150, title: '充值次数', sort: true, align: "center"},
                 {field: 'LastGetAccount', width: 150, title: '最后一次充值金额', align: "center"},
                 {field: 'Address', title: '充值地址', minWidth: 300, align: "center"},
@@ -155,11 +156,11 @@
             } else if (obj.event === "addAddress") {
 
                 $.ajax({
-                    url:"/v2/getReceiveAddress?action=ADD",
-                    type:"get",
-                    dataType:"json",
-                    success:function(data){
-                        if (data.code===200){
+                    url: "/v2/getReceiveAddress?action=ADD",
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code === 200) {
                             layer.msg("添加成功");
 
                         }
@@ -177,7 +178,7 @@
 
 
                     },
-                    error:function(data){
+                    error: function (data) {
                         layer.alert(JSON.stringify(data), {
                             title: data
                         });

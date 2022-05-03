@@ -21,6 +21,20 @@
           "href": "page/table.html",
           "icon": "fa fa-file-text",
           "target": "_self"
+        },
+
+        {
+          "title": "充值订单",
+          "href": "page/PrepaidPhoneOrders.html",
+          "icon": "fa fa-file-text",
+          "target": "_self"
+        },
+
+        {
+          "title": "地址管理",
+          "href": "page/Address.html",
+          "icon": "fa fa-file-text",
+          "target": "_self"
         }
 
       ]

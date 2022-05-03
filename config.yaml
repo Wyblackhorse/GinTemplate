@@ -38,3 +38,6 @@ eth:
   https: "1"     #  1 代表htttps 请求  2代表http 请求
   sslPem: "1_wyLoveeat.com_bundle.pem"
   sslKey: "0_wyLoveeat.com.key"
+  ThreeUrl: "http://127.0.0.1:7777"
+
+

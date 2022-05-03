@@ -77,9 +77,9 @@
 
         table.render({
             elem: '#currentTableId',
-            url: '/v2/getPayInformation?action=GET',
+            url: '/v2/getPrepaidPhoneOrders?action=GET',
             toolbar: '#toolbarDemo',
-            height:screen.height*0.7,
+            height: screen.height * 0.7,
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
                 layEvent: 'LAYTABLE_TIPS',
@@ -88,17 +88,28 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'ID', width: 80, title: 'ID', sort: true},
-                {field: 'TxHash', width: 300, title: '交易Hash',align:"center"},
-                {field: 'BlockNumber', width: 100, title: '区块号', sort: true,align:"center"},
-                {field: 'Amount', width: 100, title: '充值金额',align:"center"},
-                {field: 'From', title: '充值地址', minWidth: 150,align:"center"},
-                {field: 'ToAddress', width: 150, title: '收账地址', sort: true,align:"center"},
-                {field: 'Token', width: 100, title: '充值类型', sort: true,align:"center"},
-                {field: 'UserID', width: 100, title: '用户ID',align:"center"},
-                {field: 'Timestamp', width: 200, title: '区块时间', sort: true,align:"center",
-                    templet: "<div>{{layui.util.toDateString(d.Timestamp*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
-                {field: 'Created', width: 200, title: '入库时间', sort: true,align:"center",
-                    templet: "<div>{{layui.util.toDateString(d.Created*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
+                {field: 'PlatformOrder', width: 300, title: '平台订单号', align: "center"},
+                {field: 'ThreeOrder', width: 300, title: '三方平台订单号', sort: true, align: "center"},
+                {field: 'AccountOrders', width: 100, title: '订单充值金额', align: "center"},
+                {field: 'RechargeAddress', title: '充值地址', minWidth: 300, align: "center"},
+                {field: 'CollectionAddress', width: 300, title: '收账地址', sort: true, align: "center"},
+                {field: 'RechargeType', width: 100, title: '充值类型', sort: true, align: "center"},
+                {field: 'Username', width: 100, title: '用户ID', align: "center"},
+                {field: 'AccountPractical', width: 120, title: '实际回调金额', align: "center"},
+                {
+                    field: 'Status', width: 100, title: '订单状态', align: "center",
+                    templet: "<a class='layui-btn layui-btn-normal layui-btn-xs '>{{d.Status}}</a>"
+
+                },
+                {field: 'ThreeBack', width: 100, title: '是否回调', align: "center"},
+                {
+                    field: 'Successfully', width: 200, title: '区块时间', sort: true, align: "center",
+                    templet: "<div>{{layui.util.toDateString(d.Timestamp*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+                },
+                {
+                    field: 'Created', width: 200, title: '入库时间', sort: true, align: "center",
+                    templet: "<div>{{layui.util.toDateString(d.Created*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+                },
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [10, 15, 20, 25, 50, 100],

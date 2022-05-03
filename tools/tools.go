@@ -2,13 +2,15 @@ package tools
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/shopspring/decimal"
 	"math/big"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
-	"github.com/shopspring/decimal"
+	"time"
 )
 
 // GetRunPath2 获取程序执行目录
@@ -58,8 +60,6 @@ func GetRootPath() string {
 	return rootPath
 }
 
-
-
 func ReturnError101(context *gin.Context, msg string) {
 	context.JSON(http.StatusOK, gin.H{
 		"code":   -101,
@@ -75,7 +75,6 @@ func ReturnError200(context *gin.Context, msg string) {
 	})
 }
 
-
 func ToDecimal(ivalue interface{}, decimals int) decimal.Decimal {
 	value := new(big.Int)
 	switch v := ivalue.(type) {
@@ -90,4 +89,16 @@ func ToDecimal(ivalue interface{}, decimals int) decimal.Decimal {
 	result := num.Div(mul)
 
 	return result
+}
+
+func RandString(length int) []byte {
+	var strByte = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+	var strByteLen = len(strByte)
+	bytes := make([]byte, length)
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < length; i++ {
+		bytes[i] = strByte[r.Intn(strByteLen)]
+	}
+
+	return bytes
 }

@@ -35,6 +35,9 @@ func Setup() *gin.Engine {
 	//GetReceiveAddress 地址管理
 	GroupV2.GET("/getReceiveAddress", v2.GetReceiveAddress)
 
+	//每日统计 DailyStatistics
+	GroupV2.GET("/getDailyStatistics", v2.GetDailyStatistics)
+
 	//测试接口
 	r.GET("/getaddr", v2.Getaddr)
 

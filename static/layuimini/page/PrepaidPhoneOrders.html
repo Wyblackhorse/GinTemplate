@@ -19,27 +19,59 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户姓名</label>
+                            <label class="layui-form-label">平台订单号</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
+                                <input type="text" name="PlatformOrder" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户性别</label>
+                            <label class="layui-form-label">三方平台订单号</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="sex" autocomplete="off" class="layui-input">
+                                <input type="text" name="ThreeOrder" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户城市</label>
+                            <label class="layui-form-label">充值地址</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="city" autocomplete="off" class="layui-input">
+                                <input type="text" name="RechargeAddress" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户职业</label>
+                            <label class="layui-form-label">用户名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="classify" autocomplete="off" class="layui-input">
+                                <input type="text" name="UserID" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单状态</label>
+                            <div class="layui-input-inline">
+                                <select name="Status" id="Status" lay-filter="Status">
+                                    <option value="888888">全部</option>
+                                    <option value="1">未支付</option>
+                                    <option value="2">已支付</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">是否回调</label>
+                            <div class="layui-input-inline">
+                                <select name="ThreeBack" id="ThreeBack" lay-filter="ThreeBack">
+                                    <option value="888888">全部</option>
+                                    <option value="1">未回调</option>
+                                    <option value="2">已回调</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">开始时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="startDate" name="startDate" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">结束时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="endDate" name="endDate" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -68,12 +100,53 @@
 
     </div>
 </div>
+<script src="../js/util.js" charset="utf-8"></script>
 <script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form', 'table'], function () {
+
+    let currDateVal
+    let currDateVal_end
+
+    layui.use(['form', 'table','laydate'], function () {
         var $ = layui.jquery,
             form = layui.form,
             table = layui.table;
+        var laydate = layui.laydate;
+
+
+        laydate.render({
+            elem: '#startDate'
+            // ,value: currDate
+            ,isInitValue: true
+            ,theme: 'molv'
+            ,type: 'datetime'
+            ,done: function(value, date){//选中后的回调
+                // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+                // console.log("自带的",date)
+                // console.log("jquery",$("#buildDate").val())
+                currDateVal = ""
+                currDateVal = value
+                // let currStart = date.year+"-"+date.month+"-"+date.date+" 00:00:00"
+                // $("#startDate").val(currStart)
+            }
+        });
+
+        laydate.render({
+            elem: '#endDate'
+            // ,value: currDate
+            ,isInitValue: true
+            ,theme: 'molv'
+            ,type: 'datetime'
+            ,done: function(value, date){//选中后的回调
+                // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+                // console.log("自带的",date)
+                // console.log("jquery",$("#buildDate").val())
+                currDateVal_end = ""
+                currDateVal_end = value
+                // let currEnd= date.year+"-"+date.month+"-"+date.date+" 23:59:59"
+                // $("#endDate").val(currEnd)
+            }
+        });
 
         table.render({
             elem: '#currentTableId',
@@ -127,7 +200,7 @@
                 },
                 {
                     field: 'Successfully', width: 200, title: '区块时间', sort: true, align: "center",
-                    templet: "<div>{{layui.util.toDateString(d.Timestamp*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+                    templet: "<div>{{layui.util.toDateString(d.Successfully*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
                 },
                 {
                     field: 'Created', width: 200, title: '入库时间', sort: true, align: "center",
@@ -143,10 +216,48 @@
 
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
-            var result = JSON.stringify(data.field);
-            layer.alert(result, {
-                title: '最终的搜索信息'
-            });
+            let resultObj = data.field
+
+            let paramR  = {}
+            if(resultObj.PlatformOrder){
+
+                paramR.PlatformOrder = resultObj.PlatformOrder
+            }
+
+            if(resultObj.ThreeOrder){
+                paramR.ThreeOrder = resultObj.ThreeOrder
+            }
+
+            if(resultObj.RechargeAddress){
+                paramR.RechargeAddress = resultObj.RechargeAddress
+            }
+
+            if(resultObj.UserID){
+                paramR.UserID = resultObj.UserID
+            }
+
+            if(resultObj.Status !== '888888'){
+                paramR.Status = resultObj.Status
+            }
+
+            if(resultObj.ThreeBack !== '888888'){
+                paramR.ThreeBack = resultObj.ThreeBack
+            }
+
+
+            if(resultObj.startDate && resultObj.endDate){
+                paramR.start_time = get_unix_time(resultObj.startDate)
+                paramR.end_time = get_unix_time(resultObj.endDate)
+            }else if(!resultObj.startDate && resultObj.endDate){
+                paramR.start_time = 0
+                paramR.end_time = get_unix_time(resultObj.endDate)
+                // console.log("getDateFromString",get_unix_time(resultObj.endDate))
+            }else if(resultObj.startDate && !resultObj.endDate){
+                paramR.start_time = get_unix_time(resultObj.startDate)
+                paramR.end_time = parseInt(Date.now()/1000)
+            }
+
+            console.log("paramR",paramR)
 
             //执行搜索重载
             table.reload('currentTableId', {
@@ -154,7 +265,7 @@
                     curr: 1
                 }
                 , where: {
-                    searchParams: result
+                    ...paramR
                 }
             }, 'data');
             return false;

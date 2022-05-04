@@ -43,6 +43,7 @@ func Init() error {
 	model.CheckIsExistModePayOrder(DB)
 	model.CheckIsExistModePrepaidPhoneOrders(DB)
 	model.CheckIsExistModeReceiveAddress(DB)
+	model.CheckIsExistModeDailyStatistics(DB)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err
 }

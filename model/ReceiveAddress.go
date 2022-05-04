@@ -14,10 +14,10 @@ import (
 type ReceiveAddress struct {
 	ID             uint `gorm:"primaryKey;comment:'主键'"`
 	Username       string
-	ReceiveNums    int    //收款笔数
-	LastGetAccount int    //最后一次的入账金额
-	Address        string //收账地址
-	Money          int64  //账户余额
+	ReceiveNums    int     //收款笔数
+	LastGetAccount float64 `gorm:"type:decimal(10,2)"` //最后一次的入账金额
+	Address        string  //收账地址
+	Money          float64 `gorm:"type:decimal(10,2)"` //账户余额
 	Created        int64
 	Updated        int64
 }
@@ -48,11 +48,10 @@ func (r *ReceiveAddress) ReceiveAddressIsExits(db *gorm.DB) bool {
 // CreateUsername 创建这个用户
 func (r *ReceiveAddress) CreateUsername(db *gorm.DB, url string) {
 	r.Created = time.Now().Unix()
-	r.Updated = time.Now().Unix()
+	//r.Updated = time.Now().Unix()
 	r.ReceiveNums = 0
 	r.LastGetAccount = 0
 	//获取收账地址  url 请求  {"error":"0","message":"","result":"4564554545454545"}   //返回数据
-	fmt.Println(url + "/getaddr?user=" + r.Username)
 	resp, err := http.Get(url + "/getaddr?user=" + r.Username)
 	if err != nil {
 		fmt.Println(err)
@@ -88,7 +87,8 @@ func (r *ReceiveAddress) UpdateReceiveAddressLastInformation(db *gorm.DB) bool {
 	err := db.Where("username=?", r.Username).First(&re).Error
 	if err == nil {
 		nums := re.ReceiveNums + 1
-		err := db.Model(&ReceiveAddress{}).Where("id=?", re.ID).Update(&ReceiveAddress{ReceiveNums: nums, LastGetAccount: r.LastGetAccount, Updated: time.Now().Unix()}).Error
+		err := db.Model(&ReceiveAddress{}).Where("id=?", re.ID).Update(&ReceiveAddress{ReceiveNums: nums, LastGetAccount: r.LastGetAccount, Updated: r.Updated}).Error
+
 		if err == nil {
 			return true
 		}

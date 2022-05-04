@@ -13,50 +13,50 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
 
-        <fieldset class="table-search-fieldset">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
-                <form class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">充值地址</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="From"  name="From" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">收账地址</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="ToAddress" name="ToAddress" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户名</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="UserID" name="UserID" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">开始时间</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="startDate" name="startDate" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">结束时间</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="endDate" name="endDate" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
-                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </fieldset>
+<!--        <fieldset class="table-search-fieldset">-->
+<!--            <legend>搜索信息</legend>-->
+<!--            <div style="margin: 10px 10px 10px 10px">-->
+<!--                <form class="layui-form layui-form-pane" action="">-->
+<!--                    <div class="layui-form-item">-->
+<!--                        <div class="layui-inline">-->
+<!--                            <label class="layui-form-label">充值地址</label>-->
+<!--                            <div class="layui-input-inline">-->
+<!--                                <input type="text" id="From"  name="From" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="layui-inline">-->
+<!--                            <label class="layui-form-label">收账地址</label>-->
+<!--                            <div class="layui-input-inline">-->
+<!--                                <input type="text" id="ToAddress" name="ToAddress" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="layui-inline">-->
+<!--                            <label class="layui-form-label">用户名</label>-->
+<!--                            <div class="layui-input-inline">-->
+<!--                                <input type="text" id="UserID" name="UserID" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="layui-inline">-->
+<!--                            <label class="layui-form-label">开始时间</label>-->
+<!--                            <div class="layui-input-inline">-->
+<!--                                <input type="text" id="startDate" name="startDate" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="layui-inline">-->
+<!--                            <label class="layui-form-label">结束时间</label>-->
+<!--                            <div class="layui-input-inline">-->
+<!--                                <input type="text" id="endDate" name="endDate" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="layui-inline">-->
+<!--                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit-->
+<!--                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </fieldset>-->
 
         <script type="text/html" id="toolbarDemo">
 
@@ -122,7 +122,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: '/v2/getPayInformation?action=GET',
+            url: '/v2/getDailyStatistics?action=GET',
             toolbar: '#toolbarDemo',
             height: screen.height * 0.7,
             // defaultToolbar: ['filter', 'exports', 'print', {
@@ -133,19 +133,11 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'ID', width: 80, title: 'ID', sort: true},
-                {field: 'TxHash', width: 300, title: '交易Hash', align: "center"},
-                {field: 'BlockNumber', width: 100, title: '区块号', sort: true, align: "center"},
-                {field: 'Amount', width: 100, title: '充值金额', align: "center"},
-                {field: 'FromAddress', title: '充值地址', minWidth: 150, align: "center"},
-                {field: 'ToAddress', width: 150, title: '收账地址', sort: true, align: "center"},
-                {field: 'Token', width: 100, title: '充值类型', sort: true, align: "center"},
-                {field: 'UserID', width: 100, title: '用户ID', align: "center"},
+                {field: 'Date', width: 300, title: '日期', align: "center"},
+                {field: 'RechargeAccount', width: 100, title: '充值金额', align: "center"},
+                {field: 'RechargeNums', title: '充值笔数', minWidth: 150, align: "center"},
                 {
-                    field: 'Timestamp', width: 200, title: '区块时间', sort: true, align: "center",
-                    templet: "<div>{{layui.util.toDateString(d.Timestamp*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
-                },
-                {
-                    field: 'Created', width: 200, title: '入库时间', sort: true, align: "center",
+                    field: 'Created', width: 200, title: '创建时间', sort: true, align: "center",
                     templet: "<div>{{layui.util.toDateString(d.Created*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
                 },
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}

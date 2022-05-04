@@ -19,14 +19,14 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 		return
 	}
 	//判断是否存在这个这个用户
-	re := model.ReceiveAddress{Username: jsonData.Username, Address: jsonData.CollectionAddress}
+	re := model.ReceiveAddress{Username: jsonData.Username}
 	if !re.ReceiveAddressIsExits(mysql.DB) {
 		//不存在这个用户 首先要创建这个用户
 		re.CreateUsername(mysql.DB, viper.GetString("eth.ThreeUrl"))
 	}
 
 	//生成充值订单
-	p := model.PrepaidPhoneOrders{ThreeOrder: jsonData.ThreeOrder, CollectionAddress: jsonData.CollectionAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType}
+	p := model.PrepaidPhoneOrders{ThreeOrder: jsonData.ThreeOrder, RechargeAddress: jsonData.RechargeAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType}
 	_, err = p.CreatePrepaidPhoneOrders(mysql.DB)
 	if err != nil {
 		tools.ReturnError101(c, err.Error())
@@ -46,6 +46,44 @@ func GetPrepaidPhoneOrders(c *gin.Context) {
 		role := make([]model.PrepaidPhoneOrders, 0)
 		Db := mysql.DB
 		var total int
+
+		// 用户名
+		if content, isExist := c.GetQuery("Username"); isExist == true {
+			Db = Db.Where("username=?", content)
+		}
+
+		//平台订单号
+		if content, isExist := c.GetQuery("PlatformOrder"); isExist == true {
+			Db = Db.Where("platform_order=?", content)
+		}
+
+		//三方平台订单号
+		if content, isExist := c.GetQuery("ThreeOrder"); isExist == true {
+			Db = Db.Where("three_order=?", content)
+		}
+
+		//充值地址
+		if content, isExist := c.GetQuery("RechargeAddress"); isExist == true {
+			Db = Db.Where("recharge_address=?", content)
+		}
+
+		//订单状态
+		if content, isExist := c.GetQuery("Status"); isExist == true {
+			Db = Db.Where("status=?", content)
+		}
+
+		//是否回调
+		if content, isExist := c.GetQuery("ThreeBack"); isExist == true {
+			Db = Db.Where("three_back=?", content)
+		}
+
+		//日期条件
+		if start, isExist := c.GetQuery("start_time"); isExist == true {
+			if end, isExist := c.GetQuery("end_time"); isExist == true {
+				Db = Db.Where("successfully >= ?", start).Where("successfully<=?", end)
+			}
+		}
+
 		Db = Db.Model(&model.PrepaidPhoneOrders{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("prepaid_phone_orders").Count(&total)
 		err := Db.Find(&role).Error
@@ -58,7 +96,7 @@ func GetPrepaidPhoneOrders(c *gin.Context) {
 			address := model.ReceiveAddress{}
 			err := mysql.DB.Where("username=?", v.Username).First(&address).Error
 			if err == nil {
-				role[k].RechargeAddress = address.Address
+				role[k].CollectionAddress = address.Address
 			}
 
 		}

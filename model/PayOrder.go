@@ -7,16 +7,17 @@ import (
 
 // PayOrder 支付订单
 type PayOrder struct {
-	ID          uint   `gorm:"primaryKey;comment:'主键'"`
-	TxHash      string //转账hash 值
-	BlockNumber int    //区块号
-	Timestamp   int64  //时间戳
-	From        string //转账地址
-	ToAddress   string //收账地址
-	Amount      int    //金额
-	Token       string //token
-	UserID      string //用户id
+	ID          uint    `gorm:"primaryKey;comment:'主键'"`
+	TxHash      string  //转账hash 值
+	BlockNumber int     //区块号
+	Timestamp   int64   //时间戳
+	FromAddress string  //转账地址
+	ToAddress   string  //收账地址
+	Amount      float64 `gorm:"type:decimal(10,2)"` //金额
+	Token       string  //token
+	UserID      string  //用户id
 	Created     int64
+	Date        string
 }
 
 func CheckIsExistModePayOrder(db *gorm.DB) {

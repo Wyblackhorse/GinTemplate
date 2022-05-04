@@ -53,14 +53,41 @@
         </fieldset>
 
         <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-                <!--                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>-->
-                <!--                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>-->
+
+            <!--                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>-->
+            <!--                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>-->
+
+            <div class="layui-form-item">
+                <!--                    <div class="layui-inline">-->
+                <!--                        <label class="layui-form-label">IP地址</label>-->
+                <!--                        <div class="layui-input-inline">-->
+                <!--                            <input type="text" id="ipaddress"  autocomplete="off" class="layui-input" value="127.0.0.1:7777">-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <div class="layui-inline">
+                    <label class="layui-form-label">gas</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="gas" autocomplete="off" class="layui-input" value="10">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">min</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="min" autocomplete="off" class="layui-input" value="2000">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add">资金归集</button>
+                </div>
 
 
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="addAddress"> 添加地址
-                </button>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="addAddress"> 添加地址
+                    </button>
+                </div>
             </div>
+
+
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
@@ -99,7 +126,7 @@
                 {field: 'Address', title: '充值地址', minWidth: 300, align: "center"},
                 {
                     field: 'Updated', width: 200, title: '更新时间', sort: true, align: "center",
-                    templet: "<div>{{layui.util.toDateString(d.Timestamp*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+                    templet: "<div>{{layui.util.toDateString(d.Updated*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
                 },
                 {
                     field: 'Created', width: 200, title: '入库时间', sort: true, align: "center",
@@ -136,19 +163,28 @@
          * toolbar监听事件
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
-            if (obj.event === 'add') {  // 监听添加操作
-                var index = layer.open({
-                    title: '添加用户',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin: true,
-                    shadeClose: true,
-                    area: ['100%', '100%'],
-                    content: '../page/table/add.html',
+            if (obj.event === 'add') {  // 监听添加操作 10
+
+                let paramUrl = "http://127.0.0.1:7777/collect"
+                // paramUrl = paramUrl + $("#ipaddress").val() + '/collect'
+                paramUrl = paramUrl + "?gas=" + $("#gas").val() + "000000"
+                paramUrl = paramUrl + "&min=" + $("#min").val() + "000000"
+                paramUrl = paramUrl + "&ts=" + Date.now()
+                $.ajax({
+                    url: paramUrl,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (resultJson) {
+
+                        if (resultJson.code === 200) {
+                            layui.msg(resultJson.msg)
+                        }
+
+                    },
+
                 });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
+
+
             } else if (obj.event === 'delete') {  // 监听删除操作
                 var checkStatus = table.checkStatus('currentTableId')
                     , data = checkStatus.data;

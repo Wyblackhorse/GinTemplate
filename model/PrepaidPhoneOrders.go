@@ -18,13 +18,14 @@ type PrepaidPhoneOrders struct {
 	CollectionAddress string //收款地址
 	RechargeType      string //充值类型
 	Username          string //充值用户名
-	AccountOrders     int    //充值金额 (订单金额)
-	AccountPractical  int    //充值金额(实际返回金额)
+	AccountOrders     float64 `gorm:"type:decimal(10,2)"`     //充值金额 (订单金额)
+	AccountPractical  float64 `gorm:"type:decimal(10,2)"`     //充值金额(实际返回金额)
 	Status            int    //订单状态  1 未支付  2已经支付了
 	ThreeBack         int    //三方回调 1未回调  2已结回调
 	Created           int64  //订单创建时间
 	Updated           int64  //更新时间(回调时间)
 	Successfully      int64  //交易成功 时间(区块时间戳)
+	Date              string
 }
 
 func CheckIsExistModePrepaidPhoneOrders(db *gorm.DB) {
@@ -47,6 +48,7 @@ func (p *PrepaidPhoneOrders) CreatePrepaidPhoneOrders(db *gorm.DB) (bool, error)
 	p.PlatformOrder = time.Now().Format("20060102150405") + strconv.Itoa(rand.Intn(100000))
 	p.Status = 1
 	p.ThreeBack = 1
+	p.Date = time.Now().Format("2006-01-02")
 	//创建之前判断是否有事重复提交
 	err := db.Where("three_order=?", p.ThreeOrder).First(&PrepaidPhoneOrders{}).Error
 	if err == nil {

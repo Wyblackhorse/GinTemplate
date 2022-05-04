@@ -9,6 +9,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os/exec"
@@ -30,6 +31,7 @@ var stopCmd = &cobra.Command{
 			if runtime.GOOS == "windows" {
 				command = exec.Command("taskkill.exe", "/f", "/pid", pid)
 			} else {
+				fmt.Printf("关闭pid %s", pid)
 				command = exec.Command("kill", pid)
 			}
 			command.Start()

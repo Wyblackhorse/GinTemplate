@@ -38,8 +38,14 @@ func Setup() *gin.Engine {
 	//每日统计 DailyStatistics
 	GroupV2.GET("/getDailyStatistics", v2.GetDailyStatistics)
 
+	//资金归集
+	GroupV2.GET("/collection", v2.Collection)
+
+
+
 	//测试接口
 	r.GET("/getaddr", v2.Getaddr)
+	r.POST("/getaddr", v2.Getaddr)
 
 	r.Static("/static", "./static")
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))

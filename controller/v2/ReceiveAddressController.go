@@ -8,6 +8,7 @@ import (
 	"github.com/wangyi/GinTemplate/tools"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // GetReceiveAddress 获取地址管理
@@ -44,4 +45,29 @@ func GetReceiveAddress(c *gin.Context) {
 		return
 	}
 
+}
+
+// Collection 资金归集
+func Collection(c *gin.Context) {
+	req := make(map[string]interface{})
+	req["gas"] = c.Query("gas")
+	req["min"] = c.Query("min")
+	if req["gas"] == "" || req["min"] == "" {
+		tools.ReturnError101(c, "非法参数")
+		return
+	}
+
+	if addr, isExits := c.GetQuery("addr"); isExits == true {
+		req["addrs"] = addr
+	}
+
+
+	req["ts"] = time.Now().UnixMilli()
+	_, err := tools.HttpRequest(viper.GetString("eth.ThreeUrl")+"/collect", req,viper.GetString("eth.ApiKey"))
+	if err != nil {
+		tools.ReturnError101(c, "归集失败")
+		return
+	}
+	tools.ReturnError200(c, "归集成功")
+	return
 }

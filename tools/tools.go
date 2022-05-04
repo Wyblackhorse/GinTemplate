@@ -1,14 +1,21 @@
 package tools
 
 import (
+	"crypto/sha256"
+	"encoding/base64"
+	"encoding/hex"
+	"encoding/json"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/shopspring/decimal"
+	"io/ioutil"
 	"math/big"
 	"math/rand"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -101,4 +108,51 @@ func RandString(length int) []byte {
 	}
 
 	return bytes
+}
+
+//var apiKey = "6e347830f78d54482097d177f7278fb8"
+
+func ApiSign(data ...[]byte) string {
+	h256 := sha256.New()
+	for _, b := range data {
+		h256.Write(b)
+	}
+	hash := h256.Sum(nil)
+	hashHex := hex.EncodeToString(hash)
+	return hashHex
+}
+
+func HttpRequest(url string, params map[string]interface{},apiKey string) ([]byte, error) {
+	data, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+	req := make(map[string]interface{})
+	b64Data := base64.StdEncoding.EncodeToString(data)
+	req["data"] = b64Data
+	req["sign"] = ApiSign([]byte(apiKey), []byte(b64Data), []byte(apiKey))
+	reqData, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	payload := strings.NewReader(string(reqData))
+	httpReq, err := http.NewRequest("POST", url, payload)
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Add("Accept", "application/json")
+	httpReq.Header.Add("Content-Type", "application/json")
+	res, err := http.DefaultClient.Do(httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+	if res.StatusCode != 200 {
+		return nil, errors.New("http status code:" + strconv.FormatInt(int64(res.StatusCode), 10))
+	}
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
 }

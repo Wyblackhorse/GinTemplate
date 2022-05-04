@@ -1,58 +1,77 @@
 package v2
 
 import (
-	"fmt"
+	"encoding/base64"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
 	"github.com/wangyi/GinTemplate/tools"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
 // GetPayInformationBack 接受订单回调
 func GetPayInformationBack(c *gin.Context) {
-	var jsonData GetPayInformationBackData
-	err := c.BindJSON(&jsonData)
+	var jsonDataTwo ReturnBase64
+	err := c.BindJSON(&jsonDataTwo)
 	if err != nil {
 		tools.ReturnError101(c, "err:"+err.Error())
 		return
 	}
+	var apiKey = viper.GetString("eth.ApiKey")
+	if tools.ApiSign([]byte(apiKey), []byte(jsonDataTwo.Data), []byte(apiKey)) != jsonDataTwo.Sign {
+		tools.ReturnError101(c, "非法请求")
+		return
+	}
+	sDec, err1 := base64.StdEncoding.DecodeString(jsonDataTwo.Data)
+	if err1 != nil {
+		tools.ReturnError101(c, "非法请求")
+		return
+	}
+	var jsonData GetPayInformationBackData
+	err = json.Unmarshal(sDec, &jsonData)
+	if err != nil {
+		tools.ReturnError101(c, "非法请求")
+
+		return
+	}
+
 	p := model.PayOrder{}
-	p.TxHash = jsonData.TxHash
+	p.TxHash = jsonData.Data.TxHash
 	if p.IfIsExitsThisData(mysql.DB) {
 		tools.ReturnError200(c, "不要重复添加")
 		return
 	}
 	//添加
-	p.Token = jsonData.Token
+	p.Token = strings.ToUpper(jsonData.Data.Token)
 
-	if p.Token == "usdt" {
-		acc := strconv.Itoa(jsonData.Amount)
+	if p.Token == "USDT" {
+		acc := strconv.Itoa(jsonData.Data.Amount)
 		p.Amount, _ = tools.ToDecimal(acc, 6).Float64()
 	}
-	p.FromAddress = jsonData.From
-	p.ToAddress = jsonData.To
-	p.UserID = jsonData.UserID
+	p.FromAddress = jsonData.Data.From
+	p.ToAddress = jsonData.Data.To
+	p.UserID = jsonData.Data.UserID
 	p.Created = time.Now().Unix()
-	p.BlockNumber = jsonData.BlockNumber
-	p.Timestamp = jsonData.Timestamp / 1000
+	p.BlockNumber = jsonData.Data.BlockNumber
+	p.Timestamp = jsonData.Data.Timestamp / 1000
 	p.Date = time.Now().Format("2006-01-02")
 	err = mysql.DB.Save(&p).Error
 	if err != nil {
 		tools.ReturnError101(c, "插入失败:"+err.Error())
 		return
 	}
-
 	//寻找这个账号最早的充值订单
-	p1 := model.PrepaidPhoneOrders{Username: p.UserID, Successfully: p.Timestamp, AccountPractical: p.Amount}
-	p1.UpdateMaxCreatedOfStatusToTwo(mysql.DB)
-
+	p1 := model.PrepaidPhoneOrders{Username: p.UserID, Successfully: p.Timestamp, AccountPractical: p.Amount, RechargeType: strings.ToUpper(p.Token), RechargeAddress: p.FromAddress, CollectionAddress: p.ToAddress}
+	p1.UpdateMaxCreatedOfStatusToTwo(mysql.DB, viper.GetInt64("eth.OrderEffectivityTime"))
 	//更新钱包地址
-	R := model.ReceiveAddress{LastGetAccount: p.Amount, Username: p.UserID, Updated: p.Timestamp}
+	newMoney, _ := tools.ToDecimal(jsonData.Data.Balance, 6).Float64()
+	R := model.ReceiveAddress{LastGetAccount: p.Amount, Username: p.UserID, Updated: p.Timestamp, Money: newMoney}
 	R.UpdateReceiveAddressLastInformation(mysql.DB)
-	fmt.Println()
 	da := model.DailyStatistics{RechargeAccount: p.Amount}
 	da.UpdateDailyStatistics(mysql.DB)
 	tools.ReturnError200(c, "插入成功")

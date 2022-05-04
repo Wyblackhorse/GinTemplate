@@ -12,6 +12,7 @@ import (
 
 // CreatePrepaidPhoneOrders 生成订单(前端传过来了)
 func CreatePrepaidPhoneOrders(c *gin.Context) {
+
 	var jsonData CreatePrepaidPhoneOrdersData
 	err := c.BindJSON(&jsonData)
 	if err != nil {
@@ -26,7 +27,7 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 	}
 
 	//生成充值订单
-	p := model.PrepaidPhoneOrders{ThreeOrder: jsonData.ThreeOrder, RechargeAddress: jsonData.RechargeAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType}
+	p := model.PrepaidPhoneOrders{PlatformOrder: jsonData.PlatformOrder, RechargeAddress: jsonData.RechargeAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType}
 	_, err = p.CreatePrepaidPhoneOrders(mysql.DB)
 	if err != nil {
 		tools.ReturnError101(c, err.Error())

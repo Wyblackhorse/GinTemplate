@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"github.com/spf13/viper"
 	"github.com/wangyi/GinTemplate/tools"
-	"io/ioutil"
-	"net/http"
 	"time"
 )
 
@@ -45,26 +44,23 @@ func (r *ReceiveAddress) ReceiveAddressIsExits(db *gorm.DB) bool {
 	return true
 }
 
-// CreateUsername 创建这个用户
+// CreateUsername 创建这个用户  获取用户收款地址
 func (r *ReceiveAddress) CreateUsername(db *gorm.DB, url string) {
 	r.Created = time.Now().Unix()
 	//r.Updated = time.Now().Unix()
 	r.ReceiveNums = 0
 	r.LastGetAccount = 0
 	//获取收账地址  url 请求  {"error":"0","message":"","result":"4564554545454545"}   //返回数据
-	resp, err := http.Get(url + "/getaddr?user=" + r.Username)
+	req := make(map[string]interface{})
+	req["user"] = r.Username
+	req["ts"] = time.Now().UnixMilli()
+	resp, err := tools.HttpRequest(url+"/getaddr", req, viper.GetString("eth.ApiKey"))
 	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer resp.Body.Close()
-	body, err1 := ioutil.ReadAll(resp.Body)
-	if err1 != nil {
-		fmt.Println(err1)
+		fmt.Println(err.Error())
 		return
 	}
 	var dataAttr CreateUsernameData
-	if err := json.Unmarshal([]byte(body), &dataAttr); err != nil {
+	if err := json.Unmarshal([]byte(resp), &dataAttr); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -87,7 +83,7 @@ func (r *ReceiveAddress) UpdateReceiveAddressLastInformation(db *gorm.DB) bool {
 	err := db.Where("username=?", r.Username).First(&re).Error
 	if err == nil {
 		nums := re.ReceiveNums + 1
-		err := db.Model(&ReceiveAddress{}).Where("id=?", re.ID).Update(&ReceiveAddress{ReceiveNums: nums, LastGetAccount: r.LastGetAccount, Updated: r.Updated}).Error
+		err := db.Model(&ReceiveAddress{}).Where("id=?", re.ID).Update(&ReceiveAddress{ReceiveNums: nums, LastGetAccount: r.LastGetAccount, Updated: r.Updated, Money: r.Money}).Error
 
 		if err == nil {
 			return true

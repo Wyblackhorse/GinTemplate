@@ -35,20 +35,18 @@ func Setup() *gin.Engine {
 		GroupV2.GET("/getReceiveAddress", v2.GetReceiveAddress)
 		//每日统计 DailyStatistics
 		GroupV2.GET("/getDailyStatistics", v2.GetDailyStatistics)
-
 		//资金归集
 		GroupV2.GET("/collection", v2.Collection)
 		//更新总余额
 		GroupV2.GET("/getAllMoney", v2.GetAllMoney)
 		//手动回调 HandBackStatus
 		GroupV2.GET("/handBackStatus", v2.HandBackStatus)
-
-
+		//登录 Login
+		GroupV2.GET("/login", v2.Login)
 		//测试接口
 		r.GET("/getaddr", v2.Getaddr)
 		r.POST("/getaddr", v2.Getaddr)
 	}
-
 	r.Static("/static", "./static")
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))
 	return r

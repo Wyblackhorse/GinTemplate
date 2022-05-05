@@ -59,6 +59,8 @@
                                     <option value="888888">全部</option>
                                     <option value="1">未回调</option>
                                     <option value="2">已回调</option>
+                                    <option value="3">不自动回调</option>
+                                    <option value="4">手动回调</option>
                                 </select>
                             </div>
                         </div>
@@ -104,22 +106,23 @@
             {{# if(d.ThreeBack == "1"){ }}
             <button class="layui-btn layui-btn-xs" style="background-color: #FF5722">未回调</button>
             {{# } else if (d.ThreeBack == "2") { }}
-            <button class="layui-btn layui-btn-xs" >已回调</button>
+            <button class="layui-btn layui-btn-xs">已回调</button>
             {{# } else if (d.ThreeBack == "3") { }}
-            <button class="layui-btn layui-btn-xs"  style="background-color: #282626" lay-event="changeBackUrl"> 不自动回调 </button>
+            <button class="layui-btn layui-btn-xs" style="background-color: #282626" lay-event="changeBackUrl"> 不自动回调
+            </button>
             {{# } else if (d.ThreeBack == "4") { }}
-            <button class="layui-btn layui-btn-xs"  style="background-color: #169292" > 手动回调 </button>
+            <button class="layui-btn layui-btn-xs" style="background-color: #169292"> 手动回调</button>
             {{#} }}
 
-<!--                   if (d.ThreeBack == "1") {//未回调-->
-<!--                         state = '<button class="layui-btn layui-btn-xs" style="background-color: #FF5722">' + '未回调' + '</button>';-->
-<!--                     } else if (d.ThreeBack == "2") {//已回调-->
-<!--                         state = '<button class="layui-btn layui-btn-xs" >' + '已回调' + '</button>';-->
-<!--                     } else {-->
-<!--                         state = '<button class="layui-btn layui-btn-xs"  style="background-color: #282626" lay-submit lay-filter="ThreeBackClick">' + '不自动回调' + '</button>'-->
-<!--                     }-->
-<!--                     return state;-->
-<!--                 }-->
+            <!--                   if (d.ThreeBack == "1") {//未回调-->
+            <!--                         state = '<button class="layui-btn layui-btn-xs" style="background-color: #FF5722">' + '未回调' + '</button>';-->
+            <!--                     } else if (d.ThreeBack == "2") {//已回调-->
+            <!--                         state = '<button class="layui-btn layui-btn-xs" >' + '已回调' + '</button>';-->
+            <!--                     } else {-->
+            <!--                         state = '<button class="layui-btn layui-btn-xs"  style="background-color: #282626" lay-submit lay-filter="ThreeBackClick">' + '不自动回调' + '</button>'-->
+            <!--                     }-->
+            <!--                     return state;-->
+            <!--                 }-->
 
         </script>
 
@@ -133,7 +136,7 @@
     let currDateVal
     let currDateVal_end
 
-    layui.use(['form', 'table', 'laydate','layer'], function () {
+    layui.use(['form', 'table', 'laydate', 'layer'], function () {
         var $ = layui.jquery,
             form = layui.form,
             table = layui.table;
@@ -306,7 +309,6 @@
         // changeBackUrl
 
 
-
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
             console.log(obj)
@@ -337,10 +339,10 @@
                     obj.del();
                     layer.close(index);
                 });
-            } else if(obj.event === 'changeBackUrl'){
+            } else if (obj.event === 'changeBackUrl') {
 
                 let paramUrl = "/v2/handBackStatus"
-                paramUrl = paramUrl + "?id=" +newdata.ID
+                paramUrl = paramUrl + "?id=" + newdata.ID
 
                 $.ajax({
                     url: paramUrl,
@@ -351,7 +353,7 @@
                             // console.log("进来没有？")
                             layer.msg(resultJson.msg)
                             insTb.reload()
-                        }else{
+                        } else {
 
                         }
                     },

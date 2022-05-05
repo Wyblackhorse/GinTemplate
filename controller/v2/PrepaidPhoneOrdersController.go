@@ -1,4 +1,4 @@
-package v2
+package V2
 
 import (
 	"github.com/gin-gonic/gin"
@@ -49,7 +49,7 @@ func GetPrepaidPhoneOrders(c *gin.Context) {
 		var total int
 
 		// 用户名
-		if content, isExist := c.GetQuery("Username"); isExist == true {
+		if content, isExist := c.GetQuery("UserID"); isExist == true {
 			Db = Db.Where("username=?", content)
 		}
 

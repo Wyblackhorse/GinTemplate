@@ -1,4 +1,4 @@
-package v2
+package V2
 
 import (
 	"encoding/base64"

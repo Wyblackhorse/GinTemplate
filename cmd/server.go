@@ -68,7 +68,6 @@ func run(cmd *cobra.Command, args []string) {
 		return
 	}
 	defer zap.L().Sync() //缓存日志追加到日志文件中
-	zap.L().Debug("LaLa")
 	//链接数据库
 	if err := mysql.Init(); err != nil {
 		fmt.Println("mysql 链接失败,", err)

@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 	"github.com/wangyi/GinTemplate/tools"
+	"go.uber.org/zap"
 	"time"
 )
 
@@ -95,6 +96,7 @@ func (r *ReceiveAddress) UpdateReceiveAddressLastInformationTo0(db *gorm.DB) boo
 	re := ReceiveAddress{}
 	err := db.Where("username=?", r.Username).First(&re).Error
 	if err == nil {
+		zap.L().Debug("余额清0,用户:" + r.Username )
 
 		updated := make(map[string]interface{})
 		updated["Updated"] = r.Updated
@@ -104,6 +106,9 @@ func (r *ReceiveAddress) UpdateReceiveAddressLastInformationTo0(db *gorm.DB) boo
 			return true
 		}
 	}
+
+	zap.L().Debug("余额清0,用户:" + r.Username + "没有找到")
+
 	return false
 }
 

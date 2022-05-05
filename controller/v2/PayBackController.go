@@ -3,11 +3,13 @@ package v2
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
 	"github.com/wangyi/GinTemplate/tools"
+	"go.uber.org/zap"
 	"net/http"
 	"strconv"
 	"strings"
@@ -32,12 +34,15 @@ func GetPayInformationBack(c *gin.Context) {
 		tools.ReturnError101(c, "非法请求")
 		return
 	}
+
+	fmt.Println(string(sDec))
 	var jsonData GetPayInformationBackData
 	err = json.Unmarshal(sDec, &jsonData)
 	if err != nil {
 		tools.ReturnError101(c, "非法请求")
 		return
 	}
+
 	if jsonData.Type == "balance" {
 		var jsonDataTwo BalanceType
 		err = json.Unmarshal(sDec, &jsonDataTwo)
@@ -45,9 +50,10 @@ func GetPayInformationBack(c *gin.Context) {
 			tools.ReturnError101(c, "非法请求")
 			return
 		}
-		re := model.ReceiveAddress{Username: jsonDataTwo.Data.UserID}
+		zap.L().Debug("余额变动,用户:" + jsonDataTwo.Data.User)
+		re := model.ReceiveAddress{Username: jsonDataTwo.Data.User}
 		re.UpdateReceiveAddressLastInformationTo0(mysql.DB)
-		tools.ReturnError101(c, "余额变动成功")
+		tools.ReturnError200(c, "余额变动成功")
 		return
 	}
 	p := model.PayOrder{}

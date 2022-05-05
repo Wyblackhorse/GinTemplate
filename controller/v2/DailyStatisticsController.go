@@ -25,7 +25,6 @@ func GetDailyStatistics(c *gin.Context) {
 			tools.ReturnError101(c, "ERR:"+err.Error())
 			return
 		}
-
 		c.JSON(http.StatusOK, gin.H{
 			"code":  0,
 			"count": total,

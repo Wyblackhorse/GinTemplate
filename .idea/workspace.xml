@@ -24,13 +24,13 @@
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/v2/DailyStatisticsController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/DailyStatisticsController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/v2/PayBackController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/PayBackController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/v2/ReceiveAddressController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/ReceiveAddressController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/ReceiveAddress.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ReceiveAddress.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/layuimini/page/Address.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/page/Address.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/layuimini/page/PrepaidPhoneOrders.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/page/PrepaidPhoneOrders.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

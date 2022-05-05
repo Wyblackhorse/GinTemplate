@@ -95,7 +95,11 @@ func (r *ReceiveAddress) UpdateReceiveAddressLastInformationTo0(db *gorm.DB) boo
 	re := ReceiveAddress{}
 	err := db.Where("username=?", r.Username).First(&re).Error
 	if err == nil {
-		err := db.Model(&ReceiveAddress{}).Where("id=?", re.ID).Update(&ReceiveAddress{Updated: r.Updated, Money: 0}).Error
+
+		updated := make(map[string]interface{})
+		updated["Updated"] = r.Updated
+		updated["Money"] = 0
+		err := db.Model(&ReceiveAddress{}).Where("id=?", re.ID).Update(updated).Error
 		if err == nil {
 			return true
 		}

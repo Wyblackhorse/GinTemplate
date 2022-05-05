@@ -23,29 +23,29 @@ func Setup() *gin.Engine {
 	r.NoRoute(eeor.HandleNotFound)
 
 	GroupV2 := r.Group("/v2")
-	GroupV2.POST("/getPayInformation", v2.GetPayInformationBack)
-	GroupV2.GET("/getPayInformation", v2.GetPayInformation)
-	//资金归集
-	//GroupV2.GET("/getPayInformation", v2.GetPayInformation)
+	{
+		GroupV2.POST("/getPayInformation", v2.GetPayInformationBack)
+		GroupV2.GET("/getPayInformation", v2.GetPayInformation)
+		//资金归集
+		//GroupV2.GET("/getPayInformation", v2.GetPayInformation)
+		//充值订单管理
+		GroupV2.POST("/createPrepaidPhoneOrders", v2.CreatePrepaidPhoneOrders)
+		GroupV2.GET("/getPrepaidPhoneOrders", v2.GetPrepaidPhoneOrders)
+		//GetReceiveAddress 地址管理
+		GroupV2.GET("/getReceiveAddress", v2.GetReceiveAddress)
+		//每日统计 DailyStatistics
+		GroupV2.GET("/getDailyStatistics", v2.GetDailyStatistics)
 
-	//充值订单管理
-	GroupV2.POST("/createPrepaidPhoneOrders", v2.CreatePrepaidPhoneOrders)
-	GroupV2.GET("/getPrepaidPhoneOrders", v2.GetPrepaidPhoneOrders)
-
-	//GetReceiveAddress 地址管理
-	GroupV2.GET("/getReceiveAddress", v2.GetReceiveAddress)
-
-	//每日统计 DailyStatistics
-	GroupV2.GET("/getDailyStatistics", v2.GetDailyStatistics)
-
-	//资金归集
-	GroupV2.GET("/collection", v2.Collection)
+		//资金归集
+		GroupV2.GET("/collection", v2.Collection)
+		//更新总余额
+		GroupV2.GET("/getAllMoney", v2.GetAllMoney)
 
 
-
-	//测试接口
-	r.GET("/getaddr", v2.Getaddr)
-	r.POST("/getaddr", v2.Getaddr)
+		//测试接口
+		r.GET("/getaddr", v2.Getaddr)
+		r.POST("/getaddr", v2.Getaddr)
+	}
 
 	r.Static("/static", "./static")
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))

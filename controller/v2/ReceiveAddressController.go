@@ -1,6 +1,7 @@
 package v2
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/wangyi/GinTemplate/dao/mysql"
@@ -61,13 +62,19 @@ func Collection(c *gin.Context) {
 		req["addrs"] = addr
 	}
 
-
+	fmt.Println(req)
 	req["ts"] = time.Now().UnixMilli()
-	_, err := tools.HttpRequest(viper.GetString("eth.ThreeUrl")+"/collect", req,viper.GetString("eth.ApiKey"))
+	_, err := tools.HttpRequest(viper.GetString("eth.ThreeUrl")+"/collect", req, viper.GetString("eth.ApiKey"))
 	if err != nil {
 		tools.ReturnError101(c, "归集失败")
 		return
 	}
 	tools.ReturnError200(c, "归集成功")
 	return
+}
+
+// GetAllMoney 获取总余
+func GetAllMoney(c *gin.Context) {
+	tools.ReturnError200Data(c, 20000, "获取成功")
+
 }

@@ -81,6 +81,13 @@ func ReturnError200(context *gin.Context, msg string) {
 		"msg":    msg,
 	})
 }
+func ReturnError200Data(context *gin.Context, result interface{},msg string) {
+	context.JSON(http.StatusOK, gin.H{
+		"code":   200,
+		"result": result,
+		"msg":    msg,
+	})
+}
 
 func ToDecimal(ivalue interface{}, decimals int) decimal.Decimal {
 	value := new(big.Int)

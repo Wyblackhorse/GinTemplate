@@ -103,7 +103,7 @@ func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEff
 	pt.ThreeOrder = time.Now().Format("20060102150405") + strconv.Itoa(rand.Intn(100000))
 	pt.PlatformOrder = ""
 	pt.Status = 2
-	pt.ThreeBack = 2
+	pt.ThreeBack = 3
 	pt.Username = p.Username
 	pt.Successfully = p.Successfully
 	pt.AccountPractical = p.AccountPractical

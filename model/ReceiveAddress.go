@@ -84,11 +84,21 @@ func (r *ReceiveAddress) UpdateReceiveAddressLastInformation(db *gorm.DB) bool {
 	if err == nil {
 		nums := re.ReceiveNums + 1
 		err := db.Model(&ReceiveAddress{}).Where("id=?", re.ID).Update(&ReceiveAddress{ReceiveNums: nums, LastGetAccount: r.LastGetAccount, Updated: r.Updated, Money: r.Money}).Error
-
 		if err == nil {
 			return true
 		}
+	}
+	return false
+}
 
+func (r *ReceiveAddress) UpdateReceiveAddressLastInformationTo0(db *gorm.DB) bool {
+	re := ReceiveAddress{}
+	err := db.Where("username=?", r.Username).First(&re).Error
+	if err == nil {
+		err := db.Model(&ReceiveAddress{}).Where("id=?", re.ID).Update(&ReceiveAddress{Updated: r.Updated, Money: 0}).Error
+		if err == nil {
+			return true
+		}
 	}
 	return false
 }

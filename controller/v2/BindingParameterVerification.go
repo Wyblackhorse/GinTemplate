@@ -42,3 +42,14 @@ type ReturnBase64 struct {
 	Data string `json:"data"`
 	Sign string `json:"sign"`
 }
+
+type BalanceType struct {
+	Type string `json:"type"`
+	Data Data   `json:"data"`
+}
+type DataTwo struct {
+	User    string `json:"user"`
+	Addr    string `json:"addr"`
+	Balance string `json:"balance"`
+	Seq     int    `json:"seq"`
+}

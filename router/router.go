@@ -40,6 +40,8 @@ func Setup() *gin.Engine {
 		GroupV2.GET("/collection", v2.Collection)
 		//更新总余额
 		GroupV2.GET("/getAllMoney", v2.GetAllMoney)
+		//手动回调 HandBackStatus
+		GroupV2.GET("/handBackStatus", v2.HandBackStatus)
 
 
 		//测试接口

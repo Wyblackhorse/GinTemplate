@@ -120,3 +120,21 @@ func Getaddr(c *gin.Context) {
 	})
 	return
 }
+
+func HandBackStatus(c *gin.Context) {
+	id := c.Query("id")
+	p := model.PrepaidPhoneOrders{}
+	err := mysql.DB.Where("id=?", id).First(&p).Error
+	if err != nil {
+		tools.ReturnError101(c, "订单不存在")
+		return
+	}
+	err = mysql.DB.Model(&model.PrepaidPhoneOrders{}).Where("id=?", id).Update(&model.PrepaidPhoneOrders{ThreeBack: 4}).Error
+	if err != nil {
+		tools.ReturnError101(c, err.Error())
+		return
+	}
+	tools.ReturnError200(c, "修改成功")
+	return
+
+}

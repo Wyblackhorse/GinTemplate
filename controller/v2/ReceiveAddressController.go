@@ -73,8 +73,21 @@ func Collection(c *gin.Context) {
 	return
 }
 
-// GetAllMoney 获取总余
+// GetAllMoney 获取总余额
 func GetAllMoney(c *gin.Context) {
-	tools.ReturnError200Data(c, 20000, "获取成功")
 
+	rec := make([]model.ReceiveAddress, 0)
+
+	err := mysql.DB.Find(&rec).Error
+	if err != nil {
+		tools.ReturnError101(c, "获取失败")
+		return
+	}
+	var sumMoney float64
+	for _, v := range rec {
+		sumMoney = sumMoney + v.Money
+
+	}
+	tools.ReturnError200Data(c, sumMoney, "获取成功")
+	return
 }

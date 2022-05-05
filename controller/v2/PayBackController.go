@@ -36,7 +36,21 @@ func GetPayInformationBack(c *gin.Context) {
 	err = json.Unmarshal(sDec, &jsonData)
 	if err != nil {
 		tools.ReturnError101(c, "非法请求")
+		return
+	}
 
+	if jsonData.Type == "balance" {
+		var jsonDataTwo BalanceType
+		err = json.Unmarshal(sDec, &jsonDataTwo)
+		if err != nil {
+			tools.ReturnError101(c, "非法请求")
+			return
+		}
+
+		re := model.ReceiveAddress{Username: jsonDataTwo.Data.UserID}
+		re.UpdateReceiveAddressLastInformationTo0(mysql.DB)
+
+		tools.ReturnError101(c, "余额变动成功")
 		return
 	}
 

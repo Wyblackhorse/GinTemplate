@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 // GetRunPath2 获取程序执行目录
@@ -64,6 +65,11 @@ func RandStringRunes(n int) string {
 	for i := range b {
 		b[i] = letterRunes[rand.Intn(len(letterRunes))]
 	}
+
+
+
+
+
 	return string(b)
 }
 
@@ -79,7 +85,6 @@ func InArray(arr []string, param string) bool {
 	return false
 }
 
-
 //json返回
 func JsonWrite(context *gin.Context, status int, result interface{}, msg string) {
 	context.JSON(http.StatusOK, gin.H{
@@ -87,4 +92,20 @@ func JsonWrite(context *gin.Context, status int, result interface{}, msg string)
 		"result": result,
 		"msg":    msg,
 	})
+}
+
+//返回当前是第几周
+
+func ReturnTheWeek() int {
+	datetime := time.Now().Format("20060102")
+	timeLayout := "20060102"
+	loc, _ := time.LoadLocation("Local")
+	tmp, _ := time.ParseInLocation(timeLayout, datetime, loc)
+	_, intWeek := tmp.ISOWeek()
+	return intWeek
+}
+
+func ReturnTheMonth() int {
+	_, m, _ := time.Now().Date()
+	return int(m)
 }

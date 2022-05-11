@@ -40,7 +40,6 @@ func ShoppingMoneyManagement(c *gin.Context) {
 		ReturnSuccessData(c, moneyManagement, "success")
 		return
 	}
-
 	//购买理财产品
 	if action == "shopping" {
 		money, err := strconv.ParseFloat(c.Query("money"), 64)

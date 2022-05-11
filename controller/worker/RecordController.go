@@ -27,7 +27,6 @@ func GetRecord(c *gin.Context) {
 		mysql.DB.Where("kinds=?", kinds).Find(&record)
 		ReturnSuccessData(c, record, "success")
 		return
-
 	}
 
 	//提现

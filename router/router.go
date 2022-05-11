@@ -28,9 +28,8 @@ func Setup() *gin.Engine {
 	r.Use(eeor.ErrHandler())
 	r.NoMethod(eeor.HandleNotFound)
 	r.NoRoute(eeor.HandleNotFound)
-	r.Use(CheckToken())
-
 	r.Static("/static", "./static")
+	r.Use(CheckToken())
 	//用户路由
 	user := r.Group("/user")
 	{
@@ -50,6 +49,12 @@ func Setup() *gin.Engine {
 		user.POST("/task/getTaskOrder", worker.GetTaskOrder)
 		//提现 RecordController
 		user.GET("/record/getRecord", worker.GetRecord)
+		//获取余额宝
+		user.GET("/moneyManagement/shoppingMoneyManagement", worker.ShoppingMoneyManagement)
+		//获取个人信息 Information
+		user.GET("/getInformation", worker.Information)
+		//团队报表
+		user.GET("team/teamTasks", worker.TeamTasks)
 
 	}
 

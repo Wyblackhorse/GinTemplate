@@ -20,15 +20,15 @@ type RegisterRequest struct {
 	Password         string `form:"password"  binding:"required,max=20"`
 	PasswordTwo      string `form:"password_two"  binding:"required,max=20"`
 	VerificationCode string `form:"verification_code"  binding:"required,min=4,max=4"` //验证码
-	InvitationCode   string `form:"invitation_code"  binding:"omitempty,min=6,max=6"`  //邀请码
 	VerificationId   string `form:"verification_id"  binding:"required"`
+	InvitationCode   string `form:"invitation_code"  binding:"omitempty,min=8,max=8"` //邀请码
+
 }
 
 type VipsReturnData struct {
-	  MeVip  interface{}
-	  Its   []model.Vip
+	MeVip interface{}
+	Its   []model.Vip
 }
-
 
 //登录验证
 type LoginRequest struct {

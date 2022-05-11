@@ -20,14 +20,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/rule/RecordController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/worker/TeamController.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/TeamModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/AdminController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/AdminController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/JurisdictionManagementController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/JurisdictionManagementController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/ApplyController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/ApplyController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/DataForValidator.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/DataForValidator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/MoneyManagenment.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/MoneyManagenment.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/worker/RecordController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/RecordController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/TaskController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/TaskController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/Worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/Worker.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/ConfigModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ConfigModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/RecordModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/RecordModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/TaskOrderModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/TaskOrderModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/WorkerModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/WorkerModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +78,18 @@
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Test.TestOne in github.com/wangyi/GinTemplate/tools">
+    <configuration name="TestOne in github.com/wangyi/GinTemplate/tools" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GinTemplate" />
+      <working_directory value="$PROJECT_DIR$/tools" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/wangyi/GinTemplate/tools" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestOne\E$" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestRandStringRunes in github.com/wangyi/GinTemplate/tools" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GinTemplate" />
       <working_directory value="$PROJECT_DIR$/tools" />
@@ -83,6 +103,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestOne in github.com/wangyi/GinTemplate/tools" />
         <item itemvalue="Go Test.TestRandStringRunes in github.com/wangyi/GinTemplate/tools" />
       </list>
     </recent_temporary>
@@ -119,34 +140,38 @@
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state x="2544" y="246" key="#SSH_Configurations/1680.-111.2560.1415/48.25.1632.1025@1680.-111.2560.1415" timestamp="1650525967983" />
-    <state width="2518" height="400" key="GridCell.Tab.0.bottom" timestamp="1650958292031">
+    <state width="2518" height="400" key="GridCell.Tab.0.bottom" timestamp="1652007123866">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292031" />
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829512" />
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/47.25.1633.1025@1680.-111.2560.1415" timestamp="1650601476426" />
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/49.25.1631.1025@1680.-111.2560.1415" timestamp="1650525499521" />
-    <state width="2518" height="400" key="GridCell.Tab.0.center" timestamp="1650958292030">
+    <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/56.25.1624.1025@1680.-111.2560.1415" timestamp="1652007123866" />
+    <state width="2518" height="400" key="GridCell.Tab.0.center" timestamp="1652007123864">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292030" />
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829511" />
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/47.25.1633.1025@1680.-111.2560.1415" timestamp="1650601476425" />
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/49.25.1631.1025@1680.-111.2560.1415" timestamp="1650525499520" />
-    <state width="2518" height="400" key="GridCell.Tab.0.left" timestamp="1650958292029">
+    <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/56.25.1624.1025@1680.-111.2560.1415" timestamp="1652007123864" />
+    <state width="2518" height="400" key="GridCell.Tab.0.left" timestamp="1652007123864">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292029" />
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829510" />
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/47.25.1633.1025@1680.-111.2560.1415" timestamp="1650601476424" />
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/49.25.1631.1025@1680.-111.2560.1415" timestamp="1650525499520" />
-    <state width="2518" height="400" key="GridCell.Tab.0.right" timestamp="1650958292030">
+    <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/56.25.1624.1025@1680.-111.2560.1415" timestamp="1652007123864" />
+    <state width="2518" height="400" key="GridCell.Tab.0.right" timestamp="1652007123865">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292030" />
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829512" />
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/47.25.1633.1025@1680.-111.2560.1415" timestamp="1650601476425" />
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/49.25.1631.1025@1680.-111.2560.1415" timestamp="1650525499521" />
+    <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/56.25.1624.1025@1680.-111.2560.1415" timestamp="1652007123865" />
     <state x="2469" y="232" key="SettingsEditor" timestamp="1650505188965">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
@@ -167,13 +192,28 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/worker/TaskController.go</url>
-          <line>53</line>
+          <line>54</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/rule/VipManagementController.go</url>
           <line>18</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/model/TaskOrderModel.go</url>
+          <line>41</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/worker/RecordController.go</url>
+          <line>32</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/worker/RecordController.go</url>
+          <line>23</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

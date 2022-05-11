@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
+	"github.com/wangyi/GinTemplate/tools"
 	"strconv"
 	"strings"
 	"time"
@@ -80,16 +81,16 @@ func GetTaskOrder(c *gin.Context) {
 	}
 	//提交审核
 	if action == "Submit" {
-		//判断任务 id 是否存在
+		//判断任务 id 是否存在  并且还要判断 这个任务是否还有效
 		taskId, _ := strconv.Atoi(c.PostForm("task_id"))
-		err2 := mysql.DB.Where("id=?", taskId).First(&model.Task{}).Error
+		err2 := mysql.DB.Where("id=?", taskId).Where("status=?", 1).First(&model.Task{}).Error
 		if err2 != nil {
 			ReturnErr101(c, "fail")
 			return
 		}
 
 		//判断你已经是否已经提交了这个任务
-		err2 = mysql.DB.Where("task_id=?", taskId).Where("status=?", 1).Where("worker_id=?", whoMap["ID"]).First(&model.TaskOrder{}).Error
+		err2 = mysql.DB.Where("task_id=?", taskId).Where("status=?", 2).Where("worker_id=?", whoMap["ID"]).First(&model.TaskOrder{}).Error
 		if err2 == nil {
 			ReturnErr101(c, "Don't double submit")
 			return
@@ -97,7 +98,7 @@ func GetTaskOrder(c *gin.Context) {
 
 		//判断任务是否超标   获取会员vip等级
 		vips := model.Vip{}
-		err2 = mysql.DB.Where("vip_ip=?", whoMap["VipId"]).First(&vips).Error
+		err2 = mysql.DB.Where("id=?", whoMap["VipId"]).First(&vips).Error
 		if err2 != nil {
 			ReturnErr101(c, "system is error")
 			return
@@ -144,14 +145,15 @@ func GetTaskOrder(c *gin.Context) {
 			WorkerId: int(whoMap["ID"].(uint)),
 			Created:  time.Now().Unix(),
 			ImageUrl: filepath,
-			Date:     time.Now().Format("2016_01_02"),
+			Date:     time.Now().Format("2006-01-02"),
+			Week:     tools.ReturnTheWeek(),
+			Month:    tools.ReturnTheMonth(),
 		}
 		err2 = mysql.DB.Save(&taskOrder).Error
 		if err2 != nil {
 			ReturnErr101(c, "err:"+err2.Error())
 			return
 		}
-
 		ReturnSuccess(c, "success")
 		return
 	}

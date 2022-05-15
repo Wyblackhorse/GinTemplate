@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -20,23 +23,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/worker/TeamController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/TeamModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/worker/ApplyController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/ApplyController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/DataForValidator.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/DataForValidator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/MoneyManagenment.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/MoneyManagenment.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/RecordController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/RecordController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/worker/TaskController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/TaskController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/Worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/Worker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/ConfigModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ConfigModel.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/RecordModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/RecordModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/VipController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/VipController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/error/errot.go" beforeDir="false" afterPath="$PROJECT_DIR$/error/errot.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/ApplyModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ApplyModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/TaskModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/TaskModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/TaskOrderModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/TaskOrderModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/VipModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/VipModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/WorkerModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/WorkerModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,10 +125,11 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="2560" y="259" key="#Deployment" timestamp="1650525981551">
+    <state x="2560" y="259" key="#Deployment" timestamp="1652267498105">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state x="2560" y="259" key="#Deployment/1680.-111.2560.1415/48.25.1632.1025@1680.-111.2560.1415" timestamp="1650525981551" />
+    <state x="2560" y="259" key="#Deployment/1680.-111.2560.1415/56.25.1624.1025@1680.-111.2560.1415" timestamp="1652267498105" />
     <state x="2693" y="420" key="#Notifications" timestamp="1650505171076">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
@@ -180,10 +178,11 @@
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state x="2866" y="251" key="ftp.server.browser/1680.-111.2560.1415/48.25.1632.1025@1680.-111.2560.1415" timestamp="1650525980646" />
-    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup" timestamp="1651134938605">
+    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup" timestamp="1652355365627">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
-    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/56.25.1624.1025@1680.-111.2560.1415" timestamp="1651134938605" />
+    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/50.25.1630.1025@1680.-111.2560.1415" timestamp="1652355365627" />
+    <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/56.25.1624.1025@1680.-111.2560.1415" timestamp="1652259026098" />
     <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/59.25.1621.1025@1680.-111.2560.1415" timestamp="1651131345012" />
     <state x="2625" y="213" width="670" height="676" key="search.everywhere.popup/1680.-111.2560.1415/60.25.1620.1025@1680.-111.2560.1415" timestamp="1651044593541" />
   </component>
@@ -191,18 +190,13 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/controller/worker/TaskController.go</url>
-          <line>54</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/rule/VipManagementController.go</url>
           <line>18</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/model/TaskOrderModel.go</url>
-          <line>41</line>
+          <line>42</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -214,6 +208,11 @@
           <url>file://$PROJECT_DIR$/controller/worker/RecordController.go</url>
           <line>23</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/worker/TaskController.go</url>
+          <line>52</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

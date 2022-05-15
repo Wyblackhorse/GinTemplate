@@ -10,6 +10,8 @@ package model
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
+	eeor "github.com/wangyi/GinTemplate/error"
+	"sync"
 )
 
 type Task struct {
@@ -22,6 +24,7 @@ type Task struct {
 	EndTime      int64   //任务结束时间
 	Price        float64 `gorm:"type:decimal(10,2)"` //价格
 	Status       int     //任务状态 1正常 2结束 3取消s
+	DemandSide   string  //需求方
 	TaskLevel    int     //任务级别  1
 	TaskNum      int     //任务数量
 	Created      int64   //创建时间
@@ -40,4 +43,65 @@ func CheckIsExistModelTask(db *gorm.DB) {
 			fmt.Println("数据库已经存在了!")
 		}
 	}
+}
+
+type GetTaskData struct {
+	GetTaskDataLock sync.RWMutex //锁
+	WorkerVipId     int          //用户的vipId
+	WorkerId        int          //用户id
+	ApplyId         int          //应用id
+	TaskId          int          //任务id
+}
+
+//领取任务
+func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
+	//获取用户的 可以做的订单可以领取的订单数量
+	vip := Vip{}
+	err := db.Where("id=?", g.WorkerVipId).First(&vip).Error
+	if err != nil {
+		return false, err
+	}
+	//查询今天已经领取获取这完成的 订单数量
+	var haveDone int
+	db.Model(&TaskOrder{}).Where("worker_id=?", g.WorkerId).Where("status=?  or status=?  or status=?", 1, 2, 3).Count(&haveDone)
+	//今日的次数已经用完了
+
+	if haveDone >= vip.TaskTimes {
+		return false, eeor.OtherError("I have run out of times today")
+	}
+	//领取
+	//上读锁
+	g.GetTaskDataLock.RLock()
+	//获取今日还剩余的任务数量
+	task := Task{}
+	err = db.Where("id=? and status=?", g.TaskId, 1).First(&task).Error
+	if err != nil {
+		g.GetTaskDataLock.RUnlock() //解除读锁
+		return false, eeor.OtherError("Mission does not exist")
+	}
+	if task.TaskNum <= 0 {
+		g.GetTaskDataLock.RUnlock() //解除读锁
+		return false, eeor.OtherError("Sorry, this assignment has been taken")
+	}
+	db = db.Begin()
+	//解除读锁
+	g.GetTaskDataLock.RUnlock()
+	//上写锁
+	g.GetTaskDataLock.Lock()
+	//写锁解除
+	defer g.GetTaskDataLock.Unlock()
+	//生成任务
+	t := TaskOrder{WorkerId: g.WorkerId, TaskId: g.TaskId}
+	_, err = t.SetTaskOrder(db)
+	if err != nil {
+		return false, err
+	}
+	//总任务数量 -1
+	err = db.Model(&Task{}).Where("id=?", task.ID).Update(map[string]interface{}{"task_num": task.TaskNum - 1}).Error
+	if err != nil {
+		db.Rollback() //事务回滚
+		return false, err
+	}
+	db.Commit()
+	return true, nil
 }

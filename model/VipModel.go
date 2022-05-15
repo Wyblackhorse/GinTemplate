@@ -75,3 +75,15 @@ func (v *Vip) GetLevelName(db *gorm.DB) string {
 	}
 	return vip.Name
 }
+
+//判断会员是否存在 如果存在返回价格
+func (v *Vip) ReturnVipPrice(db *gorm.DB) (bool, float64) {
+	//判断vip 是否存在
+	vip := Vip{}
+	err := db.Where("id=?", v.ID).First(&vip).Error
+	if err != nil {
+		return false, 0
+	}
+
+	return true, vip.Price
+}

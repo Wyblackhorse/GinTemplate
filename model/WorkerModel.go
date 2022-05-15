@@ -37,10 +37,10 @@ type Worker struct {
 	Status             int     //状态 1限制  2良好 3优秀  4封号
 	CreditScore        int     //信用积分
 	VipId              int     `gorm:"int(10);default:1"` //vip  等级 id
+	VipExpire          int64   `gorm:"default:0"`         //会员到期时间   默认为 0  无限制
 	Created            int64
 	VipName            string `gorm:"-"`
 }
-
 type WorkerBalance struct {
 	ID              int     //用户的 id
 	AddBalance      float64 //增加多少钱 减少
@@ -49,7 +49,7 @@ type WorkerBalance struct {
 	OrderId         int
 	YuEBaoId        int //余额宝产品id
 	Days            int //理财产品的时间
-
+	VipID           int //购买的 vip等级
 }
 
 func CheckIsExistModelWorker(db *gorm.DB) {
@@ -76,6 +76,12 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 		w.ChangeMoneyLock.RUnlock() //解除读锁
 		return false, err
 	}
+	if w.Kinds == 4 {
+		if worker.VipId > w.VipID {
+			return false, eeor.OtherError("Can't downgrade to buy")
+		}
+	}
+
 	//读取正常  解除读锁
 	w.ChangeMoneyLock.RUnlock()      //解除读锁
 	w.ChangeMoneyLock.Lock()         //上写锁
@@ -90,13 +96,13 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 			db.Rollback() //事务回滚
 			return false, err
 		}
-	} else if w.Kinds == 6 || w.Kinds == 2 {
+	} else if w.Kinds == 6 || w.Kinds == 2 || w.Kinds == 4 {
 		//减钱操作
 		if worker.Balance < w.AddBalance {
 			//余额不够了
 			return false, eeor.OtherError("don't have enough money")
 		}
-		newBalance := worker.Balance - w.AddBalance
+		newBalance = worker.Balance - w.AddBalance
 		ps := map[string]interface{}{}
 		ps["Balance"] = newBalance
 		err = db.Model(&Worker{}).Where("id=?", w.ID).Update(ps).Error
@@ -107,7 +113,7 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 	}
 
 	//金额改变成功 类型 1充值  2提现 3做单任务 4购买业务 5佣金奖励(邀请奖励)
-	if w.Kinds == 3 || w.Kinds == 5 {
+	if w.Kinds == 3 || w.Kinds == 5 || w.Kinds == 4 {
 		add := BillingDetails{
 			WorkerId:    int(worker.ID),
 			ChangeMoney: w.AddBalance,
@@ -128,6 +134,31 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 				db.Rollback() //事务回滚
 				return false, err
 			}
+		}
+		if w.Kinds == 4 {
+			//生成购买订单
+			addRecord := Record{Kinds: 4, Status: 1, Money: w.AddBalance, WorkerId: int(worker.ID)}
+			_, err = addRecord.AddRecord(db)
+			if err != nil {
+				db.Rollback() //事务回滚
+				return false, err
+			}
+			//购买订单生成成功
+			if w.VipID == worker.VipId {
+				//购买相同的vip 等级
+				err = db.Model(&Worker{}).Where("id=?", w.ID).Update(&Worker{VipExpire: worker.VipExpire + 365*24*60*60}).Error
+				if err != nil {
+					db.Rollback() //事务回滚
+					return false, err
+				}
+			} else {
+				err = db.Model(&Worker{}).Where("id=?", w.ID).Update(&Worker{VipId: w.VipID, VipExpire: time.Now().Unix() + 365*24*60*60}).Error
+				if err != nil {
+					db.Rollback() //事务回滚
+					return false, err
+				}
+			}
+
 		}
 	} else if w.Kinds == 6 {
 		//充值到 余额宝   生成理财产品订单
@@ -222,7 +253,6 @@ func (r *Worker) IsExist(db *gorm.DB) bool {
 }
 
 //获取团队信息
-
 type TeamInformation struct {
 	TeamRecharge        float64 `json:"team_recharge"`         //团队充值
 	TeamWithdraw        float64 `json:"team_withdraw"`         //团队提现
@@ -290,7 +320,6 @@ type MyTeamInformation struct {
 	BackMoney float64 `json:"back_money"` //反点
 	Royalties float64 `json:"royalties"`  //提成
 }
-
 type ReturnMyTeamInformation struct {
 	data []MyTeamInformation
 }

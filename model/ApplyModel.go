@@ -58,3 +58,17 @@ func CheckIsExistModelApply(db *gorm.DB) {
 		}
 	}
 }
+
+//判断 应用是否存在
+func (a *Apply) IsExistApply(db *gorm.DB) bool {
+	err := db.Where("status=?  and id=?", 1, a.ID).First(&Apply{}).Error
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+
+
+
+

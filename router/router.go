@@ -40,8 +40,17 @@ func Setup() *gin.Engine {
 
 		//获取应用列表
 		user.GET("/apply/getApply", worker.GetApply)
+		//GetApplyTask 获取应用的任务
+		user.GET("/apply/getApplyTask", worker.GetApplyTask)
+		//GetTheApplyTask
+		user.GET("/apply/getTheApplyTask", worker.GetTheApplyTask)
+
 		//获取 vips GetVipList
 		user.GET("/vip/getVipList", worker.GetVipList)
+		//购买vip UpgradeVip
+		user.GET("/vip/upgradeVip", worker.UpgradeVip)
+
+
 		//GetTask
 		user.GET("/task/getTask", worker.GetTask)
 		//GetTaskOrder   //获取订单任务     提交审核

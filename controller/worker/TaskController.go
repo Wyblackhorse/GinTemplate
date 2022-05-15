@@ -11,7 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
-	"github.com/wangyi/GinTemplate/tools"
 	"strconv"
 	"strings"
 	"time"
@@ -19,7 +18,6 @@ import (
 
 //获取任务
 func GetTask(c *gin.Context) {
-
 	who, _ := c.Get("who")
 	whoMap := who.(map[string]interface{})
 
@@ -51,7 +49,7 @@ func GetTask(c *gin.Context) {
 
 }
 
-//获取审核 已完成  已经失败  恶意  已放弃的 任务
+//获取审核 已完成  已经失败  恶意  已放弃的 任务  进行中
 func GetTaskOrder(c *gin.Context) {
 	action := c.Query("action")
 	who, _ := c.Get("who")
@@ -82,32 +80,10 @@ func GetTaskOrder(c *gin.Context) {
 	//提交审核
 	if action == "Submit" {
 		//判断任务 id 是否存在  并且还要判断 这个任务是否还有效
-		taskId, _ := strconv.Atoi(c.PostForm("task_id"))
-		err2 := mysql.DB.Where("id=?", taskId).Where("status=?", 1).First(&model.Task{}).Error
+		taskId, _ := strconv.Atoi(c.PostForm("task_order_id"))
+		err2 := mysql.DB.Where("id=?", taskId).Where("status=?", 1).First(&model.TaskOrder{}).Error
 		if err2 != nil {
 			ReturnErr101(c, "fail")
-			return
-		}
-
-		//判断你已经是否已经提交了这个任务
-		err2 = mysql.DB.Where("task_id=?", taskId).Where("status=?", 2).Where("worker_id=?", whoMap["ID"]).First(&model.TaskOrder{}).Error
-		if err2 == nil {
-			ReturnErr101(c, "Don't double submit")
-			return
-		}
-
-		//判断任务是否超标   获取会员vip等级
-		vips := model.Vip{}
-		err2 = mysql.DB.Where("id=?", whoMap["VipId"]).First(&vips).Error
-		if err2 != nil {
-			ReturnErr101(c, "system is error")
-			return
-		}
-		//获取  今日已经 审核中 和完成的 总数
-		var total int
-		mysql.DB.Model(&model.TaskOrder{}).Where("status=? or status =?", 1, 3).Where("worker_id=?", whoMap["ID"]).Count(&total)
-		if total >= vips.TaskTimes {
-			ReturnErr101(c, "The maximum number of tasks exceeded")
 			return
 		}
 		//获取 图片
@@ -131,7 +107,7 @@ func GetTaskOrder(c *gin.Context) {
 			return
 		}
 		nowStr := time.Now().Format("20060102150405")
-		nowStr = strconv.Itoa(int(whoMap["ID"].(uint))) + "_" + c.Query("task_id") + nowStr
+		nowStr = strconv.Itoa(int(whoMap["ID"].(uint))) + "_" + c.Query("task_order_id") + nowStr
 		filepath := "./static/upload/" + nowStr + ".png"
 		err = c.SaveUploadedFile(file, filepath)
 		if err != nil {
@@ -142,14 +118,11 @@ func GetTaskOrder(c *gin.Context) {
 		taskOrder := model.TaskOrder{
 			Status:   2, //审核中 给管理员审核
 			TaskId:   taskId,
-			WorkerId: int(whoMap["ID"].(uint)),
-			Created:  time.Now().Unix(),
 			ImageUrl: filepath,
-			Date:     time.Now().Format("2006-01-02"),
-			Week:     tools.ReturnTheWeek(),
-			Month:    tools.ReturnTheMonth(),
+			Updated: time.Now().Unix(),
 		}
-		err2 = mysql.DB.Save(&taskOrder).Error
+
+		err2 = mysql.DB.Model(&model.TaskOrder{}).Where("id=?",taskId).Update(&taskOrder).Error
 		if err2 != nil {
 			ReturnErr101(c, "err:"+err2.Error())
 			return
@@ -157,5 +130,4 @@ func GetTaskOrder(c *gin.Context) {
 		ReturnSuccess(c, "success")
 		return
 	}
-
 }

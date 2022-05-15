@@ -21,7 +21,7 @@ type Error struct {
 
 var (
 	Success     = NewError(http.StatusOK, 0, "success")
-	ServerError = NewError(http.StatusInternalServerError, 200500, "系统异常，请稍后重试!")
+	ServerError = NewError(http.StatusInternalServerError, 200500, "system exception ,try again later ")
 	NotFound    = NewError(http.StatusNotFound, 200404, http.StatusText(http.StatusNotFound))
 )
 
@@ -53,7 +53,6 @@ func ErrHandler() gin.HandlerFunc {
 		defer func() {
 			if err := recover(); err != nil {
 				var Err *Error
-
 				if e, ok := err.(*Error); ok {
 					Err = e
 				} else if e, ok := err.(error); ok {

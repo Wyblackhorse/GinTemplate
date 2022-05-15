@@ -10,6 +10,7 @@ package model
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
+	eeor "github.com/wangyi/GinTemplate/error"
 	"github.com/wangyi/GinTemplate/tools"
 	"time"
 )
@@ -103,4 +104,23 @@ func (t *TaskOrder) GetEarnings(db *gorm.DB, taskTimes int) ReturnResult {
 	result.TodayResidueTaskNum = taskTimes - result.TodayDoneTaskNum
 
 	return result
+}
+
+//领取任务(生成任务)
+func (t *TaskOrder) SetTaskOrder(db *gorm.DB) (bool, error) {
+	err := db.Where("task_id=?", t.TaskId).Where("worker_id=?", t.WorkerId).First(&TaskOrder{}).Error
+	if err == nil {
+		return false, eeor.OtherError("Do not double claim")
+	}
+	t.Status = 1
+	t.Created = time.Now().Unix()
+	t.Date = time.Now().Format("2006-01-02")
+	t.Week = tools.ReturnTheWeek()
+	t.Month = tools.ReturnTheMonth()
+	err = db.Save(&t).Error
+	if err != nil {
+		db.Rollback()
+		return false, err
+	}
+	return true, nil
 }

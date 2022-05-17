@@ -52,3 +52,18 @@ func TestOne(t *testing.T) {
 	_, intWeek := tmp.ISOWeek()
 	fmt.Println(intWeek)
 }
+
+
+
+func TestTwo(t *testing.T){
+
+fmt.Println(time.Now().Format("2006-01-02"))
+
+
+
+
+
+
+
+
+}

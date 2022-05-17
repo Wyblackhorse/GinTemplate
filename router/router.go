@@ -50,7 +50,6 @@ func Setup() *gin.Engine {
 		//购买vip UpgradeVip
 		user.GET("/vip/upgradeVip", worker.UpgradeVip)
 
-
 		//GetTask
 		user.GET("/task/getTask", worker.GetTask)
 		//GetTaskOrder   //获取订单任务     提交审核
@@ -69,6 +68,8 @@ func Setup() *gin.Engine {
 
 	admin := r.Group("/rule")
 	{
+		//首页
+		admin.GET("/homePage", rule.HomePage)
 		//管理员登录
 		admin.POST("/login", rule.Login)
 		//获取权限列表 		//获取菜单
@@ -86,6 +87,12 @@ func Setup() *gin.Engine {
 		admin.GET("/memberManagement/regularMembers/getVipWorkers", rule.GetVipWorkers)
 		//账单管理  充值账单  提现账单  佣金账单 推广奖励
 		admin.GET("/billManagement/withdrawalBill/getRecord", rule.GetRecords)
+		//日志管理  GetLoggerList adminLog(管理操作日志)
+		admin.GET("/logManagement/adminLog/getAdminLog", rule.GetAdminLog)
+		//获取管理者(日志管理)
+		admin.GET("/logManagement/adminLog/getAdmin", rule.GetAdmin)
+		//获取系统日志  GetSystemLog
+		admin.GET("/logManagement/systemLog/getSystemLog", rule.GetSystemLog)
 
 	}
 

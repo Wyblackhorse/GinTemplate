@@ -22,9 +22,12 @@ func GetRecords(c *gin.Context) {
 	if action == "GET" {
 		page, _ := strconv.Atoi(c.Query("page"))
 		limit, _ := strconv.Atoi(c.Query("limit"))
+		kinds := c.Query("kinds")
 		role := make([]model.Record, 0)
 		Db := mysql.DB
 		var total int
+
+		Db = Db.Where("kinds=?", kinds)
 		Db = Db.Model(&model.Record{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("records").Count(&total)
 		err := Db.Find(&role).Error

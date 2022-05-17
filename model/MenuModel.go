@@ -139,6 +139,11 @@ func CheckIsExistModelMenu(db *gorm.DB) {
 			r = RoleAndMenu{ID: 512, MenuId: 512}
 			r.SuperAdminCreate(db)
 
+			m = Menu{ID: 513, Name: "全局统计", Level: 5, EnglishName: "globalStatistics"}
+			m.AddSecondMenu(db)
+			r = RoleAndMenu{ID: 513, MenuId: 513}
+			r.SuperAdminCreate(db)
+
 			m = Menu{ID: 6, Name: "财政管理", EnglishName: "fiscalManagement"}
 			m.AddStairMenu(db)
 			r = RoleAndMenu{ID: 6, MenuId: 6}

@@ -51,6 +51,9 @@ func GetRecord(c *gin.Context) {
 			ReturnErr101(c, err1.Error())
 			return
 		}
+		d := model.DailyStatistics{TodayRechargeMoney: money,TodayRechargePeople: 1,WorkerId: int(whoMap["ID"].(uint))}
+		d.SetEverydayData(mysql.DB)
+
 		ReturnSuccess(c, "Withdrawal successful, waiting for administrator review")
 		return
 	}
@@ -58,6 +61,10 @@ func GetRecord(c *gin.Context) {
 	//充值
 	if action == "recharge" {
 
+
+
+		//d := model.DailyStatistics{TodayRechargeMoney: money,TodayRechargePeople: 1,WorkerId: int(whoMap["ID"].(uint))}
+		//d.SetEverydayData(mysql.DB)
 	}
 
 }

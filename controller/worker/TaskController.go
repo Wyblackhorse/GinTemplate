@@ -119,14 +119,16 @@ func GetTaskOrder(c *gin.Context) {
 			Status:   2, //审核中 给管理员审核
 			TaskId:   taskId,
 			ImageUrl: filepath,
-			Updated: time.Now().Unix(),
+			Updated:  time.Now().Unix(),
 		}
 
-		err2 = mysql.DB.Model(&model.TaskOrder{}).Where("id=?",taskId).Update(&taskOrder).Error
+		err2 = mysql.DB.Model(&model.TaskOrder{}).Where("id=?", taskId).Update(&taskOrder).Error
 		if err2 != nil {
 			ReturnErr101(c, "err:"+err2.Error())
 			return
 		}
+		d := model.DailyStatistics{TodayAddVipNums: 1}
+		d.SetEverydayData(mysql.DB)
 		ReturnSuccess(c, "success")
 		return
 	}

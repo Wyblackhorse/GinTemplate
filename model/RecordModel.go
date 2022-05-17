@@ -52,7 +52,7 @@ func CheckIsExistModelRecord(db *gorm.DB) {
 //添加订单
 func (r *Record) AddRecord(db *gorm.DB) (bool, error) {
 	r.Created = time.Now().Unix()
-	r.Date = time.Now().Format("20060102")
+	r.Date = time.Now().Format("2006-01-02")
 	r.Month = tools.ReturnTheMonth()
 	r.Week = tools.ReturnTheWeek()
 	r.RecordNum = time.Now().Format("20060102") + strconv.FormatFloat(float64(time.Now().Unix()), 'f', 0, 64) + strconv.Itoa(r.WorkerId)

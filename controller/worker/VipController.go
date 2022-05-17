@@ -55,6 +55,10 @@ func UpgradeVip(c *gin.Context) {
 		ReturnErr101(c, err.Error())
 		return
 	}
+
+	d := model.DailyStatistics{TodayAddVipNums: 1}
+	d.SetEverydayData(mysql.DB)
+
 	ReturnSuccess(c, "success")
 	return
 }

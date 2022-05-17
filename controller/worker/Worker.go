@@ -109,8 +109,11 @@ func Register(c *gin.Context) {
 		return
 	}
 	//设置每日统计数据
-	daily := model.DailyStatistics{Register: 1}
+	daily := model.DailyStatistics{TodayRegister: 1}
 	daily.SetEverydayData(mysql.DB)
+
+
+
 	redis.Rdb.HSet("Worker_Token", token, newWork.Phone)
 	redis.Rdb.HMSet("Worker_"+newWork.Phone, structs.Map(&newWork))
 	ReturnSuccess(c, "注册成功")

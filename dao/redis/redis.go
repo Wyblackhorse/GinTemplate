@@ -12,10 +12,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-////声明一个全局的rdb变量
+// Rdb //声明一个全局的rdb变量
 var Rdb *redis.Client
 
-// 初始化连接
+// Init 初始化连接
 func Init() (err error) {
 	Rdb = redis.NewClient(&redis.Options{
 		Addr: fmt.Sprintf("%s:%d",

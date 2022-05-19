@@ -15,16 +15,16 @@ log:
 
 #数据库 配置
 mysql:
-  host: "47.243.39.176"
+  host: "127.0.0.1"
   port: "3306"
-  user: "MgHash"
-  password: "ddYzGT3pwF7YSnrT"
-  dbname: "mghash"
+  user: "checkurl"
+  password: "sRaShp2PAH5zSk3r"
+  dbname: "checkurl"
 
 
 #redis  配置
 redis:
-  host: "47.243.39.176"
+  host: "127.0.0.1"
   port: 6379
   db: 9
   password: "wy011620."

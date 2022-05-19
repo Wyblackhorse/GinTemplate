@@ -14,6 +14,7 @@ import (
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/dao/redis"
 	"github.com/wangyi/GinTemplate/logger"
+	"github.com/wangyi/GinTemplate/process"
 	"github.com/wangyi/GinTemplate/router"
 	"github.com/wangyi/GinTemplate/setting"
 	"github.com/wangyi/GinTemplate/tools"
@@ -82,6 +83,9 @@ func run(cmd *cobra.Command, args []string) {
 		return
 	}
 	defer redis.Close()
+	go process.CheckWebNameIsTrueProcess(mysql.DB) //检查域名
+	//redis 清库(初始化)
+	redis.Rdb.Del("DOING")
 
 	router.Setup()
 }

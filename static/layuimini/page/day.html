@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
     <link rel="stylesheet" href="../css/public.css" media="all">
+    <script type="text/javascript" src="../js/util.js"></script>
+
 </head>
 <body>
 <div class="layuimini-container">
@@ -76,180 +78,188 @@
 <script src="../js/util.js" charset="utf-8"></script>
 <script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script>
-    let currDateVal
-    let currDateVal_end
-    layui.use(['form', 'table','laydate'], function () {
-        var $ = layui.jquery,
-            form = layui.form,
-            table = layui.table;
-        var laydate = layui.laydate;
+    var mybck = getCookie('tokenMyb');
+    if(mybck == "" || mybck == null){
+        window.top.location.href="./login.html";
+
+    }else {
+        let currDateVal
+        let currDateVal_end
+        layui.use(['form', 'table','laydate'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                table = layui.table;
+            var laydate = layui.laydate;
 
 
-        laydate.render({
-            elem: '#startDate'
-            // ,value: currDate
-            ,isInitValue: true
-            ,theme: 'molv'
-            ,type: 'datetime'
-            ,done: function(value, date){//选中后的回调
-                // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
-                // console.log("自带的",date)
-                // console.log("jquery",$("#buildDate").val())
-                currDateVal = ""
-                currDateVal = value
-                // let currStart = date.year+"-"+date.month+"-"+date.date+" 00:00:00"
-                // $("#startDate").val(currStart)
-            }
-        });
-
-        laydate.render({
-            elem: '#endDate'
-            // ,value: currDate
-            ,isInitValue: true
-            ,theme: 'molv'
-            ,type: 'datetime'
-            ,done: function(value, date){//选中后的回调
-                // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
-                // console.log("自带的",date)
-                // console.log("jquery",$("#buildDate").val())
-                currDateVal_end = ""
-                currDateVal_end = value
-                // let currEnd= date.year+"-"+date.month+"-"+date.date+" 23:59:59"
-                // $("#endDate").val(currEnd)
-            }
-        });
-
-
-        table.render({
-            elem: '#currentTableId',
-            url: '/v2/getDailyStatistics?action=GET',
-            toolbar: '#toolbarDemo',
-            height: screen.height * 0.7,
-            // defaultToolbar: ['filter', 'exports', 'print', {
-            //     title: '提示',
-            //     layEvent: 'LAYTABLE_TIPS',
-            //     icon: 'layui-icon-tips'
-            // }],
-            cols: [[
-                {type: "checkbox", width: 50},
-                {field: 'ID', width: 80, title: 'ID', sort: true},
-                {field: 'Date', width: 300, title: '日期', align: "center"},
-                {field: 'RechargeAccount', width: 100, title: '充值金额', align: "center"},
-                {field: 'RechargeNums', title: '充值笔数', minWidth: 150, align: "center"},
-                {
-                    field: 'Created', width: 200, title: '创建时间', sort: true, align: "center",
-                    templet: "<div>{{layui.util.toDateString(d.Created*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
-                },
-                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
-            ]],
-            limits: [10, 15, 20, 25, 50, 100],
-            limit: 15,
-            page: true,
-            skin: 'line'
-        });
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            // let result = JSON.stringify(data.field);
-            // let resultObj = JSON.parse(result)
-            let resultObj = data.field
-            console.log("result",resultObj)
-
-            let paramR  = {}
-            if(resultObj.From){
-
-                paramR.From = resultObj.From
-            }
-
-            if(resultObj.ToAddress){
-                paramR.ToAddress = resultObj.ToAddress
-            }
-
-            if(resultObj.UserID){
-                paramR.UserID = resultObj.UserID
-            }
-
-            if(resultObj.startDate && resultObj.endDate){
-                paramR.start_time = get_unix_time(resultObj.startDate)
-                paramR.end_time = get_unix_time(resultObj.endDate)
-            }else if(!resultObj.startDate && resultObj.endDate){
-                paramR.start_time = 0
-                paramR.end_time = get_unix_time(resultObj.endDate)
-                // console.log("getDateFromString",get_unix_time(resultObj.endDate))
-            }else if(resultObj.startDate && !resultObj.endDate){
-                paramR.start_time = get_unix_time(resultObj.startDate)
-                paramR.end_time = parseInt(Date.now()/1000)
-            }
-
-
-            //执行搜索重载
-            table.reload('currentTableId', {
-                page: {
-                    curr: 1
+            laydate.render({
+                elem: '#startDate'
+                // ,value: currDate
+                ,isInitValue: true
+                ,theme: 'molv'
+                ,type: 'datetime'
+                ,done: function(value, date){//选中后的回调
+                    // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+                    // console.log("自带的",date)
+                    // console.log("jquery",$("#buildDate").val())
+                    currDateVal = ""
+                    currDateVal = value
+                    // let currStart = date.year+"-"+date.month+"-"+date.date+" 00:00:00"
+                    // $("#startDate").val(currStart)
                 }
-                , where: {
-                    ...paramR
-                }
-            }, 'data');
-            return false;
-        });
+            });
 
-        /**
-         * toolbar监听事件
-         */
-        table.on('toolbar(currentTableFilter)', function (obj) {
-            if (obj.event === 'add') {  // 监听添加操作
-                let paramUrl = "http://"
-                paramUrl = paramUrl + $("#ipaddress").val() + '/collect'
-                paramUrl = paramUrl + "?gas=" +$("#gas").val()
-                paramUrl = paramUrl +"&min=" +$("#min").val()
-                paramUrl = paramUrl +"&ts=" +Date.now()
-                $.ajax({
-                    url: paramUrl,
-                    type: 'GET',
-                    dataType:"json",
-                    success: function (resultJson) {
-                        if(resultJson.code === 200){
-                            layui.msg(resultJson.msg)
-                        }
+            laydate.render({
+                elem: '#endDate'
+                // ,value: currDate
+                ,isInitValue: true
+                ,theme: 'molv'
+                ,type: 'datetime'
+                ,done: function(value, date){//选中后的回调
+                    // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+                    // console.log("自带的",date)
+                    // console.log("jquery",$("#buildDate").val())
+                    currDateVal_end = ""
+                    currDateVal_end = value
+                    // let currEnd= date.year+"-"+date.month+"-"+date.date+" 23:59:59"
+                    // $("#endDate").val(currEnd)
+                }
+            });
+
+
+            table.render({
+                elem: '#currentTableId',
+                url: '/v2/getDailyStatistics?action=GET',
+                toolbar: '#toolbarDemo',
+                height: screen.height * 0.7,
+                // defaultToolbar: ['filter', 'exports', 'print', {
+                //     title: '提示',
+                //     layEvent: 'LAYTABLE_TIPS',
+                //     icon: 'layui-icon-tips'
+                // }],
+                cols: [[
+                    {type: "checkbox", width: 50},
+                    {field: 'ID', width: 80, title: 'ID', sort: true},
+                    {field: 'Date', width: 300, title: '日期', align: "center"},
+                    {field: 'RechargeAccount', width: 100, title: '充值金额', align: "center"},
+                    {field: 'RechargeNums', title: '充值笔数', minWidth: 150, align: "center"},
+                    {
+                        field: 'Created', width: 200, title: '创建时间', sort: true, align: "center",
+                        templet: "<div>{{layui.util.toDateString(d.Created*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>"
                     },
+                    {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                ]],
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 15,
+                page: true,
+                skin: 'line'
+            });
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (data) {
+                // let result = JSON.stringify(data.field);
+                // let resultObj = JSON.parse(result)
+                let resultObj = data.field
+                console.log("result",resultObj)
 
-                });
+                let paramR  = {}
+                if(resultObj.From){
 
-            } else if (obj.event === 'delete') {  // 监听删除操作
-                var checkStatus = table.checkStatus('currentTableId')
-                    , data = checkStatus.data;
-                layer.alert(JSON.stringify(data));
-            }
-        });
-        //监听表格复选框选择
-        table.on('checkbox(currentTableFilter)', function (obj) {
-            console.log(obj)
-        });
-        table.on('tool(currentTableFilter)', function (obj) {
-            var data = obj.data;
-            if (obj.event === 'edit') {
-                var index = layer.open({
-                    title: '编辑用户',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin: true,
-                    shadeClose: true,
-                    area: ['100%', '100%'],
-                    content: '../page/table/edit.html',
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
+                    paramR.From = resultObj.From
+                }
+
+                if(resultObj.ToAddress){
+                    paramR.ToAddress = resultObj.ToAddress
+                }
+
+                if(resultObj.UserID){
+                    paramR.UserID = resultObj.UserID
+                }
+
+                if(resultObj.startDate && resultObj.endDate){
+                    paramR.start_time = get_unix_time(resultObj.startDate)
+                    paramR.end_time = get_unix_time(resultObj.endDate)
+                }else if(!resultObj.startDate && resultObj.endDate){
+                    paramR.start_time = 0
+                    paramR.end_time = get_unix_time(resultObj.endDate)
+                    // console.log("getDateFromString",get_unix_time(resultObj.endDate))
+                }else if(resultObj.startDate && !resultObj.endDate){
+                    paramR.start_time = get_unix_time(resultObj.startDate)
+                    paramR.end_time = parseInt(Date.now()/1000)
+                }
+
+
+                //执行搜索重载
+                table.reload('currentTableId', {
+                    page: {
+                        curr: 1
+                    }
+                    , where: {
+                        ...paramR
+                    }
+                }, 'data');
                 return false;
-            } else if (obj.event === 'delete') {
-                layer.confirm('真的删除行么', function (index) {
-                    obj.del();
-                    layer.close(index);
-                });
-            }
-        });
+            });
 
-    });
+            /**
+             * toolbar监听事件
+             */
+            table.on('toolbar(currentTableFilter)', function (obj) {
+                if (obj.event === 'add') {  // 监听添加操作
+                    let paramUrl = "http://"
+                    paramUrl = paramUrl + $("#ipaddress").val() + '/collect'
+                    paramUrl = paramUrl + "?gas=" +$("#gas").val()
+                    paramUrl = paramUrl +"&min=" +$("#min").val()
+                    paramUrl = paramUrl +"&ts=" +Date.now()
+                    $.ajax({
+                        url: paramUrl,
+                        type: 'GET',
+                        dataType:"json",
+                        success: function (resultJson) {
+                            if(resultJson.code === 200){
+                                layui.msg(resultJson.msg)
+                            }
+                        },
+
+                    });
+
+                } else if (obj.event === 'delete') {  // 监听删除操作
+                    var checkStatus = table.checkStatus('currentTableId')
+                        , data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                }
+            });
+            //监听表格复选框选择
+            table.on('checkbox(currentTableFilter)', function (obj) {
+                console.log(obj)
+            });
+            table.on('tool(currentTableFilter)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    var index = layer.open({
+                        title: '编辑用户',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/edit.html',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del();
+                        layer.close(index);
+                    });
+                }
+            });
+
+        });
+    }
+
+
 </script>
 
 </body>

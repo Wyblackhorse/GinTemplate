@@ -59,8 +59,12 @@ func Collection(c *gin.Context) {
 	}
 
 	if addr, isExits := c.GetQuery("addr"); isExits == true {
-		addArray := strings.Split(addr, "@")
-		req["addrs"] = addArray
+		if addr != "" {
+			addArray := strings.Split(addr, "@")
+			req["addrs"] = addArray
+
+		}
+
 	}
 
 	req["ts"] = time.Now().UnixMilli()

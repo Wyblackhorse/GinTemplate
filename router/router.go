@@ -44,9 +44,10 @@ func Setup() *gin.Engine {
 		//登录 Login
 		GroupV2.GET("/login", v2.Login)
 		//测试接口
-		r.GET("/getaddr", v2.Getaddr)
-		r.POST("/getaddr", v2.Getaddr)
+
 	}
+	r.GET("/getaddr", v2.Getaddr)
+	r.POST("/getaddr", v2.Getaddr)
 	r.Static("/static", "./static")
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))
 	return r

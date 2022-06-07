@@ -30,9 +30,6 @@
       <change afterPath="$PROJECT_DIR$/static/layuimini/page/PrepaidPhoneOrders.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/static/layuimini/page/day.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/static/layuimini/page/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/v1/WebNameController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v1/WebNameController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/process/CheckUrlIsTrueProcess.go" beforeDir="false" afterPath="$PROJECT_DIR$/process/CheckUrlIsTrueProcess.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/layuimini" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/layuimini/api/init.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/api/init.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css" afterDir="false" />

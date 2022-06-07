@@ -65,13 +65,21 @@ func CheckWebNameIsTrueProcess(db *gorm.DB) {
 		err2 := db.Where("status=?", 3).Limit(10000).Find(&c).Error
 		if err2 == nil {
 			for _, v := range c {
-				_, err := http.Get("http://www." + v.MatchUrl)
-				if err != nil {
-					db.Model(&model.CheckWebName{}).Where("id=?", v.ID).Update(&model.CheckWebName{Updated: time.Now().Unix(), Status: 1}) //无效
-					return
+
+				client := http.Client{
+					Timeout: 2 * time.Second,
 				}
+				_, err := client.Get("http://www." + v.MatchUrl)
+				if err != nil {
+					//fmt.Println("无效域名:"+v.MatchUrl)
+					db.Model(&model.CheckWebName{}).Where("id=?", v.ID).Update(&model.CheckWebName{Updated: time.Now().Unix(), Status: 1}) //无效
+
+					continue
+				}
+
+				//fmt.Println("有效域名:"+v.MatchUrl)
+
 				db.Model(&model.CheckWebName{}).Where("id=?", v.ID).Update(&model.CheckWebName{Updated: time.Now().Unix(), Status: 2}) //有效
-				time.Sleep(1 * time.Second)
 			}
 		}
 

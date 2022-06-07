@@ -23,10 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/v1/WebNameController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/CheckWebNameModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/WebNameModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/process/CheckUrlIsTrueProcess.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/static/layuimini/js/jquery.cookie.min.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/static/layuimini/js/util.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/static/layuimini/page/Address.html" afterDir="false" />
@@ -34,21 +30,14 @@
       <change afterPath="$PROJECT_DIR$/static/layuimini/page/PrepaidPhoneOrders.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/static/layuimini/page/day.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/static/layuimini/page/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MgHash.sock" beforeDir="false" afterPath="$PROJECT_DIR$/MgHash.sock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/mysql/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/redis/redis.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/redis/redis.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/v1/WebNameController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v1/WebNameController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/process/CheckUrlIsTrueProcess.go" beforeDir="false" afterPath="$PROJECT_DIR$/process/CheckUrlIsTrueProcess.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/layuimini" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/layuimini/api/init.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/api/init.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/layuimini/lib/layui-v2.6.3/css/layui.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/lib/layui-v2.6.3/css/layui.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/layuimini/page/table.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/page/table.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_app.log" beforeDir="false" afterPath="$PROJECT_DIR$/web_app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +72,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/GolandProjects/awesomeProject2" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
@@ -143,7 +132,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/v1/WebNameController.go</url>
-          <line>74</line>
+          <line>75</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

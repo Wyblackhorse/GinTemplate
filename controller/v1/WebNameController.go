@@ -20,8 +20,9 @@ func SetWebName(c *gin.Context) {
 		role := make([]model.WebName, 0)
 		Db := mysql.DB
 		var total int
-		Db = Db.Model(&model.WebName{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("web_names").Count(&total)
+
+		Db = Db.Model(&model.WebName{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&role).Error
 		if err != nil {
 			tools.ReturnFail101(c, "ERR:"+err.Error())
@@ -78,14 +79,17 @@ func CheckWebName(c *gin.Context) {
 		page, _ := strconv.Atoi(c.Query("page"))
 		limit, _ := strconv.Atoi(c.Query("limit"))
 		status, _ := strconv.Atoi(c.Query("status"))
+
+
 		role := make([]model.CheckWebName, 0)
 		Db := mysql.DB
 
 		Db = Db.Where("status=?", status)
 
 		var total int
-		Db = Db.Model(&model.CheckWebName{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("check_web_names").Count(&total)
+
+		Db = Db.Model(&model.CheckWebName{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&role).Error
 
 		for i, name := range role {

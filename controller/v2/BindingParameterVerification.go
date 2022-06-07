@@ -19,6 +19,7 @@ type CreatePrepaidPhoneOrdersData struct {
 	Username        string  `json:"Username" binding:"required"`
 	AccountOrders   float64 `json:"AccountOrders"  binding:"required"`
 	RechargeType    string  `json:"RechargeType"  binding:"required"`
+	BackUrl         string  `json:"BackUrl"  binding:"required" `
 }
 
 type GetPayInformationBackData struct {
@@ -42,8 +43,6 @@ type ReturnBase64 struct {
 	Data string `json:"data"`
 	Sign string `json:"sign"`
 }
-
-
 
 type BalanceType struct {
 	Data struct {

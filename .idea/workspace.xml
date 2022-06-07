@@ -24,13 +24,12 @@
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/v2/ReceiveAddressController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/ReceiveAddressController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MgHash.sock" beforeDir="false" afterPath="$PROJECT_DIR$/MgHash.sock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/v2/PayBackController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/PayBackController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/PrepaidPhoneOrders.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/PrepaidPhoneOrders.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/layuimini/js/util.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/js/util.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/layuimini/page/Address.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/page/Address.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/layuimini/page/PrepaidPhoneOrders.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/page/PrepaidPhoneOrders.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/layuimini/page/day.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/page/day.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/layuimini/page/table.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/layuimini/page/table.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +48,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="285S1IUKp0e7uogsg4XKXCFs5qK" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -105,6 +105,16 @@
           <url>file://$PROJECT_DIR$/model/PayOrder.go</url>
           <line>20</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go</url>
+          <line>114</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/v2/ReceiveAddressController.go</url>
+          <line>80</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

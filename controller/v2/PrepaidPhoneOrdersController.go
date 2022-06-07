@@ -12,7 +12,6 @@ import (
 
 // CreatePrepaidPhoneOrders 生成订单(前端传过来了)
 func CreatePrepaidPhoneOrders(c *gin.Context) {
-
 	var jsonData CreatePrepaidPhoneOrdersData
 	err := c.BindJSON(&jsonData)
 	if err != nil {
@@ -25,19 +24,21 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 		//不存在这个用户 首先要创建这个用户
 		re.CreateUsername(mysql.DB, viper.GetString("eth.ThreeUrl"))
 	}
-
 	//生成充值订单
-	p := model.PrepaidPhoneOrders{PlatformOrder: jsonData.PlatformOrder, RechargeAddress: jsonData.RechargeAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType}
+	p := model.PrepaidPhoneOrders{PlatformOrder: jsonData.PlatformOrder, RechargeAddress: jsonData.RechargeAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType,BackUrl: jsonData.BackUrl}
 	_, err = p.CreatePrepaidPhoneOrders(mysql.DB)
 	if err != nil {
 		tools.ReturnError101(c, err.Error())
 		return
 	}
-
 	//充值订单创建成功
 	tools.ReturnError200(c, "订单充值成功")
 	return
 }
+
+//
+
+
 
 func GetPrepaidPhoneOrders(c *gin.Context) {
 	action := c.Query("action")
@@ -121,6 +122,7 @@ func Getaddr(c *gin.Context) {
 	return
 }
 
+// HandBackStatus 手动回调
 func HandBackStatus(c *gin.Context) {
 	id := c.Query("id")
 	p := model.PrepaidPhoneOrders{}

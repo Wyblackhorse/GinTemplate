@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	eeor "github.com/wangyi/GinTemplate/error"
 	"math/rand"
+	"net/http"
 	"strconv"
 	"time"
 )
@@ -26,6 +27,7 @@ type PrepaidPhoneOrders struct {
 	Updated           int64   //更新时间(回调时间)
 	Successfully      int64   //交易成功 时间(区块时间戳)
 	Date              string
+	BackUrl           string //回调的地址
 }
 
 func CheckIsExistModePrepaidPhoneOrders(db *gorm.DB) {
@@ -75,8 +77,7 @@ func (p *PrepaidPhoneOrders) CreatePrepaidPhoneOrders(db *gorm.DB) (bool, error)
 
 }
 
-//寻找一条最新传建的订单并且修改他的状态
-
+// UpdateMaxCreatedOfStatusToTwo 寻找一条最新传建的订单并且修改他的状态
 func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEffectivityTime int64) bool {
 	//找到这条数据
 	pp := PrepaidPhoneOrders{}
@@ -89,13 +90,22 @@ func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEff
 			if err != nil {
 				return false
 			}
+
+			//这里 要回调给前台
+			if p.BackUrl != "" {
+				get, err := http.Get(p.BackUrl + "?PlatformOrder=" + p.PlatformOrder + "&Status=1")
+				if err != nil {
+					return false
+				}
+				defer get.Body.Close()
+			}
+
 			return true
 		} else {
 			db.Model(&PrepaidPhoneOrders{}).Where("id=?", pp.ID).Update(&PrepaidPhoneOrders{Status: 3})
 		}
 
 	}
-
 	//没有这条数据  默认是线下支付   自行创建这笔订单 Username: p.UserID, Successfully: p.Timestamp, AccountPractical: p.Amount}
 	pt := PrepaidPhoneOrders{}
 	pt.Created = time.Now().Unix()

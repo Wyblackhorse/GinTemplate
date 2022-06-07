@@ -21,7 +21,7 @@ func Setup() *gin.Engine {
 	r.Use(eeor.ErrHandler())
 	r.NoMethod(eeor.HandleNotFound)
 	r.NoRoute(eeor.HandleNotFound)
-
+	r.Static("/static", "./static")
 	GroupV2 := r.Group("/v2")
 	{
 		GroupV2.POST("/getPayInformation", v2.GetPayInformationBack)
@@ -48,7 +48,7 @@ func Setup() *gin.Engine {
 	}
 	r.GET("/getaddr", v2.Getaddr)
 	r.POST("/getaddr", v2.Getaddr)
-	r.Static("/static", "./static")
+
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))
 	return r
 }

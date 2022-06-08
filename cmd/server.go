@@ -44,6 +44,9 @@ func init() {
 
 func run(cmd *cobra.Command, args []string) {
 	//初始化目录
+
+
+
 	initDir()
 	//初始化守护进程
 	initDaemon()
@@ -68,6 +71,7 @@ func run(cmd *cobra.Command, args []string) {
 		return
 	}
 	defer zap.L().Sync() //缓存日志追加到日志文件中
+
 	//链接数据库
 	if err := mysql.Init(); err != nil {
 		fmt.Println("mysql 链接失败,", err)

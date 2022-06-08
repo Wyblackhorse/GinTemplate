@@ -1,23 +1,49 @@
 package V2
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
 	"github.com/wangyi/GinTemplate/tools"
+	"github.com/wangyi/GinTemplate/util"
 	"net/http"
 	"strconv"
 )
 
 // CreatePrepaidPhoneOrders 生成订单(前端传过来了)
 func CreatePrepaidPhoneOrders(c *gin.Context) {
-	var jsonData CreatePrepaidPhoneOrdersData
-	err := c.BindJSON(&jsonData)
+	type T struct {
+		Data string `json:"data"`
+	}
+	var jsonDataT T
+	err := c.BindJSON(&jsonDataT)
 	if err != nil {
 		tools.ReturnError101(c, "err:"+err.Error())
 		return
 	}
+
+	decodeString, err1 := base64.StdEncoding.DecodeString(jsonDataT.Data)
+	if err1 != nil {
+		tools.ReturnError101(c, "err:"+err1.Error())
+		return
+	}
+
+	origData, err2 := util.RsaDecrypt(decodeString)
+	if err2 != nil {
+		tools.ReturnError101(c, "err:"+err2.Error())
+		return
+	}
+
+	var jsonData CreatePrepaidPhoneOrdersData
+	err3 := json.Unmarshal(origData, &jsonData)
+	if err3 != nil {
+		tools.ReturnError101(c, "err:"+err3.Error())
+		return
+	}
+
 	//判断是否存在这个这个用户
 	re := model.ReceiveAddress{Username: jsonData.Username}
 	if !re.ReceiveAddressIsExits(mysql.DB) {
@@ -25,7 +51,7 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 		re.CreateUsername(mysql.DB, viper.GetString("eth.ThreeUrl"))
 	}
 	//生成充值订单
-	p := model.PrepaidPhoneOrders{PlatformOrder: jsonData.PlatformOrder, RechargeAddress: jsonData.RechargeAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType,BackUrl: jsonData.BackUrl}
+	p := model.PrepaidPhoneOrders{PlatformOrder: jsonData.PlatformOrder, RechargeAddress: jsonData.RechargeAddress, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType, BackUrl: jsonData.BackUrl}
 	_, err = p.CreatePrepaidPhoneOrders(mysql.DB)
 	if err != nil {
 		tools.ReturnError101(c, err.Error())
@@ -37,8 +63,6 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 }
 
 //
-
-
 
 func GetPrepaidPhoneOrders(c *gin.Context) {
 	action := c.Query("action")

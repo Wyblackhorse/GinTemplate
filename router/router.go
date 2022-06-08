@@ -43,7 +43,33 @@ func Setup() *gin.Engine {
 		GroupV2.GET("/handBackStatus", v2.HandBackStatus)
 		//登录 Login
 		GroupV2.GET("/login", v2.Login)
+
 		//测试接口
+
+		GroupV2.POST("/backUrl", func(context *gin.Context) {
+
+
+			type T struct {
+				Code   int    `json:"Code"`
+				Msg    string `json:"Msg"`
+				Result struct {
+					Data string `json:"Data"`
+				} `json:"Result"`
+			}
+
+			var jsonOne  T
+			err := context.BindJSON(&jsonOne)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+			//fmt.Println(json)
+
+
+
+			fmt.Println(jsonOne)
+
+		})
 
 	}
 	r.GET("/getaddr", v2.Getaddr)
@@ -52,3 +78,4 @@ func Setup() *gin.Engine {
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))
 	return r
 }
+

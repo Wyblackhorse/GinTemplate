@@ -1,11 +1,13 @@
 package model
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	eeor "github.com/wangyi/GinTemplate/error"
+	"github.com/wangyi/GinTemplate/util"
 	"math/rand"
-	"net/http"
 	"strconv"
 	"time"
 )
@@ -93,11 +95,29 @@ func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEff
 
 			//这里 要回调给前台
 			if p.BackUrl != "" {
-				get, err := http.Get(p.BackUrl + "?PlatformOrder=" + p.PlatformOrder + "&Status=1")
+				type Create struct {
+					PlatformOrder    string
+					RechargeAddress  string
+					Username         string
+					AccountOrders    float64 //订单充值金额
+					AccountPractical float64 //  实际充值的金额
+					RechargeType     string
+					BackUrl          string
+				}
+
+				var tt Create
+				tt.PlatformOrder = pp.PlatformOrder
+				tt.RechargeAddress = p.RechargeAddress
+				tt.Username = p.Username
+				tt.AccountOrders = pp.AccountOrders
+				tt.AccountPractical = p.AccountPractical
+				tt.RechargeType = p.RechargeType
+				data, err := json.Marshal(tt)
 				if err != nil {
 					return false
 				}
-				defer get.Body.Close()
+				data, _ = util.RsaEncryptForEveryOne(data)
+				util.BackUrlToPay(p.BackUrl, base64.StdEncoding.EncodeToString(data))
 			}
 
 			return true

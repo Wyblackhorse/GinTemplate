@@ -3,6 +3,7 @@ module github.com/wangyi/GinTemplate
 go 1.14
 
 require (
+	github.com/agclqq/goencryption v0.0.0-20210816174517-562795ba8185
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis v6.15.9+incompatible

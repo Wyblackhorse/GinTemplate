@@ -13,13 +13,12 @@ package V2
 //}
 
 type CreatePrepaidPhoneOrdersData struct {
-	PlatformOrder string `json:"PlatformOrder" binding:"required"` //平台订单号
-	//CollectionAddress string `json:"CollectionAddress" binding:"required"`
-	RechargeAddress string  `json:"RechargeAddress" binding:"required"`
-	Username        string  `json:"Username" binding:"required"`
-	AccountOrders   float64 `json:"AccountOrders"  binding:"required"`
-	RechargeType    string  `json:"RechargeType"  binding:"required"`
-	BackUrl         string  `json:"BackUrl"  binding:"required" `
+	PlatformOrder   string  `json:"PlatformOrder" binding:"required"`   //平台订单号
+	RechargeAddress string  `json:"RechargeAddress" binding:"required"` //充值地址
+	Username        string  `json:"Username" binding:"required"`        //充值用户名
+	AccountOrders   float64 `json:"AccountOrders"  binding:"required"`  //充值金额
+	RechargeType    string  `json:"RechargeType"  binding:"required"`   //充值类型
+	BackUrl         string  `json:"BackUrl"  binding:"required" `       // 回调地址
 }
 
 type GetPayInformationBackData struct {

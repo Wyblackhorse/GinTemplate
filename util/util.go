@@ -8,8 +8,6 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"errors"
-	"fmt"
-	eeor "github.com/wangyi/GinTemplate/error"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -140,7 +138,6 @@ func RsaDecrypt(ciphertext []byte) ([]byte, error) {
 	return rsa.DecryptPKCS1v15(rand.Reader, priv, ciphertext)
 }
 
-
 func RsaEncryptForEveryOne(origData []byte) ([]byte, error) {
 	//解密pem格式的公钥
 	block, _ := pem.Decode(publicKeyForEveryOne)
@@ -178,7 +175,6 @@ func RsaDecryptForEveryOne(ciphertext []byte) ([]byte, error) {
 	return rsa.DecryptPKCS1v15(rand.Reader, priv, ciphertext)
 }
 
-
 // BackUrlToPay 第三方支付回调方法
 func BackUrlToPay(backUrl string, bytesData string) (bool, error) {
 	type TT struct {
@@ -194,7 +190,6 @@ func BackUrlToPay(backUrl string, bytesData string) (bool, error) {
 	tt.Result.Data = bytesData
 	data, err := json.Marshal(tt)
 
-	fmt.Println(string(data))
 	if err != nil {
 		return false, err
 	}
@@ -208,29 +203,29 @@ func BackUrlToPay(backUrl string, bytesData string) (bool, error) {
 	respBytes, err1 := ioutil.ReadAll(post.Body)
 	if err1 != nil {
 		zap.L().Debug("回调地址:" + backUrl + "错误:" + err1.Error())
-
 		return false, err1
 	}
-	type T struct {
-		Code   int    `json:"Code"`
-		Msg    string `json:"Msg"`
-		Result struct {
-			Data string `json:"Data"`
-		} `json:"Result"`
-	}
-	var jsonData T
-	err3 := json.Unmarshal(respBytes, &jsonData)
-	if err3 != nil {
-		zap.L().Debug("回调地址:" + backUrl + "错误:" + err3.Error())
-		return false, err3
-	}
-	if jsonData.Code != 200 {
-		zap.L().Debug("回调地址:" + backUrl + "错误:" + jsonData.Msg)
-		return false, eeor.OtherError("code不等于200 " + jsonData.Msg)
-	}
 
-	fmt.Println(jsonData)
+	zap.L().Debug("回调地址:" + backUrl + " 返回结果:" + string(respBytes))
 
-	zap.L().Debug("回调地址:" + backUrl + "成功")
+	//type T struct {
+	//	Code   int    `json:"Code"`
+	//	Msg    string `json:"Msg"`
+	//	Result struct {
+	//		Data string `json:"Data"`
+	//	} `json:"Result"`
+	//}
+	//var jsonData T
+	//err3 := json.Unmarshal(respBytes, &jsonData)
+	//if err3 != nil {
+	//	zap.L().Debug("回调地址:" + backUrl + "错误:" + err3.Error())
+	//	return false, err3
+	//}
+	//if jsonData.Code != 200 {
+	//	zap.L().Debug("回调地址:" + backUrl + "错误:" + jsonData.Msg)
+	//	return false, eeor.OtherError("code不等于200 " + jsonData.Msg)
+	//}
+	//
+	//zap.L().Debug("回调地址:" + backUrl + "成功")
 	return true, nil
 }

@@ -33,8 +33,7 @@ func CheckIsExistModePayOrder(db *gorm.DB) {
 	}
 }
 
-//判断数据是否存在
-
+// IfIsExitsThisData 判断数据是否存在
 func (p *PayOrder) IfIsExitsThisData(db *gorm.DB) bool {
 	err := db.Where("tx_hash=?", p.TxHash).First(&PayOrder{}).Error
 	if err != nil {

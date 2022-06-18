@@ -14,11 +14,12 @@ package V2
 
 type CreatePrepaidPhoneOrdersData struct {
 	PlatformOrder   string  `json:"PlatformOrder" binding:"required"`   //平台订单号
-	RechargeAddress string  `json:"RechargeAddress" binding:"required"` //充值地址
+	//RechargeAddress string  `json:"RechargeAddress" binding:"required"` //充值地址
 	Username        string  `json:"Username" binding:"required"`        //充值用户名
 	AccountOrders   float64 `json:"AccountOrders"  binding:"required"`  //充值金额
 	RechargeType    string  `json:"RechargeType"  binding:"required"`   //充值类型
 	BackUrl         string  `json:"BackUrl"  binding:"required" `       // 回调地址
+	//ThreeOrder      string  `json:"three_order" binding:"required"`   三方订单号 不需要 这个是我自己生成的!
 }
 
 type GetPayInformationBackData struct {
@@ -51,4 +52,8 @@ type BalanceType struct {
 		User    string `json:"user"`
 	} `json:"data"`
 	Type string `json:"type"`
+}
+
+type UsernameAddress struct {
+	Username string `json:"username"`
 }

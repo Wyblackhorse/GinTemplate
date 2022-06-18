@@ -47,11 +47,8 @@ func CheckIsExistModePrepaidPhoneOrders(db *gorm.DB) {
 
 // CreatePrepaidPhoneOrders 创建充值订单
 func (p *PrepaidPhoneOrders) CreatePrepaidPhoneOrders(db *gorm.DB) (bool, error) {
-
 	//看是否存在有效的订单
-
 	pt := make([]PrepaidPhoneOrders, 0)
-
 	err2 := db.Where("username=?", p.Username).Where("status=?", 1).Find(&pt).Error
 	if err2 == nil {
 		//修改状态
@@ -59,10 +56,12 @@ func (p *PrepaidPhoneOrders) CreatePrepaidPhoneOrders(db *gorm.DB) (bool, error)
 			db.Model(&PrepaidPhoneOrders{}).Where("id=?", v.ID).Update(&PrepaidPhoneOrders{Status: 3})
 		}
 	}
-
 	p.Created = time.Now().Unix()
 	p.Updated = 0
-	p.ThreeOrder = time.Now().Format("20060102150405") + strconv.Itoa(rand.Intn(100000))
+	if p.ThreeOrder == "" {
+		p.ThreeOrder = time.Now().Format("20060102150405") + strconv.Itoa(rand.Intn(100000))
+	}
+
 	p.Status = 1
 	p.ThreeBack = 1
 	p.Date = time.Now().Format("2006-01-02")
@@ -87,14 +86,12 @@ func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEff
 	if err == nil {
 		if time.Now().Unix()-pp.Created <= OrderEffectivityTime {
 			//找到最新的数据(并且在有效时间累)
-			err := db.Model(&PrepaidPhoneOrders{}).Where("id=?", pp.ID).Update(
-				&PrepaidPhoneOrders{Updated: time.Now().Unix(), Successfully: p.Successfully, ThreeBack: 2, Status: 2, AccountPractical: p.AccountPractical}).Error
-			if err != nil {
-				return false
-			}
+			db.Model(&PrepaidPhoneOrders{}).Where("id=?", pp.ID).Update(
+				&PrepaidPhoneOrders{Updated: time.Now().Unix(), Successfully: p.Successfully, ThreeBack: 2, Status: 1, AccountPractical: p.AccountPractical})
+
 
 			//这里 要回调给前台
-			if p.BackUrl != "" {
+			if pp.BackUrl != "" {
 				type Create struct {
 					PlatformOrder    string
 					RechargeAddress  string
@@ -112,17 +109,22 @@ func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEff
 				tt.AccountOrders = pp.AccountOrders
 				tt.AccountPractical = p.AccountPractical
 				tt.RechargeType = p.RechargeType
+
+
 				data, err := json.Marshal(tt)
 				if err != nil {
 					return false
 				}
-				data, _ = util.RsaEncryptForEveryOne(data)
-				util.BackUrlToPay(p.BackUrl, base64.StdEncoding.EncodeToString(data))
+				data, err= util.RsaEncryptForEveryOne(data)
+
+				fmt.Println(base64.StdEncoding.EncodeToString(data),pp.BackUrl)
+				util.BackUrlToPay(pp.BackUrl, base64.StdEncoding.EncodeToString(data))
 			}
 
 			return true
 		} else {
 			db.Model(&PrepaidPhoneOrders{}).Where("id=?", pp.ID).Update(&PrepaidPhoneOrders{Status: 3})
+			return false
 		}
 
 	}

@@ -41,7 +41,7 @@ eth:
   ThreeUrl: "http://127.0.0.1:7777"
   OrderEffectivityTime: 3600  #秒
   ApiKey: "6e347830f78d54482097d177f7278fb8"
-  RechargingJumpAddress: "http://8.136.97.179:7777/static/pay/index.html"
+  RechargingJumpAddress: "http://8.136.97.179:7777/static/pay/#/"
 
 
 

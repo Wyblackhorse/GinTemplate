@@ -70,14 +70,13 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 		tools.ReturnError101(c, "不要重复提交")
 		return
 	}
-	p := model.PrepaidPhoneOrders{PlatformOrder: jsonData.PlatformOrder, RechargeAddress: re.Address, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType, BackUrl: jsonData.BackUrl, ThreeOrder: time.Now().Format("20060102150405") + strconv.Itoa(rand.Intn(100000)),Status: 1,Created: time.Now().Unix()}
+	p := model.PrepaidPhoneOrders{PlatformOrder: jsonData.PlatformOrder, RechargeAddress: re.Address, AccountOrders: jsonData.AccountOrders, Username: jsonData.Username, RechargeType: jsonData.RechargeType, BackUrl: jsonData.BackUrl, ThreeOrder: time.Now().Format("20060102150405") + strconv.Itoa(rand.Intn(100000)), Status: 1, Created: time.Now().Unix()}
 	err = mysql.DB.Save(&p).Error
 	if err != nil {
 		tools.ReturnError101(c, "err:"+err.Error())
 		return
 	}
-
-	aUrl := viper.GetString("eth.RechargingJumpAddress") + "?Address=" + re.Address + "&RechargeType=" + jsonData.RechargeType + "&AccountOrders=" + strconv.FormatFloat(jsonData.AccountOrders, 'f', 2, 64)
+	aUrl := viper.GetString("eth.RechargingJumpAddress") + "?Address=" + re.Address + "&RechargeType=" + jsonData.RechargeType + "&AccountOrders=" + strconv.FormatFloat(jsonData.AccountOrders, 'f', 2, 64) + "&PlatformOrder=" + jsonData.PlatformOrder
 
 	type ReturnData struct {
 		UrlAddress string
@@ -92,7 +91,7 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 		return
 	}
 
-	data, err= util.RsaEncryptForEveryOne(data)
+	data, err = util.RsaEncryptForEveryOne(data)
 	if err != nil {
 		tools.ReturnError101(c, "err:"+err.Error())
 		return

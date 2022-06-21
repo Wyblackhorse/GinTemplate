@@ -87,7 +87,7 @@ func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEff
 		if time.Now().Unix()-pp.Created <= OrderEffectivityTime {
 			//找到最新的数据(并且在有效时间累)
 			db.Model(&PrepaidPhoneOrders{}).Where("id=?", pp.ID).Update(
-				&PrepaidPhoneOrders{Updated: time.Now().Unix(), Successfully: p.Successfully, ThreeBack: 2, Status: 1, AccountPractical: p.AccountPractical})
+				&PrepaidPhoneOrders{Updated: time.Now().Unix(), Successfully: p.Successfully, ThreeBack: 2, Status: 2, AccountPractical: p.AccountPractical})
 
 
 			//这里 要回调给前台
@@ -117,7 +117,6 @@ func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEff
 				}
 				data, err= util.RsaEncryptForEveryOne(data)
 
-				fmt.Println(base64.StdEncoding.EncodeToString(data),pp.BackUrl)
 				util.BackUrlToPay(pp.BackUrl, base64.StdEncoding.EncodeToString(data))
 			}
 

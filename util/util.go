@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"errors"
+	"fmt"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -188,8 +189,13 @@ func BackUrlToPay(backUrl string, bytesData string) (bool, error) {
 	tt.Code = 200
 	tt.Msg = "success"
 	tt.Result.Data = bytesData
+
+
+
 	data, err := json.Marshal(tt)
 
+
+	fmt.Println(string(data))
 	if err != nil {
 		return false, err
 	}

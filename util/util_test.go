@@ -9,24 +9,31 @@ import (
 )
 
 func TestName(t *testing.T) {
+
 	type Create struct {
-		PlatformOrder   string
-		RechargeAddress string
-		Username        string
-		AccountOrders   float64
-		RechargeType    string
-		BackUrl         string
+		PlatformOrder    string
+		RechargeAddress  string
+		Username         string
+		AccountOrders    float64 //订单充值金额
+		AccountPractical float64 //  实际充值的金额
+		RechargeType     string
+		BackUrl          string
 	}
+
 	p := Create{
-		PlatformOrder:   "2012553332254545254224252455",
-		Username:        "wing",
-		RechargeType:    "USDT",
-		AccountOrders:   200.00,
-		BackUrl:         "https://123.com",
+		PlatformOrder:    "2012553332254545254224252455",
+		Username:         "wing",
+		RechargeType:     "USDT",
+		AccountOrders:    200.00,
+		AccountPractical: 200.00,
+		BackUrl:          "https://123.com",
 	}
+
 	//c:=Stu{Name: "西欧奥课啊",Age: 10}
 	data, err := json.Marshal(p)
-	data, _ = RsaEncrypt(data)
+
+	fmt.Println(string(data))
+	data, _ = RsaEncryptForEveryOne(data)
 	fmt.Println(err)
 	fmt.Println(data)
 	fmt.Println(base64.StdEncoding.EncodeToString(data))
@@ -81,7 +88,6 @@ func TestBackUrl11ToPay(f *testing.T) {
 }
 
 func TestRsaEncrypt(t *testing.T) {
-
 
 	fmt.Println(time.Now().Unix())
 }

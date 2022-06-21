@@ -112,8 +112,6 @@ func Register(c *gin.Context) {
 	daily := model.DailyStatistics{TodayRegister: 1}
 	daily.SetEverydayData(mysql.DB)
 
-
-
 	redis.Rdb.HSet("Worker_Token", token, newWork.Phone)
 	redis.Rdb.HMSet("Worker_"+newWork.Phone, structs.Map(&newWork))
 	ReturnSuccess(c, "注册成功")
@@ -156,7 +154,13 @@ func Information(c *gin.Context) {
 			update["Username"] = username
 		}
 		if username, isExits := c.GetQuery("password"); isExits == true {
-			update["Password"] = username
+			if old, isExits := c.GetQuery("old_password"); isExits == true {
+				if old != whoMap["Password"] {
+					ReturnErr101(c, "The original password entered is incorrect")
+					return
+				}
+				update["Password"] = username
+			}
 		}
 		if username, isExits := c.GetQuery("pay_password"); isExits == true {
 			update["PayPassword"] = username
@@ -170,7 +174,6 @@ func Information(c *gin.Context) {
 		return
 
 	}
-
 	//获取收益
 	if action == "getBenefit" {
 		//returnMap := make(map[string]interface{})
@@ -189,5 +192,79 @@ func Information(c *gin.Context) {
 		ReturnSuccessData(c, res, "OK")
 		return
 	}
+	//设置 银行卡
+	if action == "setBank" {
+		name := c.Query("name")
+		mail := c.Query("mail")
+		phone := c.Query("phone")
+		address := c.Query("address")
+		if address == "" {
+			ReturnErr101(c, "The collection address must not be empty")
+			return
+		}
+		b := model.Bank{Address: address, Name: name, Phone: phone, Mail: mail, WorkerId: int(whoMap["ID"].(uint))}
+		_, err := b.Add(mysql.DB)
+		if err != nil {
+			ReturnErr101(c, err.Error())
+			return
+		}
+		ReturnSuccess(c, "success")
+		return
+	}
+	//判断银行卡是否存在
+	if action == "BankIfExist" {
+		B := model.Bank{WorkerId: int(whoMap["ID"].(uint))}
+		ReturnSuccessData(c, B.BankIsExist(mysql.DB), "success")
+		return
+	}
+	if action == "lanternSlide" {
+		ls := make([]model.LanternSlide, 0)
+		mysql.DB.Where("status=? and language =? ", 1, c.Query("language")).Find(&ls)
+		ReturnSuccessData(c, ls, "ok")
+		return
+	}
+
+}
+
+//日结报表
+func DailyReport(c *gin.Context) {
+	who, _ := c.Get("who")
+	whoMap := who.(map[string]interface{})
+	type ReturnData struct {
+		TaskNum        int     `json:"task_num"`        //任务数量
+		TaskEarnings   float64 `json:"task_earnings"`   //任务收益
+		JuniorTaskNum  int     `json:"junior_task_num"` //下级任务数量
+		JuniorEarnings float64 `json:"junior_earnings"` //下级任务收益
+		Date           string  `json:"date"`
+	}
+
+	ce := make([]ReturnData, 0)
+	//任务收益(自己) 任务数量(自己)
+	mysql.DB.Raw("SELECT  SUM(tasks.price) as task_earnings ,count(*) as task_num ,date FROM task_orders   LEFT JOIN tasks  on  tasks.id=task_orders.task_id  where task_orders.status=3  and task_orders.worker_id=? GROUP BY task_orders.date  ", whoMap["ID"]).Scan(&ce)
+	ce2 := make([]ReturnData, 0)
+	mysql.DB.Raw("SELECT   SUM(tasks.price) as  junior_earnings,count(*) as junior_task_num,date   FROM task_orders   LEFT JOIN tasks  on  tasks.id=task_orders.task_id LEFT JOIN workers ON  workers.id=task_orders.worker_id WHERE workers.superior_id=20    GROUP BY task_orders.date  ").Scan(&ce2)
+	ce3 := make([]ReturnData, 0)
+	var p []string
+	for _, i2 := range ce {
+		p = append(p, i2.Date)
+	}
+	for k, i2 := range ce {
+		//判断这个时间点是否已经创建了
+		for k1, i4 := range ce2 {
+			if i2.Date == i4.Date {
+				ce[k].JuniorTaskNum = i4.JuniorTaskNum
+				ce[k].JuniorEarnings = i4.JuniorEarnings
+			} else {
+				if tools.InArray(p, i4.Date) == false {
+					ce3 = append(ce3, ce2[k1])
+					p = append(p, i4.Date)
+				}
+			}
+		}
+		ce3 = append(ce3, ce[k])
+	}
+
+	ReturnSuccessData(c, ce3, "OK")
+	return
 
 }

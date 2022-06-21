@@ -28,8 +28,9 @@ func GetRole(c *gin.Context) {
 		role := make([]model.Role, 0)
 		Db := mysql.DB
 		var total int
-		Db = Db.Model(&model.Role{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("roles").Count(&total)
+
+		Db = Db.Model(&model.Role{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&role).Error
 		if err != nil {
 			ReturnErr101(c, "ERR:"+err.Error())
@@ -154,8 +155,8 @@ func GetJurisdiction(c *gin.Context) {
 		limit, _ := strconv.Atoi(c.Query("limit"))
 		Db := mysql.DB
 		var total int
-		Db = Db.Model(&model.AdminModel{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("admin_models").Count(&total)
+		Db = Db.Model(&model.AdminModel{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&admin).Error
 		if err != nil {
 			ReturnErr101(c, "ERR:"+err.Error())

@@ -10,6 +10,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/wangyi/GinTemplate/collect"
 	"github.com/wangyi/GinTemplate/common"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/dao/redis"
@@ -86,6 +87,9 @@ func run(cmd *cobra.Command, args []string) {
 
 	//比较特殊的 数据库初始化  admin
 	model.CheckIsExistModelAdminModel(mysql.DB, redis.Rdb)
+
+	//携程采集任务
+	go collect.Collection(mysql.DB)
 
 	router.Setup()
 }

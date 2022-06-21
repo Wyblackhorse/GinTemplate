@@ -84,6 +84,5 @@ func (v *Vip) ReturnVipPrice(db *gorm.DB) (bool, float64) {
 	if err != nil {
 		return false, 0
 	}
-
 	return true, vip.Price
 }

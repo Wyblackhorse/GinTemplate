@@ -26,15 +26,23 @@ func GetRecords(c *gin.Context) {
 		role := make([]model.Record, 0)
 		Db := mysql.DB
 		var total int
-
 		Db = Db.Where("kinds=?", kinds)
-		Db = Db.Model(&model.Record{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("records").Count(&total)
+		Db = Db.Model(&model.Record{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&role).Error
 		if err != nil {
 			ReturnErr101(c, "ERR:"+err.Error())
 			return
 		}
+
+		for i, i2 := range role {
+			w := model.Worker{}
+			err := mysql.DB.Where("id=?", i2.WorkerId).First(&w).Error
+			if err == nil {
+				role[i].WorkerName = w.Phone
+			}
+		}
+
 		c.JSON(http.StatusOK, gin.H{
 			"code":   1,
 			"count":  total,

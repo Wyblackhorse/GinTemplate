@@ -16,18 +16,20 @@ import (
 )
 
 type TaskOrder struct {
-	ID         uint   `gorm:"primaryKey;comment:'主键'"`
-	TaskId     int    //任务 id
-	WorkerId   int    //玩家id
-	Status     int    // 状态1 进行中  2审核中 3已完成 4以失败 5恶意 6已放弃
-	Created    int64  //创建时间
-	Updated    int64  //更新时间
-	ImageUrl   string //图片地址
-	Date       string //日期
-	Month      int    //月
-	Week       int    //周
-	TaskName   string `gorm:"-"`
-	WorkerName string `gorm:"-"`
+	ID         uint    `gorm:"primaryKey;comment:'主键'"`
+	TaskId     int     //任务 id
+	WorkerId   int     //玩家id
+	Status     int     // 状态1 进行中  2审核中 3已完成 4以失败 5恶意 6已放弃
+	Created    int64   //创建时间
+	Updated    int64   //更新时间
+	ImageUrl   string  //图片地址
+	Date       string  //日期
+	Month      int     //月
+	Week       int     //周
+	TaskName   string  `gorm:"-"`    //
+	WorkerName string  `gorm:"-"`
+	TaskType   int     `gorm:"-"`
+	Price      float64 `gorm:"-"`
 }
 
 func CheckIsExistModelTaskOrder(db *gorm.DB) {

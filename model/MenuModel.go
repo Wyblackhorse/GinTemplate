@@ -76,6 +76,11 @@ func CheckIsExistModelMenu(db *gorm.DB) {
 			r = RoleAndMenu{ID: 212, MenuId: 212}
 			r.SuperAdminCreate(db)
 
+			m = Menu{ID: 213, Name: "会员银行", Level: 2, EnglishName: "memberBank"}
+			m.AddSecondMenu(db)
+			r = RoleAndMenu{ID: 213, MenuId: 213}
+			r.SuperAdminCreate(db)
+
 			m = Menu{ID: 3, Name: "任务管理", EnglishName: "taskManagement"}
 			m.AddStairMenu(db)
 			r = RoleAndMenu{ID: 3, MenuId: 3}
@@ -95,6 +100,11 @@ func CheckIsExistModelMenu(db *gorm.DB) {
 			m = Menu{ID: 313, Name: "审核任务", Level: 3, EnglishName: "reviewTheTask"}
 			m.AddSecondMenu(db)
 			r = RoleAndMenu{ID: 313, MenuId: 313}
+			r.SuperAdminCreate(db)
+
+			m = Menu{ID: 314, Name: "采集任务", Level: 3, EnglishName: "reviewTheTask"}
+			m.AddSecondMenu(db)
+			r = RoleAndMenu{ID: 314, MenuId: 314}
 			r.SuperAdminCreate(db)
 
 			m = Menu{ID: 4, Name: "账单管理", EnglishName: "billManagement"}
@@ -121,6 +131,12 @@ func CheckIsExistModelMenu(db *gorm.DB) {
 			m = Menu{ID: 414, Name: "推广奖励", Level: 4, EnglishName: "promotionRewards"}
 			m.AddSecondMenu(db)
 			r = RoleAndMenu{ID: 414, MenuId: 414}
+			r.SuperAdminCreate(db)
+
+
+			m = Menu{ID: 415, Name: "购买账单", Level: 4, EnglishName: "promotionRewards"}
+			m.AddSecondMenu(db)
+			r = RoleAndMenu{ID: 415, MenuId: 415}
 			r.SuperAdminCreate(db)
 
 			m = Menu{ID: 5, Name: "报表管理", EnglishName: "statementManagement"}
@@ -209,6 +225,26 @@ func CheckIsExistModelMenu(db *gorm.DB) {
 			m = Menu{ID: 1111, Name: "基本设置", Level: 11, EnglishName: "basicSetting"}
 			m.AddSecondMenu(db)
 			r = RoleAndMenu{ID: 1111, MenuId: 1111}
+			r.SuperAdminCreate(db)
+
+			m = Menu{ID: 1112, Name: "幻灯片设置", Level: 11, EnglishName: "lanternSlide"}
+			m.AddSecondMenu(db)
+			r = RoleAndMenu{ID: 1112, MenuId: 1112}
+			r.SuperAdminCreate(db)
+
+			m = Menu{ID: 12, Name: "余额宝", EnglishName: "balanceManagement"}
+			m.AddStairMenu(db)
+			r = RoleAndMenu{ID: 12, MenuId: 12}
+			r.SuperAdminCreate(db)
+
+			m = Menu{ID: 1211, Name: "产品列表", EnglishName: "productList"}
+			m.AddStairMenu(db)
+			r = RoleAndMenu{ID: 1211, MenuId: 1211}
+			r.SuperAdminCreate(db)
+
+			m = Menu{ID: 1212, Name: "购买记录", EnglishName: "purchaseHistory"}
+			m.AddStairMenu(db)
+			r = RoleAndMenu{ID: 1212, MenuId: 1212}
 			r.SuperAdminCreate(db)
 
 		}

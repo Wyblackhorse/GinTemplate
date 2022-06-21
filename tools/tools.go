@@ -1,12 +1,18 @@
 package tools
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"image/gif"
+	"image/jpeg"
+	"image/png"
+	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -66,10 +72,6 @@ func RandStringRunes(n int) string {
 		b[i] = letterRunes[rand.Intn(len(letterRunes))]
 	}
 
-
-
-
-
 	return string(b)
 }
 
@@ -108,4 +110,63 @@ func ReturnTheWeek() int {
 func ReturnTheMonth() int {
 	_, m, _ := time.Now().Date()
 	return int(m)
+}
+
+//获取up主的视频链接   youTuBe   返回数组  url
+func FormYouTuBeUrl(url string) []string {
+	res, err := http.Get(url)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return []string{}
+	}
+	defer res.Body.Close()
+	req, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err.Error())
+		return []string{}
+
+	}
+	//watch\?v=\S{11}
+	reg1 := regexp.MustCompile(`watch\?v=\S{11}`)
+	if reg1 == nil { //解释失败，返回nil
+		fmt.Println("regexp err")
+		return []string{}
+	}
+	//根据规则提取关键信息
+	result1 := reg1.FindAllStringSubmatch(string(req), -1)
+	if len(result1) < 1 {
+		return []string{}
+	}
+	var p []string
+	for _, v := range result1 {
+		p = append(p, "https://www.youtube.com/"+v[0])
+	}
+
+	fmt.Println(1312312)
+	return p
+}
+
+//检查木马文件
+func CheckImageFile(path, style string) (string, error) {
+	f, err := os.Open(path)
+
+	fmt.Println(f)
+	if err != nil {
+		_ = fmt.Errorf("打开文件失败 %s", err.Error())
+	}
+	switch strings.ToUpper(style) {
+	case "JPG", "JPEG":
+		_, err = jpeg.Decode(f)
+	case "PNG":
+		_, err = png.Decode(f)
+		fmt.Println(err)
+	case "GIF":
+		_, err = gif.Decode(f)
+	}
+	if err != nil {
+		_ = fmt.Errorf("校验文件类型失败 %s", err.Error())
+		return "", err
+	}
+	return "", nil
 }

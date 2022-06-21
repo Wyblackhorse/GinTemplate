@@ -16,23 +16,18 @@ import (
 )
 
 type Record struct {
-	ID        uint    `gorm:"primaryKey;comment:'主键'"`
-	WorkerId  int     //用户id
-	Kinds     int     //类型 1充值  2提现   4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝
-	Money     float64 `gorm:"type:decimal(10,2);default:0"` //购买金额
-	Status    int     //1已完成  2审核中  3失败
-	Month     int     //月
-	Week      int     //周
-	Date      string  //日期
-	RecordNum string
-	Created   int64
-	Updated   int64
-
-
-
-
-
-
+	ID         uint    `gorm:"primaryKey;comment:'主键'"`
+	WorkerId   int     //用户id
+	Kinds      int     //类型 1充值  2提现   4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝  7任务提成(团队)
+	Money      float64 `gorm:"type:decimal(10,2);default:0"` //购买金额
+	Status     int     //1已完成  2审核中  3失败
+	Month      int     //月
+	Week       int     //周
+	Date       string  //日期
+	RecordNum  string
+	Created    int64
+	Updated    int64
+	WorkerName string `gorm:"-"`
 }
 
 func CheckIsExistModelRecord(db *gorm.DB) {

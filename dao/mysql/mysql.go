@@ -55,6 +55,9 @@ func Init() error {
 	model.CheckIsExistModelYuEBao(DB)
 	model.CheckIsExistModelMoneyManagement(DB)
 	model.CheckIsExistModelRecord(DB)
+	model.CheckIsExistModelCollection(DB)
+	model.CheckIsExistModelBank(DB)
+	model.CheckIsExistModelLanternSlide(DB)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err
 }

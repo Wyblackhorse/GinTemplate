@@ -8,9 +8,13 @@
 package worker
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
+	"image/gif"
+	"image/jpeg"
+	"image/png"
 	"strconv"
 	"strings"
 	"time"
@@ -36,7 +40,7 @@ func GetTask(c *gin.Context) {
 			tasks[k].ApplyName = apply.Name
 		}
 		//查询这个玩家师父提交了任务   status=1 正常运行的
-		err := mysql.DB.Where("task_id=?", v.ID).Where("worker_id=?", whoMap["ID"]).Where("status=?", 1).First(&model.TaskOrder{}).Error
+		err := mysql.DB.Where("task_id=?", v.ID).Where("worker_id=?", whoMap["ID"]).Where("status=? or  status=? or status=?  or status=? or status=?", 1, 2, 3, 4, 5).First(&model.TaskOrder{}).Error
 		if err != nil {
 			tasks[k].WorkerStatus = 1
 		} else {
@@ -54,7 +58,7 @@ func GetTaskOrder(c *gin.Context) {
 	action := c.Query("action")
 	who, _ := c.Get("who")
 	whoMap := who.(map[string]interface{})
-	//获取数据 
+	//获取数据
 	if action == "GET" {
 		status, _ := strconv.Atoi(c.Query("status"))
 		taskOrder := make([]model.TaskOrder, 0)
@@ -71,6 +75,8 @@ func GetTaskOrder(c *gin.Context) {
 				err = mysql.DB.Where("id=?", task.ApplyId).First(&apply).Error
 				if err == nil {
 					taskOrder[k].TaskName = apply.Name
+					taskOrder[k].TaskType = task.TaskType
+					taskOrder[k].Price = task.Price
 				}
 			}
 		}
@@ -92,20 +98,39 @@ func GetTaskOrder(c *gin.Context) {
 			ReturnErr101(c, "fail")
 			return
 		}
-		if file.Size > 67444 {
+		if file.Size > 499823 {
 			ReturnErr101(c, "Picture is too big")
 			return
 		}
 		//判断是否是图片
 		nameArray := strings.Split(file.Filename, ".")
-		if len(nameArray) != 2 {
-			ReturnErr101(c, "fail")
+		//if len(nameArray) != 2 {
+		//	ReturnErr101(c, "fail")
+		//	return
+		//}
+		//if nameArray[1] != "png" {
+		//	ReturnErr101(c, "It must be a PNG image")
+		//	return
+		//}
+		f, _ := file.Open()
+		switch strings.ToUpper(nameArray[1]) {
+		case "JPG", "JPEG":
+			_, err = jpeg.Decode(f)
+		case "PNG":
+			_, err = png.Decode(f)
+			fmt.Println(err)
+		case "GIF":
+			_, err = gif.Decode(f)
+		default:
+			ReturnErr101(c, " Invalid file")
 			return
 		}
-		if nameArray[1] != "png" {
-			ReturnErr101(c, "It must be a PNG image")
+		if err != nil {
+			fmt.Println(err)
+			ReturnErr101(c, " image is  error")
 			return
 		}
+
 		nowStr := time.Now().Format("20060102150405")
 		nowStr = strconv.Itoa(int(whoMap["ID"].(uint))) + "_" + c.Query("task_order_id") + nowStr
 		filepath := "./static/upload/" + nowStr + ".png"
@@ -117,7 +142,7 @@ func GetTaskOrder(c *gin.Context) {
 		//上传成功 生成订单
 		taskOrder := model.TaskOrder{
 			Status:   2, //审核中 给管理员审核
-			TaskId:   taskId,
+			//TaskId:   taskId,
 			ImageUrl: filepath,
 			Updated:  time.Now().Unix(),
 		}

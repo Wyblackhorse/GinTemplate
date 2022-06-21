@@ -28,7 +28,6 @@ type DailyStatistics struct {
 	Updated             int64
 	Month               int //月
 	Week                int //周
-
 	WorkerId int `gorm:"-"`
 }
 

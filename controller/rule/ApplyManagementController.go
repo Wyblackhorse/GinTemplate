@@ -42,6 +42,9 @@ func GetApplyList(c *gin.Context) {
 	//更新
 	if action == "UPDATE" {
 
+		//id:=c.Query("id")
+
+
 	}
 	//删除
 	if action == "DEL" {

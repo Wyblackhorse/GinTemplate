@@ -18,16 +18,17 @@ type Task struct {
 	ID           uint    `gorm:"primaryKey;comment:'主键'"`
 	ApplyId      int     //应用id
 	ApplyName    string  `gorm:"-"`
-	Remark       string  //备注
-	TaskType     int     //任务类型   1点赞  2转发
+	Remark       string  //备注(标题)
+	TaskType     int     //任务类型   1点赞  2转发  3点赞转发
 	TaskUrl      string  //任务地址
 	EndTime      int64   //任务结束时间
 	Price        float64 `gorm:"type:decimal(10,2)"` //价格
 	Status       int     //任务状态 1正常 2结束 3取消s
 	DemandSide   string  //需求方
 	TaskLevel    int     //任务级别  1
-	TaskNum      int     //任务数量
+	TaskNum      int     //任务总数量
 	Created      int64   //创建时间
+	AlreadyGet   int     //  已经领取的名额
 	WorkerStatus int     `gorm:"-"` //1 没有做 2已结提交了图片
 
 }
@@ -51,10 +52,23 @@ type GetTaskData struct {
 	WorkerId        int          //用户id
 	ApplyId         int          //应用id
 	TaskId          int          //任务id
+	TaskNum         int          //任务数量
+	Status          int          // 6  撤销任务
 }
 
 //领取任务
 func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
+
+	if g.Status == 6 {
+
+		g.GetTaskDataLock.Lock() //上写锁
+		//解除写锁
+		defer g.GetTaskDataLock.Unlock()
+		db.Model(&Task{}).Where("id=?",g.TaskId).UpdateColumn("already_get", gorm.Expr("already_get+ ?", 1))
+		return true, nil
+
+	}
+
 	//获取用户的 可以做的订单可以领取的订单数量
 	vip := Vip{}
 	err := db.Where("id=?", g.WorkerVipId).First(&vip).Error
@@ -65,7 +79,6 @@ func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
 	var haveDone int
 	db.Model(&TaskOrder{}).Where("worker_id=?", g.WorkerId).Where("status=?  or status=?  or status=?", 1, 2, 3).Count(&haveDone)
 	//今日的次数已经用完了
-
 	if haveDone >= vip.TaskTimes {
 		return false, eeor.OtherError("I have run out of times today")
 	}
@@ -79,10 +92,11 @@ func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
 		g.GetTaskDataLock.RUnlock() //解除读锁
 		return false, eeor.OtherError("Mission does not exist")
 	}
-	if task.TaskNum <= 0 {
+	if task.AlreadyGet <= 0 {
 		g.GetTaskDataLock.RUnlock() //解除读锁
 		return false, eeor.OtherError("Sorry, this assignment has been taken")
 	}
+
 	db = db.Begin()
 	//解除读锁
 	g.GetTaskDataLock.RUnlock()
@@ -90,6 +104,7 @@ func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
 	g.GetTaskDataLock.Lock()
 	//写锁解除
 	defer g.GetTaskDataLock.Unlock()
+
 	//生成任务
 	t := TaskOrder{WorkerId: g.WorkerId, TaskId: g.TaskId}
 	_, err = t.SetTaskOrder(db)
@@ -97,11 +112,20 @@ func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
 		return false, err
 	}
 	//总任务数量 -1
-	err = db.Model(&Task{}).Where("id=?", task.ID).Update(map[string]interface{}{"task_num": task.TaskNum - 1}).Error
+	err = db.Model(&Task{}).Where("id=?", task.ID).Update(map[string]interface{}{"already_get": task.AlreadyGet - 1}).Error
 	if err != nil {
 		db.Rollback() //事务回滚
 		return false, err
 	}
 	db.Commit()
 	return true, nil
+}
+
+//任务是否存在
+func (t *Task) IsExist(db *gorm.DB) bool {
+	err := db.Where("id=?", t.ID).First(&t).Error
+	if err != nil {
+		return false
+	}
+	return true
 }

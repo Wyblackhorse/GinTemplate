@@ -8,6 +8,7 @@
 package worker
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
@@ -30,21 +31,39 @@ func GetApply(c *gin.Context) {
 func GetApplyTask(c *gin.Context) {
 	who, _ := c.Get("who")
 	whoMap := who.(map[string]interface{})
-	applyId, _ := strconv.Atoi(c.Query("apply_id"))
-	apply := model.Apply{ID: uint(applyId)}
-	//判断应用是否存在
-	if apply.IsExistApply(mysql.DB) == false {
-		ReturnErr101(c, "application does not exist")
-		return
-	}
-	//获取任务
+
 	taskDta := make([]model.Task, 0) //hoMap["VipId"]
-	err := mysql.DB.Where("status=? and apply_id=?  AND  task_level <= ?", 1, applyId, whoMap["VipId"]).Find(&taskDta).Error
-	if err != nil {
+
+	if applyIdD, isExist := c.GetQuery("apply_id"); isExist == true {
+		//判断应用是否存在
+		applyId, _ := strconv.Atoi(applyIdD)
+		apply := model.Apply{ID: uint(applyId)}
+		if apply.IsExistApply(mysql.DB) == false {
+			ReturnErr101(c, "application does not exist")
+			return
+		}
+		mysql.DB.Where("status=? and apply_id=?  AND  task_level <= ?", 1, applyId, whoMap["VipId"]).Find(&taskDta)
+	}
+
+	if taskId, isExist := c.GetQuery("task_id"); isExist == true {
+		//获取任务
+		fmt.Println(taskId)
+		mysql.DB.Where("id=?",  taskId).Find(&taskDta)
+
 		ReturnSuccessData(c, taskDta, "success")
+
 		return
 	}
-	ReturnSuccessData(c, taskDta, "success")
+
+	ReturnData := make([]model.Task, 0)
+	for _, i2 := range taskDta {
+		err := mysql.DB.Where("task_id=? and worker_id=?  ", i2.ID, whoMap["ID"]).First(&model.TaskOrder{}).Error
+		if err != nil {
+			ReturnData = append(ReturnData, i2)
+		}
+	}
+
+	ReturnSuccessData(c, ReturnData, "success")
 	return
 }
 
@@ -54,6 +73,9 @@ func GetTheApplyTask(c *gin.Context) {
 	whoMap := who.(map[string]interface{})
 	applyId, _ := strconv.Atoi(c.Query("apply_id"))
 	taskId, _ := strconv.Atoi(c.Query("task_id"))
+
+	//检查任务  应用id 是否存在
+
 	t := model.GetTaskData{WorkerId: int(whoMap["ID"].(uint)), WorkerVipId: whoMap["VipId"].(int), ApplyId: applyId, TaskId: taskId}
 	_, err := t.GetTask(mysql.DB)
 	if err != nil {

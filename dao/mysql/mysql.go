@@ -12,6 +12,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/spf13/viper"
+	"github.com/wangyi/GinTemplate/model"
 )
 
 var (
@@ -28,6 +29,7 @@ func Init() error {
 		viper.GetString("mysql.port"),
 		viper.GetString("mysql.dbname"),
 	)
+
 	DB, err = gorm.Open("mysql", dsn)
 	if err != nil {
 		fmt.Println("数据库链接失败", err)
@@ -39,7 +41,7 @@ func Init() error {
 	DB.DB().SetMaxIdleConns(10)
 	DB.DB().SetMaxOpenConns(100)
 	////////////////////////////////////////////////////////////////////////模型初始化
-
+	model.CheckIsExistModelRecharge(DB)
 
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err

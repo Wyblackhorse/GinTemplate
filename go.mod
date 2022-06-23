@@ -12,6 +12,7 @@ require (
 	github.com/onsi/gomega v1.19.0 // indirect
 	github.com/spf13/cobra v1.4.0
 	github.com/spf13/viper v1.11.0
+	github.com/xuri/excelize/v2 v2.6.0
 	github.com/zh-five/xdaemon v0.1.1
 	go.uber.org/zap v1.17.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect

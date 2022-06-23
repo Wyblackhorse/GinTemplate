@@ -19,7 +19,7 @@ func GetUserApp(c *gin.Context) {
 		Db := mysql.DB
 		fish := make([]model.AppUser, 0)
 		Db.Table("app_users").Count(&total)
-		Db = Db.Model(&fish).Offset((page - 1) * limit).Limit(limit).Order("created desc")
+		Db = Db.Model(&fish).Offset((page - 1) * limit).Limit(limit).Order("updated desc")
 		if err := Db.Find(&fish).Error; err != nil {
 			tools.JsonWrite(c, -101, nil, err.Error())
 			return

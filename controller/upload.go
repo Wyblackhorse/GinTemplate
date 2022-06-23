@@ -163,7 +163,7 @@ func UploadFiles(c *gin.Context) {
 				add.UserNumber, _ = strconv.Atoi(row[0])
 				add.TheHigherTheID, _ = strconv.Atoi(row[1])
 				add.UpperLayerUserName = row[2]
-				add.GeneralAgentID, _ = strconv.Atoi(row[0])
+				add.GeneralAgentID, _ = strconv.Atoi(row[3])
 				add.TheGeneralAgentOf = row[4]
 				add.Username = row[5]
 				add.MobilePhoneNo = row[6]

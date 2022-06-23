@@ -23,21 +23,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/appUser.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/walletRecord.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/withdraw.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/appuser.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/withdraw.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MgHash.sock" beforeDir="false" afterPath="$PROJECT_DIR$/MgHash.sock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/recharge.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/recharge.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/appUser.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/appUser.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/upload.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/mysql/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/walletRecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/walletRecord.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/withdraw.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/withdraw.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_app.log" beforeDir="false" afterPath="$PROJECT_DIR$/web_app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

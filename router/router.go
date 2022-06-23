@@ -17,7 +17,13 @@ import (
 
 func Setup() *gin.Engine {
 
+	gin.SetMode(gin.ReleaseMode)
+
+
 	r := gin.New()
+
+
+
 	r.Use(eeor.ErrHandler())
 	r.NoMethod(eeor.HandleNotFound)
 	r.NoRoute(eeor.HandleNotFound)

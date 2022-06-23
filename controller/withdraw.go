@@ -18,7 +18,7 @@ func GetWithdraw(c *gin.Context) {
 		Db := mysql.DB
 		fish := make([]model.Withdraw, 0)
 		Db.Model(&model.Withdraw{}).Count(&total)
-		Db = Db.Model(&fish).Offset((page - 1) * limit).Limit(limit).Order("created desc")
+		Db = Db.Model(&fish).Offset((page - 1) * limit).Limit(limit)
 		if err := Db.Find(&fish).Error; err != nil {
 			tools.JsonWrite(c, -101, nil, err.Error())
 

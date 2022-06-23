@@ -1,6 +1,8 @@
 package tools
 
 import (
+	"github.com/gin-gonic/gin"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -25,7 +27,8 @@ func IsFileNotExist(path string) (bool, error) {
 	}
 	return false, err
 }
-//判断文件文件夹是否存在(字节0也算不存在)
+
+// IsFileExist 判断文件文件夹是否存在(字节0也算不存在)
 func IsFileExist(path string) (bool, error) {
 	fileInfo, err := os.Stat(path)
 
@@ -53,3 +56,11 @@ func GetRootPath() string {
 	return rootPath
 }
 
+// JsonWrite json返回
+func JsonWrite(context *gin.Context, status int, result interface{}, msg string) {
+	context.JSON(http.StatusOK, gin.H{
+		"code":   status,
+		"result": result,
+		"msg":    msg,
+	})
+}

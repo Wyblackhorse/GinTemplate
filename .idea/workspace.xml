@@ -23,16 +23,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/recharge.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/upload.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/recharge.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/walletRecord.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/appUser.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/walletRecord.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/withdraw.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/appuser.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/withdraw.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MgHash.sock" beforeDir="false" afterPath="$PROJECT_DIR$/MgHash.sock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/recharge.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/recharge.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/upload.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/mysql/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/walletRecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/walletRecord.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web_app.log" beforeDir="false" afterPath="$PROJECT_DIR$/web_app.log" afterDir="false" />
     </list>
@@ -94,15 +97,5 @@
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="2693" y="420" key="#Notifications" timestamp="1650505171076">
-      <screen x="1680" y="-111" width="2560" height="1415" />
-    </state>
-    <state x="2693" y="420" key="#Notifications/1680.-111.2560.1415/50.25.1630.1025@1680.-111.2560.1415" timestamp="1650505171076" />
-    <state x="2469" y="232" key="SettingsEditor" timestamp="1650505188965">
-      <screen x="1680" y="-111" width="2560" height="1415" />
-    </state>
-    <state x="2469" y="232" key="SettingsEditor/1680.-111.2560.1415/50.25.1630.1025@1680.-111.2560.1415" timestamp="1650505188965" />
   </component>
 </project>

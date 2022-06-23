@@ -42,7 +42,9 @@ func Init() error {
 	DB.DB().SetMaxOpenConns(100)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	model.CheckIsExistModelRecharge(DB)
-
+	model.CheckIsExistModelWalletRecord(DB)
+	model.CheckIsExistModelWithdraw(DB)
+	model.CheckIsExistModelAppUser(DB)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err
 }

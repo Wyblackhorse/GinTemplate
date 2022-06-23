@@ -1,5 +1,10 @@
 package model
 
+import (
+	"fmt"
+	"github.com/jinzhu/gorm"
+)
+
 type WalletRecord struct {
 	ID             uint    `gorm:"primaryKey"`
 	SerialNumber   int     //编号
@@ -12,4 +17,16 @@ type WalletRecord struct {
 	Note           string  //备注
 	Created        string  //创建时间
 	Updated        string  //更新时间
+}
+func CheckIsExistModelWalletRecord(db *gorm.DB) {
+	if db.HasTable(&WalletRecord{}) {
+		fmt.Println("数据库已经存在了!")
+		db.AutoMigrate(&WalletRecord{})
+	} else {
+		fmt.Println("数据不存在,所以我要先创建数据库")
+		err := db.CreateTable(&WalletRecord{}).Error
+		if err == nil {
+			fmt.Println("数据库已经存在了!")
+		}
+	}
 }

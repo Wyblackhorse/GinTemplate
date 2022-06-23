@@ -26,6 +26,12 @@ func Setup() *gin.Engine {
 	r.POST("/uploadFiles", controller.UploadFiles)
 	//GetRecharge
 	r.GET("/getRecharge", controller.GetRecharge)
+	//GetUserApp
+	r.GET("/getUserApp", controller.GetUserApp)
+	//GetWalletRecord
+	r.GET("/getWalletRecord", controller.GetWalletRecord)
+	r.GET("/GetWithdraw", controller.GetWithdraw)
+
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))
 
 	return r

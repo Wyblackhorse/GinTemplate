@@ -2,7 +2,7 @@
 app:
   name: "web_app"
   mode: "dev"
-  port: 7777
+  port: 7778
   version: "v1"
 
 #日志

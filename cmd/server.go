@@ -45,8 +45,6 @@ func init() {
 func run(cmd *cobra.Command, args []string) {
 	//初始化目录
 
-
-
 	initDir()
 	//初始化守护进程
 	initDaemon()

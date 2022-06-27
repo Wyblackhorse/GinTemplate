@@ -31,12 +31,14 @@ func TestName(t *testing.T) {
 
 	//c:=Stu{Name: "西欧奥课啊",Age: 10}
 	data, err := json.Marshal(p)
-
 	fmt.Println(string(data))
 	data, _ = RsaEncryptForEveryOne(data)
 	fmt.Println(err)
 	fmt.Println(data)
 	fmt.Println(base64.StdEncoding.EncodeToString(data))
+
+
+
 
 	pay, err := BackUrlToPay("http://127.0.0.1:7777/v2/backUrl", base64.StdEncoding.EncodeToString(data))
 	if err != nil {
@@ -64,6 +66,7 @@ func TestBackUrlToPay(t *testing.T) {
 	tt.AccountPractical = 10.00
 	tt.RechargeType = "USDT"
 	data, err := json.Marshal(tt)
+
 	if err != nil {
 		fmt.Println(err.Error())
 	}

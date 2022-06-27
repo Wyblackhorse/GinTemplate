@@ -68,6 +68,8 @@ func GetPayInformationBack(c *gin.Context) {
 	if p.Token == "USDT" {
 		acc := strconv.Itoa(jsonData.Data.Amount)
 		p.Amount, _ = tools.ToDecimal(acc, 6).Float64()
+	} else if p.Token == "TRX" {
+
 	}
 	p.FromAddress = jsonData.Data.From
 	p.ToAddress = jsonData.Data.To
@@ -86,7 +88,6 @@ func GetPayInformationBack(c *gin.Context) {
 	//寻找这个账号最早的充值订单
 	p1 := model.PrepaidPhoneOrders{Username: p.UserID, Successfully: p.Timestamp, AccountPractical: p.Amount, RechargeType: strings.ToUpper(p.Token), RechargeAddress: p.FromAddress, CollectionAddress: p.ToAddress}
 	p1.UpdateMaxCreatedOfStatusToTwo(mysql.DB, viper.GetInt64("eth.OrderEffectivityTime"))
-
 
 	//更新钱包地址
 	newMoney, _ := tools.ToDecimal(jsonData.Data.Balance, 6).Float64()

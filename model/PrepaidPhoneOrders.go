@@ -82,13 +82,12 @@ func (p *PrepaidPhoneOrders) CreatePrepaidPhoneOrders(db *gorm.DB) (bool, error)
 func (p *PrepaidPhoneOrders) UpdateMaxCreatedOfStatusToTwo(db *gorm.DB, OrderEffectivityTime int64) bool {
 	//找到这条数据
 	pp := PrepaidPhoneOrders{}
-	err := db.Where("username=?", p.Username).Where("status= ?", 1).Last(&pp).Error
+	err := db.Where("username=?", p.Username).Where("status= ? and recharge_type= ?", 1,p.RechargeType).Last(&pp).Error
 	if err == nil {
 		if time.Now().Unix()-pp.Created <= OrderEffectivityTime {
 			//找到最新的数据(并且在有效时间累)
 			db.Model(&PrepaidPhoneOrders{}).Where("id=?", pp.ID).Update(
 				&PrepaidPhoneOrders{Updated: time.Now().Unix(), Successfully: p.Successfully, ThreeBack: 2, Status: 2, AccountPractical: p.AccountPractical})
-
 
 			//这里 要回调给前台
 			if pp.BackUrl != "" {

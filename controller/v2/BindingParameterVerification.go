@@ -57,3 +57,5 @@ type BalanceType struct {
 type UsernameAddress struct {
 	Username string `json:"username"`
 }
+
+

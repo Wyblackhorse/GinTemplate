@@ -3,7 +3,6 @@ package V2
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/wangyi/GinTemplate/dao/mysql"
@@ -13,6 +12,7 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -59,7 +59,10 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(re.Address)
+	if strings.ToUpper(jsonData.RechargeType) != "USDT" {
+		tools.ReturnError101(c, "RechargeType is error")
+		return
+	}
 
 	// 存在就更新数据
 	//生成充值订单

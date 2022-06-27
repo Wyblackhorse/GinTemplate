@@ -23,9 +23,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/v2/PayBackController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/PayBackController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/PrepaidPhoneOrders.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/PrepaidPhoneOrders.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/util_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/util_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,20 +90,29 @@
       <recent name="C:\Users\Administrator\Desktop\GinTemplate\controller\v2" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestName in github.com/wangyi/GinTemplate/util">
-    <configuration name="TestBackUrl11ToPay in github.com/wangyi/GinTemplate/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestApiSign in github.com/wangyi/GinTemplate/tools">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GinTemplate" />
-      <working_directory value="$PROJECT_DIR$/util" />
-      <root_directory value="$PROJECT_DIR$" />
+      <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/wangyi/GinTemplate/util" />
+      <package value="github.com/wangyi/GinTemplate" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestBackUrl11ToPay\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestBackUrlToPay in github.com/wangyi/GinTemplate/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestApiSign in github.com/wangyi/GinTemplate/tools" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GinTemplate" />
+      <working_directory value="$PROJECT_DIR$/tools" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/wangyi/GinTemplate/tools" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestApiSign\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestName in github.com/wangyi/GinTemplate/util (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GinTemplate" />
       <working_directory value="$PROJECT_DIR$/util" />
       <root_directory value="$PROJECT_DIR$" />
@@ -107,7 +121,7 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestBackUrlToPay\E$" />
+      <pattern value="^\QTestName\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestName in github.com/wangyi/GinTemplate/util (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -146,13 +160,23 @@
       <pattern value="^\QTestRsaEncrypt\E$" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="GinTemplate" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <package value="github.com/wangyi/GinTemplate" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestApiSign in github.com/wangyi/GinTemplate/tools" />
+        <item itemvalue="Go Test.TestName in github.com/wangyi/GinTemplate/util (1)" />
         <item itemvalue="Go Test.TestName in github.com/wangyi/GinTemplate/util" />
         <item itemvalue="Go Test.TestRsaEncrypt in github.com/wangyi/GinTemplate/util" />
         <item itemvalue="Go Test.TestName in github.com/wangyi/GinTemplate/util (2)" />
-        <item itemvalue="Go Test.TestBackUrl11ToPay in github.com/wangyi/GinTemplate/util" />
-        <item itemvalue="Go Test.TestBackUrlToPay in github.com/wangyi/GinTemplate/util" />
       </list>
     </recent_temporary>
   </component>
@@ -185,7 +209,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go</url>
-          <line>176</line>
+          <line>179</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -195,7 +219,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go</url>
-          <line>104</line>
+          <line>107</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -204,13 +228,8 @@
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/util/util.go</url>
-          <line>179</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/model/PrepaidPhoneOrders.go</url>
-          <line>93</line>
+          <line>92</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -225,8 +244,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/util/util_test.go</url>
-          <line>74</line>
+          <line>77</line>
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/util/util_test.go</url>
+          <line>10</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -33,6 +33,10 @@ func Setup() *gin.Engine {
 	r.GET("/getWalletRecord", controller.GetWalletRecord)
 	r.GET("/GetWithdraw", controller.GetWithdraw)
 
+	//
+
+
+
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))
 
 	return r

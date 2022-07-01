@@ -159,7 +159,6 @@ func UploadFiles(c *gin.Context) {
 					continue
 				}
 				add := model.AppUser{}
-
 				add.UserNumber, _ = strconv.Atoi(row[0])
 				add.TheHigherTheID, _ = strconv.Atoi(row[1])
 				add.UpperLayerUserName = row[2]
@@ -184,6 +183,81 @@ func UploadFiles(c *gin.Context) {
 				}
 			}
 		}()
+	}
+
+	if action == "appUserLoginLog" {
+		rows, err1 := f.GetRows("appuser_login_log")
+		if err1 != nil {
+			tools.JsonWrite(c, -101, nil, "上传错误:"+err1.Error())
+			return
+		}
+
+		go func() {
+			for k, row := range rows {
+				if k == 0 {
+					continue
+				}
+				add := model.AppUserLoginLog{}
+				add.Create = row[0]
+				add.Update = row[1]
+				add.Remark = row[2]
+				add.SerialNumber, _ = strconv.Atoi(row[3])
+				add.UserID, _ = strconv.Atoi(row[4])
+				add.UserAccount = row[5]
+				add.LoginID = row[6]
+				add.TheLoginAddress = row[7]
+				add.TheLoginSite = row[8]
+				add.Browser = row[9]
+				add.OperatingSystem = row[10]
+				add.OperatingInformation = row[11]
+				add.AccessTime = row[12]
+				mysql.DB.Save(&add)
+			}
+		}()
+		return
+	}
+
+	if action == "bettingRecord" {
+		rows, err1 := f.GetRows("bettingRecord")
+		if err1 != nil {
+			tools.JsonWrite(c, -101, nil, "上传错误:"+err1.Error())
+			return
+		}
+
+		go func() {
+			for k, row := range rows {
+				if k == 0 {
+					continue
+				}
+				add := model.BettingRecord{}
+				add.UserID, _ = strconv.Atoi(row[0])
+				add.UserName = row[1]
+				add.EventID, _ = strconv.Atoi(row[2])
+				add.State = row[3]
+				add.BreakEven = row[4]
+				add.BetAmount, _ = strconv.ParseFloat(row[5], 64)
+				add.Payout, _ = strconv.ParseFloat(row[6], 64)
+				add.ProfitAndLoss, _ = strconv.ParseFloat(row[7], 64)
+				add.State = row[8]
+				add.OrderID, _ = strconv.Atoi(row[9])
+				add.FullHalf = row[10]
+				add.PositiveWaveCounter = row[11]
+				add.State = row[12]
+				add.Alliance = row[13]
+				add.TopVSBottom = row[14]
+				add.Yield, _ = strconv.ParseFloat(row[15], 64)
+				add.StringOfNo = row[16]
+				add.TheFinalResult = row[17]
+				add.TheStartTime = row[18]
+				add.BetOnTime = row[19]
+				add.Poundage, _ = strconv.ParseFloat(row[20], 64)
+				add.PoundagePer, _ = strconv.ParseFloat(row[21], 64)
+				mysql.DB.Save(&add)
+
+			}
+		}()
+
+		return
 	}
 
 	tools.JsonWrite(c, 200, nil, "OK")

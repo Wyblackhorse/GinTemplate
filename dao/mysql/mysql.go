@@ -45,6 +45,8 @@ func Init() error {
 	model.CheckIsExistModelWalletRecord(DB)
 	model.CheckIsExistModelWithdraw(DB)
 	model.CheckIsExistModelAppUser(DB)
+	model.CheckIsExistModelBettingRecord(DB)
+	model.CheckIsExistModelBettingRecord(DB)
 	////////////////////////////////////////////////////////////////////////模型初始化
 	return err
 }

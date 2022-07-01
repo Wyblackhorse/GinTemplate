@@ -24,13 +24,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/v2/PayBackController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/PayBackController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/PrepaidPhoneOrders.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/PrepaidPhoneOrders.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/util_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/util_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +50,18 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/tools/tools.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/controller/v2/PayBackController.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/tools/tools_test.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/controller/v2/PrepaidPhoneOrdersController.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/util/util.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/controller/v2/BindingParameterVerification.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cmd/server.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/model/PrepaidPhoneOrders.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/config.yaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/controller/v2/Admin.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="285S1IUKp0e7uogsg4XKXCFs5qK" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -251,6 +257,11 @@
           <url>file://$PROJECT_DIR$/util/util_test.go</url>
           <line>10</line>
           <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/v2/PayBackController.go</url>
+          <line>18</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

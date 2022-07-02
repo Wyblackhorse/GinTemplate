@@ -135,14 +135,9 @@ func HttpRequest(url string, params map[string]interface{},apiKey string) ([]byt
 	if err != nil {
 		return nil, err
 	}
-
 	fmt.Println(string(data))
-
 	req := make(map[string]interface{})
 	b64Data := base64.StdEncoding.EncodeToString(data)
-
-
-
 	req["data"] = b64Data
 	req["sign"] = ApiSign([]byte(apiKey), []byte(b64Data), []byte(apiKey))
 	reqData, err := json.Marshal(req)

@@ -46,9 +46,8 @@ func (r *ReceiveAddress) ReceiveAddressIsExits(db *gorm.DB) bool {
 }
 
 // CreateUsername 创建这个用户  获取用户收款地址
-func (r *ReceiveAddress) CreateUsername(db *gorm.DB, url string) {
+func (r *ReceiveAddress) CreateUsername(db *gorm.DB, url string)  ReceiveAddress{
 	r.Created = time.Now().Unix()
-	//r.Updated = time.Now().Unix()
 	r.ReceiveNums = 0
 	r.LastGetAccount = 0
 	//获取收账地址  url 请求  {"error":"0","message":"","result":"4564554545454545"}   //返回数据
@@ -58,18 +57,21 @@ func (r *ReceiveAddress) CreateUsername(db *gorm.DB, url string) {
 	resp, err := tools.HttpRequest(url+"/getaddr", req, viper.GetString("eth.ApiKey"))
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return ReceiveAddress{}
 	}
 	var dataAttr CreateUsernameData
 	if err := json.Unmarshal([]byte(resp), &dataAttr); err != nil {
 		fmt.Println(err)
-		return
+		return ReceiveAddress{}
 	}
 	if dataAttr.Result != "" {
 		r.Address = dataAttr.Result
-		db.Save(&r)
+		err := db.Save(&r).Error
+		if err!=nil {
+			return  ReceiveAddress{}
+		}
 	}
-
+	return *r
 }
 
 // CreateUsernameData 返回的数据 json

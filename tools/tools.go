@@ -64,3 +64,13 @@ func JsonWrite(context *gin.Context, status int, result interface{}, msg string)
 		"msg":    msg,
 	})
 }
+
+
+func InArray(arr []int, per int) bool {
+	for _, i2 := range arr {
+		if i2 == per {
+			return true
+		}
+	}
+	return false
+}

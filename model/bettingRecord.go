@@ -13,7 +13,7 @@ type BettingRecord struct {
 	BreakEven           string  //保本
 	BetAmount           float64 //下注金额
 	Payout              float64 //派彩
-	ProfitAndLoss       float64 //盈/亏
+	ProfitAndLoss       string  //盈/亏
 	OrderID             int     //orderID
 	FullHalf            string  //全/半场
 	PositiveWaveCounter string  //正/反波
@@ -27,9 +27,8 @@ type BettingRecord struct {
 	BetOnTime           string  //下注时间
 	Poundage            float64 //手续费
 	PoundagePer         float64 //手续费百分号
+	BetDate             string  //下注日期
 }
-
-
 
 func CheckIsExistModelBettingRecord(db *gorm.DB) {
 	if db.HasTable(&BettingRecord{}) {

@@ -32,3 +32,4 @@ func GetWithdraw(c *gin.Context) {
 		return
 	}
 }
+

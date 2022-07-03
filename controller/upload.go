@@ -9,6 +9,7 @@ import (
 	"github.com/xuri/excelize/v2"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func UploadFiles(c *gin.Context) {
@@ -73,6 +74,10 @@ func UploadFiles(c *gin.Context) {
 				add.ThreeOrders = row[12]
 				add.TopUpChannel, _ = strconv.Atoi(row[13])
 				add.Classify = row[14]
+				add.Date = strings.Split(add.Created, " ")[0]
+				loc, _ := time.LoadLocation("Asia/Shanghai")                        //设置时区
+				tt, _ := time.ParseInLocation("2006-01-02 15:04:05", add.Date, loc) //2006-01-02 15:04:05是转换的格式如php的"Y-m-d H:i:s"
+				add.DateTimestamp = tt.Unix()
 				err1 := mysql.DB.Where("serial=?", add.Serial).First(&model.Recharge{}).Error
 				if err1 != nil {
 					mysql.DB.Save(&add)
@@ -138,6 +143,7 @@ func UploadFiles(c *gin.Context) {
 				add.OrderNo = row[10]
 				add.Classification = row[11]
 				add.ChannelID, _ = strconv.Atoi(row[12])
+
 				//add.ThirdPartyTrackingNumber = row[13]
 				err1 := mysql.DB.Where("record_id=?", add.RecordId).First(&model.Withdraw{}).Error
 				if err1 != nil {
@@ -214,7 +220,7 @@ func UploadFiles(c *gin.Context) {
 				mysql.DB.Save(&add)
 			}
 		}()
-		return
+
 	}
 
 	if action == "bettingRecord" {
@@ -223,7 +229,6 @@ func UploadFiles(c *gin.Context) {
 			tools.JsonWrite(c, -101, nil, "上传错误:"+err1.Error())
 			return
 		}
-
 		go func() {
 			for k, row := range rows {
 				if k == 0 {
@@ -237,27 +242,26 @@ func UploadFiles(c *gin.Context) {
 				add.BreakEven = row[4]
 				add.BetAmount, _ = strconv.ParseFloat(row[5], 64)
 				add.Payout, _ = strconv.ParseFloat(row[6], 64)
-				add.ProfitAndLoss, _ = strconv.ParseFloat(row[7], 64)
-				add.State = row[8]
-				add.OrderID, _ = strconv.Atoi(row[9])
-				add.FullHalf = row[10]
-				add.PositiveWaveCounter = row[11]
-				add.State = row[12]
-				add.Alliance = row[13]
-				add.TopVSBottom = row[14]
-				add.Yield, _ = strconv.ParseFloat(row[15], 64)
-				add.StringOfNo = row[16]
-				add.TheFinalResult = row[17]
-				add.TheStartTime = row[18]
-				add.BetOnTime = row[19]
-				add.Poundage, _ = strconv.ParseFloat(row[20], 64)
-				add.PoundagePer, _ = strconv.ParseFloat(row[21], 64)
+				add.ProfitAndLoss = row[7]
+				add.OrderID, _ = strconv.Atoi(row[8])
+				add.FullHalf = row[9]
+				add.PositiveWaveCounter = row[10]
+				add.Score = row[11]
+				add.Alliance = row[12]
+				add.TopVSBottom = row[13]
+				add.Yield, _ = strconv.ParseFloat(row[14], 64)
+				add.StringOfNo = row[15]
+				add.TheFinalResult = row[16]
+				add.TheStartTime = row[17]
+				add.BetOnTime = row[18]
+				add.Poundage, _ = strconv.ParseFloat(row[19], 64)
+				add.PoundagePer, _ = strconv.ParseFloat(row[20], 64)
+				add.BetDate = strings.Split(add.BetOnTime, " ")[0]
 				mysql.DB.Save(&add)
 
 			}
 		}()
 
-		return
 	}
 
 	tools.JsonWrite(c, 200, nil, "OK")

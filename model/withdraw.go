@@ -8,7 +8,7 @@ import (
 type Withdraw struct {
 	ID                       uint    `gorm:"primaryKey"`
 	RecordId                 int     //记录ID
-	TheUserId              int     //用户ID
+	TheUserId                int     //用户ID
 	TheUserName              string  //用户名
 	WithdrawalAmount         float64 //提现金额
 	Status                   string  //状态
@@ -21,8 +21,8 @@ type Withdraw struct {
 	Classification           string  //分类
 	ChannelID                int     //渠道ID
 	ThirdPartyTrackingNumber string  //第三方单号
+	Date                     string  //提现时间
 }
-
 
 func CheckIsExistModelWithdraw(db *gorm.DB) {
 	if db.HasTable(&Withdraw{}) {

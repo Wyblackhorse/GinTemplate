@@ -21,6 +21,8 @@ type Recharge struct {
 	Created      string  //创建时间
 	Updated      string  //更新时间
 	Remark       string  //备注
+	Date         string  // 日期
+	DateTimestamp    int64 `json:"date_timestamp"`
 }
 
 func CheckIsExistModelRecharge(db *gorm.DB) {

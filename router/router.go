@@ -16,7 +16,6 @@ import (
 )
 
 func Setup() *gin.Engine {
-
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.Use(eeor.ErrHandler())
@@ -32,12 +31,11 @@ func Setup() *gin.Engine {
 	//GetWalletRecord
 	r.GET("/getWalletRecord", controller.GetWalletRecord)
 	r.GET("/GetWithdraw", controller.GetWithdraw)
-
-	//
-
-
-
+	//GetBettingRecord
+	r.GET("/GetBettingRecord", controller.GetBettingRecord)
+	r.GET("/GetAppUserLoginLog", controller.GetAppUserLoginLog)
+	//日统计
+	r.GET("/SetStatistics", controller.SetStatistics)
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))
-
 	return r
 }

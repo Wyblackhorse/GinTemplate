@@ -69,7 +69,7 @@ func CreatePrepaidPhoneOrders(c *gin.Context) {
 	//}
 
 	//判断用户是存在充值地址
-	if jsonData.Username != "" {
+	if jsonData.Username == "" {
 		tools.ReturnError101(c, "用户名不可以为空")
 		return
 	}

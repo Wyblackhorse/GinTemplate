@@ -77,6 +77,7 @@ func GetTaskOrder(c *gin.Context) {
 					taskOrder[k].TaskName = apply.Name
 					taskOrder[k].TaskType = task.TaskType
 					taskOrder[k].Price = task.Price
+					taskOrder[k].TaskUrl=task.TaskUrl
 				}
 			}
 		}
@@ -157,4 +158,26 @@ func GetTaskOrder(c *gin.Context) {
 		ReturnSuccess(c, "success")
 		return
 	}
+
+	//获取任务详情
+	if action=="detail" {
+		taskId:=c.Query("task_id")
+		//获取任务
+		//fmt.Println(taskId)
+		tas := model.TaskOrder{}
+		err := mysql.DB.Where("id=?", taskId).First(&tas).Error
+		if err != nil {
+			ReturnErr101(c, "no find  id")
+			return
+		}
+		ts := model.Task{}
+		mysql.DB.Where("id=?", tas.TaskId).First(&ts)
+		tas.TaskType = ts.TaskType
+		tas.DemandSide = ts.DemandSide
+		tas.TaskUrl = ts.TaskUrl
+		tas.Remark=ts.Remark
+		ReturnSuccessData(c, tas, "success")
+		return
+	}
+
 }

@@ -21,9 +21,8 @@ type BillingDetails struct {
 	Kinds       int     //类型 1充值  2提现 3做单任务 4购买业务 5佣金奖励
 	Created     int64
 	WorkerName  string `gorm:"-"`
+	Remark      string  //备注
 }
-
-
 
 func CheckIsExistModelBillingDetails(db *gorm.DB) {
 	if db.HasTable(&BillingDetails{}) {

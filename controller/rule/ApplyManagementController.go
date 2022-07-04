@@ -25,8 +25,9 @@ func GetApplyList(c *gin.Context) {
 		Apply := make([]model.Apply, 0)
 		Db := mysql.DB
 		var total int
+		Db.Table("applies").Count(&total)
+
 		Db = Db.Model(&model.Apply{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
-		Db.Table("roles").Count(&total)
 		err := Db.Find(&Apply).Error
 		if err != nil {
 			ReturnErr101(c, "ERR:"+err.Error())

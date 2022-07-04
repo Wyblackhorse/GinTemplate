@@ -24,7 +24,7 @@ func GetRecord(c *gin.Context) {
 	if action == "GET" {
 		kinds, _ := strconv.Atoi(c.Query("kinds"))
 		record := make([]model.Record, 0)
-		mysql.DB.Where("kinds=?", kinds).Find(&record)
+		mysql.DB.Where("kinds=? and worker_id=?", kinds,whoMap["ID"]).Order("created desc").Find(&record)
 		ReturnSuccessData(c, record, "success")
 		return
 	}
@@ -51,7 +51,7 @@ func GetRecord(c *gin.Context) {
 			ReturnErr101(c, err1.Error())
 			return
 		}
-		d := model.DailyStatistics{TodayRechargeMoney: money,TodayRechargePeople: 1,WorkerId: int(whoMap["ID"].(uint))}
+		d := model.DailyStatistics{TodayRechargeMoney: money, TodayRechargePeople: 1, WorkerId: int(whoMap["ID"].(uint))}
 		d.SetEverydayData(mysql.DB)
 
 		ReturnSuccess(c, "Withdrawal successful, waiting for administrator review")
@@ -61,10 +61,27 @@ func GetRecord(c *gin.Context) {
 	//充值
 	if action == "recharge" {
 
-
-
 		//d := model.DailyStatistics{TodayRechargeMoney: money,TodayRechargePeople: 1,WorkerId: int(whoMap["ID"].(uint))}
 		//d.SetEverydayData(mysql.DB)
 	}
+	if action == "ZCS" {
+		////类型 1充值  2提现   4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝  7任务提成(团队)
+		kinds, _ := strconv.Atoi(c.Query("kinds"))
+		record := make([]model.Record, 0)
+		//kinds  1  收入  2支出  3充值
+		if kinds == 1 {
+			mysql.DB.Where("kinds=?  or  kinds=? or  kinds=?", 1, 5, 7).Find(&record)
+		}
+		if kinds == 2 {
+			mysql.DB.Where("kinds=?  or  kinds=?  or kinds=?", 2, 4, 6).Find(&record)
+		}
+		if kinds == 3 {
+			mysql.DB.Where("kinds=?  ", 1).Find(&record)
 
+		}
+		ReturnSuccessData(c, record, "success")
+		return
+	}
 }
+
+

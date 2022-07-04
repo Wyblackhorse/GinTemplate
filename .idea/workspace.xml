@@ -23,42 +23,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/collection.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/comment" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/Bank.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/CollectionModel.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/LanternSlide.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stop.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MgHash.sock" beforeDir="false" afterPath="$PROJECT_DIR$/MgHash.sock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/rule/ApplyManagementController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/ApplyManagementController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/BillManagement.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/BillManagement.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/ConfigController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/ConfigController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/JurisdictionManagementController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/JurisdictionManagementController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/RecordController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/RecordController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/StatementEverydayController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/StatementEverydayController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/rule/TaskManagementController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/TaskManagementController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/rule/VipManagementController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/VipManagementController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/rule/YuEBao.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/rule/YuEBao.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/worker/ApplyController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/ApplyController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/MoneyManagenment.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/MoneyManagenment.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/RecordController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/RecordController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/worker/TaskController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/TaskController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/worker/TeamController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/TeamController.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/worker/VipController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/VipController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/worker/Worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/worker/Worker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/mysql/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/ConfigModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ConfigModel.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/DailyStatisticsModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/DailyStatisticsModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/BillingDetailsModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/BillingDetailsModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/MenuModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/MenuModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/MoneyManagement.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/MoneyManagement.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/RecordModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/RecordModel.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/TaskModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/TaskModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/TaskOrderModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/TaskOrderModel.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/VipModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/VipModel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/WorkerModel.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/WorkerModel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_app.log" beforeDir="false" afterPath="$PROJECT_DIR$/web_app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,8 +188,8 @@
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
     <state x="1780" y="-11" width="2360" height="1215" key="DiffContextDialog/1680.-111.2560.1415/53.25.1627.1025@1680.-111.2560.1415" timestamp="1652598106315" />
-    <state width="2518" height="187" key="GridCell.Tab.0.bottom" timestamp="1655468393817">
-      <screen x="1680" y="-111" width="2560" height="1415" />
+    <state width="2518" height="187" key="GridCell.Tab.0.bottom" timestamp="1656147828034">
+      <screen x="60" y="25" width="1620" height="1025" />
     </state>
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292031" />
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829512" />
@@ -220,9 +200,9 @@
     <state width="1259" height="334" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/57.25.1623.1025@1680.-111.2560.1415" timestamp="1654016024313" />
     <state width="1259" height="187" key="GridCell.Tab.0.bottom/1680.-111.2560.1415/60.25.1620.1025@1680.-111.2560.1415" timestamp="1655362945330" />
     <state width="2518" height="400" key="GridCell.Tab.0.bottom/60.25.1620.1025@0.0.1680.1050" timestamp="1653207545128" />
-    <state width="2518" height="568" key="GridCell.Tab.0.bottom/60.25.1620.1025@60.25.1620.1025" timestamp="1655307393654" />
-    <state width="2518" height="187" key="GridCell.Tab.0.center" timestamp="1655468393816">
-      <screen x="1680" y="-111" width="2560" height="1415" />
+    <state width="2518" height="187" key="GridCell.Tab.0.bottom/60.25.1620.1025@60.25.1620.1025" timestamp="1656147828034" />
+    <state width="2518" height="187" key="GridCell.Tab.0.center" timestamp="1656147828033">
+      <screen x="60" y="25" width="1620" height="1025" />
     </state>
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292030" />
     <state width="2518" height="400" key="GridCell.Tab.0.center/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829511" />
@@ -233,9 +213,9 @@
     <state width="1259" height="334" key="GridCell.Tab.0.center/1680.-111.2560.1415/57.25.1623.1025@1680.-111.2560.1415" timestamp="1654016024311" />
     <state width="1259" height="187" key="GridCell.Tab.0.center/1680.-111.2560.1415/60.25.1620.1025@1680.-111.2560.1415" timestamp="1655362945329" />
     <state width="2518" height="400" key="GridCell.Tab.0.center/60.25.1620.1025@0.0.1680.1050" timestamp="1653207545115" />
-    <state width="2518" height="568" key="GridCell.Tab.0.center/60.25.1620.1025@60.25.1620.1025" timestamp="1655307393650" />
-    <state width="2518" height="187" key="GridCell.Tab.0.left" timestamp="1655468393815">
-      <screen x="1680" y="-111" width="2560" height="1415" />
+    <state width="2518" height="187" key="GridCell.Tab.0.center/60.25.1620.1025@60.25.1620.1025" timestamp="1656147828033" />
+    <state width="2518" height="187" key="GridCell.Tab.0.left" timestamp="1656147828032">
+      <screen x="60" y="25" width="1620" height="1025" />
     </state>
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292029" />
     <state width="2518" height="400" key="GridCell.Tab.0.left/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829510" />
@@ -246,9 +226,9 @@
     <state width="1259" height="334" key="GridCell.Tab.0.left/1680.-111.2560.1415/57.25.1623.1025@1680.-111.2560.1415" timestamp="1654016024311" />
     <state width="1259" height="187" key="GridCell.Tab.0.left/1680.-111.2560.1415/60.25.1620.1025@1680.-111.2560.1415" timestamp="1655362945328" />
     <state width="2518" height="400" key="GridCell.Tab.0.left/60.25.1620.1025@0.0.1680.1050" timestamp="1653207545015" />
-    <state width="2518" height="568" key="GridCell.Tab.0.left/60.25.1620.1025@60.25.1620.1025" timestamp="1655307393643" />
-    <state width="2518" height="187" key="GridCell.Tab.0.right" timestamp="1655468393817">
-      <screen x="1680" y="-111" width="2560" height="1415" />
+    <state width="2518" height="187" key="GridCell.Tab.0.left/60.25.1620.1025@60.25.1620.1025" timestamp="1656147828032" />
+    <state width="2518" height="187" key="GridCell.Tab.0.right" timestamp="1656147828033">
+      <screen x="60" y="25" width="1620" height="1025" />
     </state>
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/45.25.1635.1025@1680.-111.2560.1415" timestamp="1650958292030" />
     <state width="2518" height="400" key="GridCell.Tab.0.right/1680.-111.2560.1415/46.25.1634.1025@1680.-111.2560.1415" timestamp="1650601829512" />
@@ -259,7 +239,7 @@
     <state width="1259" height="334" key="GridCell.Tab.0.right/1680.-111.2560.1415/57.25.1623.1025@1680.-111.2560.1415" timestamp="1654016024312" />
     <state width="1259" height="187" key="GridCell.Tab.0.right/1680.-111.2560.1415/60.25.1620.1025@1680.-111.2560.1415" timestamp="1655362945330" />
     <state width="2518" height="400" key="GridCell.Tab.0.right/60.25.1620.1025@0.0.1680.1050" timestamp="1653207545117" />
-    <state width="2518" height="568" key="GridCell.Tab.0.right/60.25.1620.1025@60.25.1620.1025" timestamp="1655307393651" />
+    <state width="2518" height="187" key="GridCell.Tab.0.right/60.25.1620.1025@60.25.1620.1025" timestamp="1656147828033" />
     <state x="2469" y="232" key="SettingsEditor" timestamp="1650505188965">
       <screen x="1680" y="-111" width="2560" height="1415" />
     </state>
@@ -281,7 +261,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/model/TaskOrderModel.go</url>
-          <line>44</line>
+          <line>49</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

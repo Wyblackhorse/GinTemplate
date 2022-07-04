@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	eeor "github.com/wangyi/GinTemplate/error"
+	"math"
 	"sync"
 	"time"
 )
@@ -38,6 +39,7 @@ type Worker struct {
 	CreditScore        int     //信用积分
 	VipId              int     `gorm:"int(10);default:1"` //vip  等级 id
 	VipExpire          int64   `gorm:"default:0"`         //会员到期时间   默认为 0  无限制
+	VipStart           int64   //vip开始时间
 	Created            int64
 	VipName            string `gorm:"-"`
 }
@@ -45,11 +47,13 @@ type WorkerBalance struct {
 	ID              int     //用户的 id
 	AddBalance      float64 //增加多少钱 减少
 	ChangeMoneyLock sync.RWMutex
-	Kinds           int //类型 1充值  2用户提现 3做单任务 4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝   7管理员审核提现失败   8管理员审核提现成功
+	Kinds           int //类型 1充值  2用户提现 3做单任务 4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝   7管理员审核提现失败   8管理员审核提现成功 9注册奖励  10  其他
 	OrderId         int
-	YuEBaoId        int //余额宝产品id
-	Days            int //理财产品的时间
-	VipID           int //购买的 vip等级
+	YuEBaoId        int  //余额宝产品id
+	Days            int  //理财产品的时间
+	VipID           int  //购买的 vip等级
+	IfAdmin         bool //是否是管理员操作  (管理员操作只负责账单变,月变化)
+	Remark          string
 }
 
 func CheckIsExistModelWorker(db *gorm.DB) {
@@ -67,6 +71,50 @@ func CheckIsExistModelWorker(db *gorm.DB) {
 
 //给用户加钱/扣金额(余额变化表)
 func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
+
+	//管理操作
+	if w.IfAdmin == true {
+		db = db.Begin() //开启事务
+		//读锁
+		w.ChangeMoneyLock.RLock()
+		worker := Worker{}
+		err := db.Where("id=?", w.ID).First(&worker).Error
+		if err != nil {
+			w.ChangeMoneyLock.RUnlock() //解除读锁
+			return false, err
+		}
+		//读取正常  解除读锁
+		w.ChangeMoneyLock.RUnlock()      //解除读锁
+		w.ChangeMoneyLock.Lock()         //上写锁
+		defer w.ChangeMoneyLock.Unlock() //解锁
+		//改变余额
+
+		//```go DB.Model(&product).UpdateColumn("quantity", gorm.Expr("quantity - ?", 1)) //// UPDATE "products" SET "quantity" = quantity - 1 WHERE "id" = '2'; ``` 这就是你要的吧？
+		err = db.Model(Worker{}).Where("id=?", w.ID).UpdateColumn("balance", gorm.Expr("balance +?", w.AddBalance)).Error
+		if err != nil {
+			db.Rollback()
+			return false, err
+		}
+		//插入张变表
+		add := BillingDetails{
+			WorkerId:    int(worker.ID),
+			ChangeMoney: math.Abs(w.AddBalance),
+			InitMoney:   worker.Balance,
+			NowMoney:    worker.Balance + w.AddBalance,
+			Created:     time.Now().Unix(),
+			Kinds:       w.Kinds,
+			Remark:      w.Remark,
+		}
+		err = db.Save(&add).Error
+		if err != nil {
+			db.Rollback() //事务回滚
+			return false, err
+		}
+
+		db.Commit()
+		return true, nil
+	}
+
 	db = db.Begin() //开启事务
 	//读锁
 	w.ChangeMoneyLock.RLock()
@@ -152,7 +200,7 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 					return false, err
 				}
 			} else {
-				err = db.Model(&Worker{}).Where("id=?", w.ID).Update(&Worker{VipId: w.VipID, VipExpire: time.Now().Unix() + 365*24*60*60}).Error
+				err = db.Model(&Worker{}).Where("id=?", w.ID).Update(&Worker{VipId: w.VipID, VipExpire: time.Now().Unix() + 365*24*60*60, VipStart: time.Now().Unix()}).Error
 				if err != nil {
 					db.Rollback() //事务回滚
 					return false, err

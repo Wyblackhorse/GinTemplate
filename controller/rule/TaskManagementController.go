@@ -286,14 +286,11 @@ func SetCollection(c *gin.Context) {
 		role := make([]model.Collection, 0)
 		Db := mysql.DB
 		var total int
-		Db.Table("collection").Count(&total)
+		Db.Table("collections").Count(&total)
 
 		Db = Db.Model(&model.Collection{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
-		err := Db.Find(&role).Error
-		if err != nil {
-			ReturnErr101(c, "ERR:"+err.Error())
-			return
-		}
+		Db.Find(&role)
+
 		c.JSON(http.StatusOK, gin.H{
 			"code":   1,
 			"count":  total,

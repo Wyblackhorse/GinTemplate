@@ -8,7 +8,6 @@
 package worker
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
@@ -47,11 +46,19 @@ func GetApplyTask(c *gin.Context) {
 
 	if taskId, isExist := c.GetQuery("task_id"); isExist == true {
 		//获取任务
-		fmt.Println(taskId)
-		mysql.DB.Where("id=?",  taskId).Find(&taskDta)
-
-		ReturnSuccessData(c, taskDta, "success")
-
+		//fmt.Println(taskId)
+		tas := model.Task{}
+		err := mysql.DB.Where("id=?", taskId).First(&tas).Error
+		if err != nil {
+			ReturnErr101(c, "no find  id")
+			return
+		}
+		//ts := model.Task{}
+		//mysql.DB.Where("id=?", tas.TaskId).First(&ts)
+		//tas.TaskType = ts.TaskType
+		//tas.DemandSide = ts.DemandSide
+		//tas.TaskUrl = ts.TaskUrl
+		ReturnSuccessData(c, tas, "success")
 		return
 	}
 

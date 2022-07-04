@@ -21,9 +21,10 @@ type MoneyManagement struct {
 	Status   int     //1进行中  2结束
 	Created  int64   //创建时间
 	EndTime  int64   //结束时间
-
-	WorkerName string `gorm:"-"`
-	YuEBaoName string `gorm:"-"`
+	WorkerName   string  `gorm:"-"`
+	YuEBaoName   string  `gorm:"-"`
+	Day          int     `gorm:"-"`
+	InterestRate float64 `gorm:"-"`
 }
 
 func CheckIsExistModelMoneyManagement(db *gorm.DB) {

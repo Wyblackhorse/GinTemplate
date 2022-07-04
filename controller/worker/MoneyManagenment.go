@@ -37,6 +37,16 @@ func ShoppingMoneyManagement(c *gin.Context) {
 	if action == "alreadyBought" {
 		moneyManagement := make([]model.MoneyManagement, 0)
 		mysql.DB.Where("worker_id=?", whoMap["ID"]).Find(&moneyManagement)
+
+		for i, management := range moneyManagement {
+			y := model.YuEBao{}
+			mysql.DB.Where("id=?", management.YuEBaoId).First(&y)
+			moneyManagement[i].YuEBaoName = y.Name
+			moneyManagement[i].Day = y.Days
+			moneyManagement[i].InterestRate = y.InterestRate
+
+		}
+
 		ReturnSuccessData(c, moneyManagement, "success")
 		return
 	}
@@ -66,12 +76,16 @@ func ShoppingMoneyManagement(c *gin.Context) {
 			ReturnErr101(c, "don't have enough money")
 			return
 		}
-
 		//钱够了 进行下面的逻辑
-
 		Worker := model.WorkerBalance{ID: int(whoMap["ID"].(uint)), AddBalance: money, Kinds: 6, YuEBaoId: int(man.ID), Days: man.Days}
-		_, _ = Worker.AddBalanceFuc(mysql.DB)
+		_, err = Worker.AddBalanceFuc(mysql.DB)
 
+		if err != nil {
+			ReturnErr101(c, "sorry get a error")
+			return
+		}
+		ReturnSuccess(c, "OK")
+		return
 	}
 
 }

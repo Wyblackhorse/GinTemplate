@@ -216,3 +216,26 @@ func GetVipWorkers(c *gin.Context) {
 }
 
 //会员银行
+
+//管理操作资金  (管理员操作用户的余额)
+func ChangeMoneyForAdmin(c *gin.Context) {
+	workerId, _ := strconv.Atoi(c.Query("worker_id"))
+	w := model.Worker{ID: uint(workerId)}
+	if w.IsExist(mysql.DB) == false {
+		ReturnErr101(c, "用户不存在")
+		return
+	}
+
+	AddBalance, _ := strconv.ParseFloat(c.Query("money"), 64)
+	kinds, _ := strconv.Atoi(c.Query("kinds"))
+
+	balance := model.WorkerBalance{ID: workerId, AddBalance: AddBalance, Kinds: kinds, IfAdmin: true, Remark: c.Query("remark")}
+	_, err := balance.AddBalanceFuc(mysql.DB)
+	if err != nil {
+		ReturnErr101(c, err.Error())
+		return
+	}
+	ReturnSuccess(c, "OK")
+	return
+
+}

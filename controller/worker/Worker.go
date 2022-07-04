@@ -165,7 +165,7 @@ func Information(c *gin.Context) {
 		if username, isExits := c.GetQuery("pay_password"); isExits == true {
 			update["PayPassword"] = username
 		}
-		err := mysql.DB.Where("id=?", whoMap["ID"]).Update(update).Error
+		err := mysql.DB.Model(&model.Worker{}).Where("id=?", whoMap["ID"]).Update(update).Error
 		if err != nil {
 			ReturnErr101(c, "fail")
 			return
@@ -221,6 +221,14 @@ func Information(c *gin.Context) {
 		ls := make([]model.LanternSlide, 0)
 		mysql.DB.Where("status=? and language =? ", 1, c.Query("language")).Find(&ls)
 		ReturnSuccessData(c, ls, "ok")
+		return
+	}
+
+	// 获取用户的最新余额
+	if action == "getMoney" {
+		rrr := make(map[string]interface{})
+		rrr["money"] = whoMap["Balance"]
+		ReturnSuccessData(c, rrr, "ok")
 		return
 	}
 

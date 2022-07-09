@@ -28,6 +28,7 @@ func Setup() *gin.Engine {
 	r.GET("/getRecharge", controller.GetRecharge)
 	//GetUserApp
 	r.GET("/getUserApp", controller.GetUserApp)
+	r.POST("/getUserApp", controller.GetUserApp)
 	//GetWalletRecord
 	r.GET("/getWalletRecord", controller.GetWalletRecord)
 	r.GET("/GetWithdraw", controller.GetWithdraw)

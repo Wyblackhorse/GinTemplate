@@ -18,42 +18,46 @@ import (
 
 //工人
 type Worker struct {
-	ID                 uint    `gorm:"primaryKey;comment:'主键'"`
-	Username           string  //用户名  真实姓名
-	Password           string  //密码
-	Balance            float64 `gorm:"type:decimal(10,2)"` //账户余额
-	WithdrawalToFreeze float64 `gorm:"type:decimal(10,2)"` //提现冻结金额
-	Token              string  //token
-	InvitationCode     string  //邀请码
-	SuperiorId         int     `gorm:"int(10);default:0"` //上级id
-	NextSuperiorId     int     `gorm:"int(10);default:0"` //次上级id
-	NextNextSuperiorId int     `gorm:"int(10);default:0"` //次上上级id
-	PayPassword        string  //资金密码
-	HeadImage          string  //头像地址(给一个默认值)
-	BankCardId         int     //银行卡 id
-	AllIncome          float64 `gorm:"type:decimal(10,2)"`
-	YuEBaoMoney        float64 `gorm:"type:decimal(10,2)"` //余额宝里面的钱
-	Phone              string  //手机号
-	EMail              string  //电子邮箱
-	Status             int     //状态 1限制  2良好 3优秀  4封号
-	CreditScore        int     //信用积分
-	VipId              int     `gorm:"int(10);default:1"` //vip  等级 id
-	VipExpire          int64   `gorm:"default:0"`         //会员到期时间   默认为 0  无限制
-	VipStart           int64   //vip开始时间
-	Created            int64
-	VipName            string `gorm:"-"`
+	ID                     uint    `gorm:"primaryKey;comment:'主键'"`
+	Username               string  //用户名  真实姓名
+	Password               string  //密码
+	Balance                float64 `gorm:"type:decimal(10,2)"` //账户余额
+	WithdrawalToFreeze     float64 `gorm:"type:decimal(10,2)"` //提现冻结金额
+	Token                  string  //token
+	InvitationCode         string  //邀请码
+	SuperiorId             int     `gorm:"int(10);default:0"` //上级id
+	NextSuperiorId         int     `gorm:"int(10);default:0"` //次上级id
+	NextNextSuperiorId     int     `gorm:"int(10);default:0"` //次上上级id
+	PayPassword            string  //资金密码
+	HeadImage              string  //头像地址(给一个默认值)
+	BankCardId             int     //银行卡 id
+	AllIncome              float64 `gorm:"type:decimal(10,2)"`
+	YuEBaoMoney            float64 `gorm:"type:decimal(10,2)"` //余额宝里面的钱
+	Phone                  string  //手机号
+	EMail                  string  //电子邮箱
+	Status                 int     //状态 1限制  2良好 3优秀  4封号
+	CreditScore            int     //信用积分
+	VipId                  int     `gorm:"int(10);default:1"` //vip  等级 id
+	VipExpire              int64   `gorm:"default:0"`         //会员到期时间   默认为 0  无限制
+	VipStart               int64   //vip开始时间
+	Created                int64
+	CloudHousekeeper       int    `gorm:"default:1"` //1 关闭  2开启
+	CloudHousekeeperExpire int64  //云管家到期时间
+	VipName                string `gorm:"-"`
 }
 type WorkerBalance struct {
-	ID              int     //用户的 id
-	AddBalance      float64 //增加多少钱 减少
-	ChangeMoneyLock sync.RWMutex
-	Kinds           int //类型 1充值  2用户提现 3做单任务 4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝   7管理员审核提现失败   8管理员审核提现成功 9注册奖励  10  其他
-	OrderId         int
-	YuEBaoId        int  //余额宝产品id
-	Days            int  //理财产品的时间
-	VipID           int  //购买的 vip等级
-	IfAdmin         bool //是否是管理员操作  (管理员操作只负责账单变,月变化)
-	Remark          string
+	ID                     int     //用户的 id
+	AddBalance             float64 //增加多少钱 减少
+	ChangeMoneyLock        sync.RWMutex
+	Kinds                  int //类型 1充值  2用户提现 3做单任务 4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝   7管理员审核提现失败   8管理员审核提现成功 9注册奖励  10下级做单提成  11购买云管家
+	OrderId                int
+	YuEBaoId               int  //余额宝产品id
+	Days                   int  //理财产品的时间
+	VipID                  int  //购买的 vip等级
+	IfAdmin                bool //是否是管理员操作  (管理员操作只负责账单变,月变化)
+	Remark                 string
+	Rid                    int     //充值订单的id
+	RecordAccountPractical float64 //实际的充值金额
 }
 
 func CheckIsExistModelWorker(db *gorm.DB) {
@@ -71,7 +75,6 @@ func CheckIsExistModelWorker(db *gorm.DB) {
 
 //给用户加钱/扣金额(余额变化表)
 func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
-
 	//管理操作
 	if w.IfAdmin == true {
 		db = db.Begin() //开启事务
@@ -114,7 +117,7 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 		db.Commit()
 		return true, nil
 	}
-
+	db1 := db
 	db = db.Begin() //开启事务
 	//读锁
 	w.ChangeMoneyLock.RLock()
@@ -137,14 +140,14 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 
 	//加钱操作
 	var newBalance float64
-	if w.Kinds == 3 || w.Kinds == 7 || w.Kinds == 5 {
+	if w.Kinds == 3 || w.Kinds == 7 || w.Kinds == 5 || w.Kinds == 1 || w.Kinds == 10 {
 		newBalance = worker.Balance + w.AddBalance
 		err = db.Model(&Worker{}).Where("id=?", w.ID).Update(&Worker{Balance: newBalance}).Error
 		if err != nil {
 			db.Rollback() //事务回滚
 			return false, err
 		}
-	} else if w.Kinds == 6 || w.Kinds == 2 || w.Kinds == 4 {
+	} else if w.Kinds == 6 || w.Kinds == 2 || w.Kinds == 4 || w.Kinds == 11 {
 		//减钱操作
 		if worker.Balance < w.AddBalance {
 			//余额不够了
@@ -160,8 +163,8 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 		}
 	}
 
-	//金额改变成功 类型 1充值  2提现 3做单任务 4购买业务 5佣金奖励(邀请奖励)
-	if w.Kinds == 3 || w.Kinds == 5 || w.Kinds == 4 {
+	//金额改变成功 类型 1充值  2提现 3做单任务 4购买业务 5佣金奖励(邀请奖励)  10  做单任务奖励  11 购买云管家
+	if w.Kinds == 3 || w.Kinds == 5 || w.Kinds == 4 || w.Kinds == 1 || w.Kinds == 10 || w.Kinds == 11 {
 		add := BillingDetails{
 			WorkerId:    int(worker.ID),
 			ChangeMoney: w.AddBalance,
@@ -182,6 +185,44 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 				db.Rollback() //事务回滚
 				return false, err
 			}
+
+			//获取系统基本配置
+			config := Config{}
+			err = db.Where("id=?", 1).First(&config).Error
+			if err == nil {
+				//对上级进行返点
+				if worker.SuperiorId != 0 {
+					if config.SuperiorBackPer > 0 {
+						b := BackMoneyForSuper(db1, worker.SuperiorId, config.SuperiorBackPer*w.AddBalance)
+						if b == false {
+							db.Rollback() //事务回滚
+							return false, err
+						}
+
+					}
+				}
+				//对上上级进行返点
+				if worker.NextSuperiorId != 0 {
+					if config.SuperiorBackPer > 0 {
+						b := BackMoneyForSuper(db1, worker.NextSuperiorId, config.SuperiorBackPer*w.AddBalance)
+						if b == false {
+							db.Rollback() //事务回滚
+							return false, err
+						}
+					}
+				}
+				//对上上上级进行返点
+				if worker.NextNextSuperiorId != 0 {
+					if config.SuperiorBackPer > 0 {
+						b := BackMoneyForSuper(db1, worker.NextNextSuperiorId, config.SuperiorBackPer*w.AddBalance)
+						if b == false {
+							db.Rollback() //事务回滚
+							return false, err
+						}
+					}
+				}
+			}
+
 		}
 		if w.Kinds == 4 {
 			//生成购买订单
@@ -208,6 +249,30 @@ func (w *WorkerBalance) AddBalanceFuc(db *gorm.DB) (bool, error) {
 			}
 
 		}
+		//充值
+		if w.Kinds == 1 {
+			db.Model(Record{}).Where("id=?", w.Rid).Update(Record{Status: 1, Updated: time.Now().Unix(), AccountPractical: w.RecordAccountPractical})
+		}
+
+		//购买云管家
+		if w.Kinds == 11 {
+			//判断是否已经购买了云管家
+			if worker.CloudHousekeeper == 1 {
+				//没有购买
+				err := db.Model(&Worker{}).Where("id=?", worker.ID).Update(map[string]interface{}{"CloudHousekeeper": 2, "CloudHousekeeperExpire": time.Now().AddDate(1, 0, 0).Unix()}).Error
+				if err != nil {
+					db.Rollback() //事务回滚
+					return false, err
+				}
+			} else {
+				db.Model(&Worker{}).Where("id=?", worker.ID).Update(map[string]interface{}{"CloudHousekeeperExpire": gorm.Expr("cloud_housekeeper_expire + ?", 60*60*24*360)})
+				if err != nil {
+					db.Rollback() //事务回滚
+					return false, err
+				}
+			}
+		}
+
 	} else if w.Kinds == 6 {
 		//充值到 余额宝   生成理财产品订单
 		endTime := time.Now().Unix() + int64(w.Days*3600*24)
@@ -394,4 +459,14 @@ func (r *Worker) GetMyTeamInformation(db *gorm.DB) []MyTeamInformation {
 		data.data = append(data.data, a)
 	}
 	return data.data
+}
+
+//对上级进行返点
+func BackMoneyForSuper(db *gorm.DB, workerID int, money float64) bool {
+	w := WorkerBalance{ID: workerID, Kinds: 10, AddBalance: money}
+	b, _ := w.AddBalanceFuc(db)
+	if b != true {
+		return false
+	}
+	return true
 }

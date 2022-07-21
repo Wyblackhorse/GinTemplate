@@ -15,9 +15,9 @@ import (
 type BillingDetails struct {
 	ID          uint `gorm:"primaryKey;comment:'主键'"`
 	WorkerId    int
-	ChangeMoney float64 `gorm:"type:decimal(10,2)"`
-	InitMoney   float64 `gorm:"type:decimal(10,2)"`
-	NowMoney    float64 `gorm:"type:decimal(10,2)"`
+	ChangeMoney float64 `gorm:"type:decimal(10,2)"`  //改变的金额
+	InitMoney   float64 `gorm:"type:decimal(10,2)"`  //初始余额
+	NowMoney    float64 `gorm:"type:decimal(10,2)"`   //现在的余额
 	Kinds       int     //类型 1充值  2提现 3做单任务 4购买业务 5佣金奖励
 	Created     int64
 	WorkerName  string `gorm:"-"`

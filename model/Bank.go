@@ -22,6 +22,7 @@ type Bank struct {
 	Phone    string
 	Mail     string
 	Created  int64
+	WorkerName  string  `gorm:"-"`
 }
 
 func CheckIsExistModelBank(db *gorm.DB) {

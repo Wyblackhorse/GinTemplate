@@ -26,15 +26,14 @@ type TaskOrder struct {
 	Date       string  //日期
 	Month      int     //月
 	Week       int     //周
-	TaskName   string  `gorm:"-"` //
+	Robot      int     `gorm:default:1` //1认为做单  2机器人
+	TaskName   string  `gorm:"-"`       //
 	WorkerName string  `gorm:"-"`
 	TaskType   int     `gorm:"-"`
 	Price      float64 `gorm:"-"`
-
-	DemandSide string `gorm:"-"` //需求方
-
-	TaskUrl string `gorm:"-"` //任务地址
-	Remark  string `gorm"-"`
+	DemandSide string  `gorm:"-"` //需求方
+	TaskUrl    string  `gorm:"-"` //任务地址
+	Remark     string  `gorm"-"`
 }
 
 func CheckIsExistModelTaskOrder(db *gorm.DB) {

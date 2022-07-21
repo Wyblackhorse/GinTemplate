@@ -50,3 +50,20 @@ func ReturnSuccess(c *gin.Context, success string) {
 func ReturnSuccessData(c *gin.Context, data interface{}, success string) {
 	tools.JsonWrite(c, 200, data, success)
 }
+
+//第三方平台支付提交数据
+type PlatformOrderParameterize struct {
+	PlatformOrder string  //平台订单号
+	Username      string  //	用户名
+	AccountOrders float64 //订单充值金额
+	RechargeType  string  //充值类型(USDT/TRX)
+	BackUrl       string  //回调地址
+}
+
+//充值成功回调参数数据
+
+type PlatformOrderReturnData struct {
+	Code   int         `json:"code"`
+	Result interface{} `json:"result"`
+	Msg    string      `json:"msg"`
+}

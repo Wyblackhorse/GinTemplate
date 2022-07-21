@@ -38,3 +38,11 @@ eth:
   https: "1"     #  1 代表htttps 请求  2代表http 请求
   sslPem: "1_wyLoveeat.com_bundle.pem"
   sslKey: "0_wyLoveeat.com.key"
+
+
+PlatformOrderParameterize:
+  Username: "PlatformOrderParameterize"
+  BackUrl: "http://8.136.97.179:7777/record/getRecord?action=callBack"
+  PrepaidPhoneAddress: "http://8.136.97.179:7778/v2/createPrepaidPhoneOrders"
+
+

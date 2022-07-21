@@ -216,6 +216,90 @@ func GetVipWorkers(c *gin.Context) {
 }
 
 //会员银行
+func GetBank(c *gin.Context) {
+	action := c.Query("action")
+	//获取银行
+	if action == "GET" {
+		page, _ := strconv.Atoi(c.Query("page"))
+		limit, _ := strconv.Atoi(c.Query("limit"))
+		role := make([]model.Bank, 0)
+		Db := mysql.DB
+		var total int
+
+		Db.Table("banks").Count(&total)
+		Db = Db.Model(&model.Bank{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
+		err := Db.Find(&role).Error
+		if err != nil {
+			ReturnErr101(c, "ERR:"+err.Error())
+			return
+		}
+		for k, v := range role {
+			w := model.Worker{}
+			err := mysql.DB.Where("id=?", v.WorkerId).First(&w).Error
+			if err != nil {
+				role[k].WorkerName = w.Phone
+			}
+
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"code":   1,
+			"count":  total,
+			"result": role,
+		})
+		return
+	}
+	//修改银行
+	if action == "UPDATE" {
+		id := c.Query("id")
+		err := mysql.DB.Where("id=?", id).First(&model.Bank{}).Error
+		if err != nil {
+			ReturnErr101(c, "修改的银行id不存在")
+			return
+		}
+
+		update := map[string]interface{}{}
+		//需改状态    状态 1限制  2良好 3优秀  4封号
+		if updateData, isExist := c.GetQuery("Name"); isExist == true {
+			update["Name"] = updateData
+		}
+		//电子邮箱
+		if updateData, isExist := c.GetQuery("Address"); isExist == true {
+			update["Address"] = updateData
+		}
+
+		//电子邮箱
+		if updateData, isExist := c.GetQuery("EMail"); isExist == true {
+			update["EMail"] = updateData
+		}
+
+		//电子邮箱
+		if updateData, isExist := c.GetQuery("Phone"); isExist == true {
+			update["Phone"] = updateData
+		}
+
+		err = mysql.DB.Model(&model.Bank{}).Where("id=?", id).Update(update).Error
+		if err != nil {
+			ReturnErr101(c, "修改失败:"+err.Error())
+
+			return
+		}
+		ReturnSuccess(c, "修改成功")
+		return
+	}
+	//删除
+	if action == "DEL" {
+		id := c.Query("id")
+		err := mysql.DB.Where("id=?", id).First(&model.Bank{}).Error
+		if err != nil {
+			ReturnErr101(c, "删除id不存在")
+			return
+		}
+		mysql.DB.Model(&model.Bank{}).Delete("id=?", id)
+		ReturnSuccess(c, "删除成功")
+
+	}
+
+}
 
 //管理操作资金  (管理员操作用户的余额)
 func ChangeMoneyForAdmin(c *gin.Context) {

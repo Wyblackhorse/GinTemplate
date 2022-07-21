@@ -8,6 +8,7 @@
 package rule
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/dao/redis"
@@ -59,7 +60,68 @@ func Login(c *gin.Context) {
 	return
 }
 
+//云管家自动去做任务
+func CloudHousekeeperDoTask(c *gin.Context) {
+	ws := make([]model.Worker, 0)
+	mysql.DB.Where("cloud_housekeeper=? and cloud_housekeeper_expire > ?", 2, time.Now().Unix()).Find(&ws)
+	fmt.Println(len(ws))
+	for _, i2 := range ws {
+		m := 10.0
+		//判断用户的vip等级  可以做的任务量
+		if i2.VipExpire > time.Now().Unix() {
+			vips := model.Vip{}
+			err := mysql.DB.Where("id=?", i2.VipId).First(&vips).Error
+			if err == nil {
+				//可以做的任务量
+				//vips.TaskTimes    // price
+				var  count  int
+				mysql.DB.Model(&model.TaskOrder{}).Where("status=?  and  worker_id=? and   date=?", 3, i2.ID, time.Now().Format("2006-01-02")).Count(&count)
+				m = float64(vips.TaskTimes-count) * vips.Account
+				if m>0 {
+					go RobotTask(vips.TaskTimes, vips.Account, int(i2.ID))
+
+				}
+			}
+		} else {
+			//默认你是实习生   每天只可以做5单   每单两块钱
+			go RobotTask(5, 2, int(i2.ID))
+		}
+
+
+
+		ws := model.WorkerBalance{ID: int(i2.ID), AddBalance: m, Kinds: 3}
+		ws.AddBalanceFuc(mysql.DB)
+	}
+	//对用户进行余额操作
+	ReturnSuccess(c, "success")
+
+}
+
+//机器人生成任务
+func RobotTask(TaskTime int, price float64, workerId int) {
 
 
 
 
+
+
+	mysql.DB.Where("")
+	for i := 0; i < TaskTime; i++ {
+		type TaskOrder struct {
+			ID       uint   `gorm:"primaryKey;comment:'主键'"`
+			TaskId   int    //任务 id
+			WorkerId int    //玩家id
+			Status   int    // 状态1 进行中  2审核中 3已完成 4以失败 5恶意 6已放弃
+			Created  int64  //创建时间
+			Updated  int64  //更新时间
+			ImageUrl string //图片地址
+			Date     string //日期
+			Month    int    //月
+			Week     int    //周
+		}
+
+		TAS := model.TaskOrder{TaskId: 0, WorkerId: workerId, Status: 3, Created: time.Now().Unix(), Updated: time.Now().Unix(), ImageUrl: "", Date: time.Now().Format("2006-01-02"), Month: tools.ReturnTheMonth(), Week: tools.ReturnTheWeek(), Robot: 2}
+		mysql.DB.Save(&TAS)
+	}
+
+}

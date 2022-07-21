@@ -60,6 +60,7 @@ func Setup() *gin.Engine {
 		user.POST("/task/getTaskOrder", worker.GetTaskOrder)
 		//提现 RecordController
 		user.GET("/record/getRecord", worker.GetRecord)
+
 		//获取余额宝
 		user.GET("/moneyManagement/shoppingMoneyManagement", worker.ShoppingMoneyManagement)
 		//获取个人信息 Information
@@ -68,6 +69,10 @@ func Setup() *gin.Engine {
 		user.GET("team/teamTasks", worker.TeamTasks)
 		//DailyReport
 		user.GET("DailyReport", worker.DailyReport)
+		//购买云管家 GetCloudHousekeeper
+		user.GET("GetCloudHousekeeper", worker.GetCloudHousekeeper)
+
+
 
 	}
 
@@ -77,6 +82,10 @@ func Setup() *gin.Engine {
 		admin.GET("/homePage", rule.HomePage)
 		//管理员登录
 		admin.POST("/login", rule.Login)
+
+		//用于支付成功时候的回调
+		admin.POST("/callBack", rule.CallBack)
+
 		//获取权限列表 		//获取菜单
 		admin.GET("/jurisdictionManagement/roleManagement/getRole", rule.GetRole)
 		admin.GET("/jurisdictionManagement/roleManagement/getJurisdiction", rule.GetJurisdiction)
@@ -91,11 +100,12 @@ func Setup() *gin.Engine {
 		//LanternSlide  幻灯片设置
 		admin.GET("/settingManagement/lanternSlide/lanternSlide", rule.LanternSlide)
 		admin.POST("/settingManagement/lanternSlide/lanternSlide", rule.LanternSlide)
-		//会员管理   普通会员  会员等级 		//GetBill(余额变动)  ChangeMoneyForAdmin(修改用户余额)
+		//会员管理   普通会员  会员等级 		//GetBill(余额变动)  ChangeMoneyForAdmin(修改用户余额)  获取银行
 		admin.GET("/memberManagement/gradeOfMembership/getVipLevel", rule.GetVipLevel)
 		admin.GET("/memberManagement/regularMembers/getVipWorkers", rule.GetVipWorkers)
 		admin.GET("/memberManagement/gradeOfMembership/getBill", rule.GetBill)
 		admin.GET("/memberManagement/gradeOfMembership/changeMoneyForAdmin", rule.ChangeMoneyForAdmin)
+		admin.GET("/memberManagement/memberBank/getBank", rule.GetBank)
 		//账单管理  充值账单  提现账单  佣金账单 推广奖励
 		admin.GET("/billManagement/withdrawalBill/getRecord", rule.GetRecords)
 		//日志管理  GetLoggerList adminLog(管理操作日志)
@@ -114,10 +124,8 @@ func Setup() *gin.Engine {
 		admin.GET("/balanceManagement/productList/getYuEBaoList", rule.GetYuEBaoList)
 		// 获取余额购买记录   GetYuEBaoPurchaseHistory
 		admin.GET("/balanceManagement/purchaseHistory/getYuEBaoPurchaseHistory", rule.GetYuEBaoPurchaseHistory)
-
-
-
-
+		//CloudHousekeeperDoTask 计划任务
+		admin.GET("CloudHousekeeperDoTask", rule.CloudHousekeeperDoTask)
 	}
 
 	r.Run(fmt.Sprintf(":%d", viper.GetInt("app.port")))
@@ -129,7 +137,7 @@ func CheckToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//检查url 是否在白名单里面
 		path := c.Request.URL.Path
-		whiteUrl := []string{"/user/register", "/rule/login", "/user/generateCaptcha", "/user/login"}
+		whiteUrl := []string{"/user/register", "/rule/login", "/user/generateCaptcha", "/user/login", "/rule/callBack"}
 		if tools.InArray(whiteUrl, path) {
 			c.Next()
 			return

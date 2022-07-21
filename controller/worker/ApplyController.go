@@ -12,6 +12,7 @@ import (
 	"github.com/wangyi/GinTemplate/dao/mysql"
 	"github.com/wangyi/GinTemplate/model"
 	"strconv"
+	"time"
 )
 
 //获取应用(没有被禁用的)
@@ -41,7 +42,7 @@ func GetApplyTask(c *gin.Context) {
 			ReturnErr101(c, "application does not exist")
 			return
 		}
-		mysql.DB.Where("status=? and apply_id=?  AND  task_level <= ?", 1, applyId, whoMap["VipId"]).Find(&taskDta)
+		mysql.DB.Where("status=? and apply_id=?  AND  task_level <= ?  AND end_time > ?", 1, applyId, whoMap["VipId"],time.Now().Unix()).Find(&taskDta)
 	}
 
 	if taskId, isExist := c.GetQuery("task_id"); isExist == true {
@@ -81,9 +82,12 @@ func GetTheApplyTask(c *gin.Context) {
 	applyId, _ := strconv.Atoi(c.Query("apply_id"))
 	taskId, _ := strconv.Atoi(c.Query("task_id"))
 
+
+	//检查用户的信用分
+
 	//检查任务  应用id 是否存在
 
-	t := model.GetTaskData{WorkerId: int(whoMap["ID"].(uint)), WorkerVipId: whoMap["VipId"].(int), ApplyId: applyId, TaskId: taskId}
+	t := model.GetTaskData{WorkerId: int(whoMap["ID"].(uint)), WorkerVipId: whoMap["VipId"].(int), ApplyId: applyId, TaskId: taskId, CreditScore: whoMap["CreditScore"].(int)}
 	_, err := t.GetTask(mysql.DB)
 	if err != nil {
 		ReturnErr101(c, err.Error())

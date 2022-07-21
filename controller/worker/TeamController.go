@@ -29,14 +29,10 @@ func TeamTasks(c *gin.Context) {
 	}
 	//我的团队
 	if action == "myTeam" {
-		worker := model.Worker{ID: 17}
+		worker := model.Worker{ID: whoMap["ID"].(uint)}
 		data := worker.GetMyTeamInformation(mysql.DB)
 		ReturnSuccessData(c, data, "success")
 		return
 	}
 
 }
-
-
-
-

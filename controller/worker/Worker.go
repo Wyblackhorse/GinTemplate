@@ -49,6 +49,13 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	//查看这个账户是否已经注册过了
+	err = mysql.DB.Where("phone=?", register.Phone).First(&model.Worker{}).Error
+	if err == nil {
+		ReturnErr101(c, "The account already exists")
+		return
+	}
+
 	//邀请码为空
 	if InvitationCode != "" {
 		fmt.Println(InvitationCode)
@@ -61,9 +68,9 @@ func Register(c *gin.Context) {
 		}
 
 		if config.InviteRewards > 0 {
-
 			//创建订单
 			re := model.Record{WorkerId: int(worker.ID), Status: 1, Money: config.InviteRewards, Kinds: 5}
+			//创建订单
 			reResult, _ := re.AddRecord(mysql.DB)
 			if reResult == true {
 				//邀请奖励大于0
@@ -72,7 +79,6 @@ func Register(c *gin.Context) {
 			}
 
 		}
-
 		newWork.SuperiorId = int(worker.ID)                //上级
 		newWork.NextSuperiorId = worker.SuperiorId         // 次上级
 		newWork.NextNextSuperiorId = worker.NextSuperiorId // 次上上级
@@ -80,15 +86,9 @@ func Register(c *gin.Context) {
 
 	//校验验证码
 	verifyResult := store.Verify(register.VerificationId, register.VerificationCode, true)
-	if verifyResult != false {
+	if verifyResult == false {
 		//验证码校验没有通过
 		ReturnErr101(c, "The verify code is err")
-		return
-	}
-	//查看这个账户是否已经注册过了
-	err = mysql.DB.Where("phone=?", register.Phone).First(&model.Worker{}).Error
-	if err == nil {
-		ReturnErr101(c, "The account already exists")
 		return
 	}
 
@@ -133,6 +133,13 @@ func Login(c *gin.Context) {
 		ReturnErr101(c, "The account or password is incorrect")
 		return
 	}
+
+	//账号已被封禁
+	if worker.Status == 4 {
+		ReturnErr101(c, "The account has since been banned")
+		return
+	}
+
 	redis.Rdb.Set("Worker_Login_Token_"+worker.Token, login.Phone, time.Second*3600*24)
 	ReturnSuccessData(c, worker, "success")
 	return
@@ -217,6 +224,36 @@ func Information(c *gin.Context) {
 		ReturnSuccessData(c, B.BankIsExist(mysql.DB), "success")
 		return
 	}
+
+	if action == "GetBackList" {
+		b := make([]model.Bank, 0)
+		mysql.DB.Where("worker_id=?", int(whoMap["ID"].(uint))).Find(&b)
+		ReturnSuccessData(c, b, "success")
+		return
+	}
+	if action == "GetBackListUpdate" {
+		id := c.Query("id")
+		name := c.Query("name")
+		mail := c.Query("mail")
+		phone := c.Query("phone")
+		address := c.Query("address")
+		if address == "" {
+			ReturnErr101(c, "The collection address must not be empty")
+			return
+		}
+		b := model.Bank{Address: address, Name: name, Phone: phone, Mail: mail, WorkerId: int(whoMap["ID"].(uint))}
+		mysql.DB.Model(&model.Bank{}).Where("id=?", id).Update(&b)
+		ReturnSuccess(c, "success")
+		return
+	}
+
+	if action == "GetBackListDel" {
+		id := c.Query("id")
+		mysql.DB.Model(&model.Bank{}).Where("id=?", id).Delete(&model.Bank{})
+		ReturnSuccess(c, "success")
+		return
+	}
+
 	if action == "lanternSlide" {
 		ls := make([]model.LanternSlide, 0)
 		mysql.DB.Where("status=? and language =? ", 1, c.Query("language")).Find(&ls)
@@ -276,3 +313,33 @@ func DailyReport(c *gin.Context) {
 	return
 
 }
+
+//购买云管家
+func GetCloudHousekeeper(c *gin.Context) {
+	//先判断用户是否有资格购买
+	who, _ := c.Get("who")
+	whoMap := who.(map[string]interface{})
+	config := model.Config{}
+	err := mysql.DB.Where("id=?", 1).First(&config).Error
+	if err != nil {
+		ReturnErr101(c, "system error")
+		return
+	}
+	if config.OpenCloudHousekeeperLevelId > whoMap["VipId"].(int) {
+		vip := model.Vip{ID: uint(config.OpenCloudHousekeeperLevelId)}
+		ReturnErr101(c, "Sorry, the lowest open level is "+vip.GetLevelName(mysql.DB))
+		return
+	}
+	//判断是否已经购买了   如果已经购买 就续费
+	wb := model.WorkerBalance{ID: int(whoMap["ID"].(uint)), AddBalance: 999, Kinds: 11}
+	_, err = wb.AddBalanceFuc(mysql.DB)
+	if err != nil {
+		ReturnErr101(c, err.Error())
+		return
+	}
+	ReturnSuccess(c, "success")
+	return
+}
+
+
+

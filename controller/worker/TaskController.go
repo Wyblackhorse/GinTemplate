@@ -77,7 +77,7 @@ func GetTaskOrder(c *gin.Context) {
 					taskOrder[k].TaskName = apply.Name
 					taskOrder[k].TaskType = task.TaskType
 					taskOrder[k].Price = task.Price
-					taskOrder[k].TaskUrl=task.TaskUrl
+					taskOrder[k].TaskUrl = task.TaskUrl
 				}
 			}
 		}
@@ -142,7 +142,7 @@ func GetTaskOrder(c *gin.Context) {
 		}
 		//上传成功 生成订单
 		taskOrder := model.TaskOrder{
-			Status:   2, //审核中 给管理员审核
+			Status: 2, //审核中 给管理员审核
 			//TaskId:   taskId,
 			ImageUrl: filepath,
 			Updated:  time.Now().Unix(),
@@ -160,8 +160,8 @@ func GetTaskOrder(c *gin.Context) {
 	}
 
 	//获取任务详情
-	if action=="detail" {
-		taskId:=c.Query("task_id")
+	if action == "detail" {
+		taskId := c.Query("task_id")
 		//获取任务
 		//fmt.Println(taskId)
 		tas := model.TaskOrder{}
@@ -175,9 +175,11 @@ func GetTaskOrder(c *gin.Context) {
 		tas.TaskType = ts.TaskType
 		tas.DemandSide = ts.DemandSide
 		tas.TaskUrl = ts.TaskUrl
-		tas.Remark=ts.Remark
+		tas.Remark = ts.Remark
 		ReturnSuccessData(c, tas, "success")
 		return
 	}
 
 }
+
+

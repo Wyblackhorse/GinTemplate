@@ -12,6 +12,7 @@ import (
 	"github.com/jinzhu/gorm"
 	eeor "github.com/wangyi/GinTemplate/error"
 	"sync"
+	"time"
 )
 
 type Task struct {
@@ -54,19 +55,19 @@ type GetTaskData struct {
 	TaskId          int          //任务id
 	TaskNum         int          //任务数量
 	Status          int          // 6  撤销任务
+	CreditScore     int          //信用分
+
 }
 
 //领取任务
 func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
 
 	if g.Status == 6 {
-
 		g.GetTaskDataLock.Lock() //上写锁
 		//解除写锁
 		defer g.GetTaskDataLock.Unlock()
-		db.Model(&Task{}).Where("id=?",g.TaskId).UpdateColumn("already_get", gorm.Expr("already_get+ ?", 1))
+		db.Model(&Task{}).Where("id=?", g.TaskId).UpdateColumn("already_get", gorm.Expr("already_get+ ?", 1))
 		return true, nil
-
 	}
 
 	//获取用户的 可以做的订单可以领取的订单数量
@@ -77,11 +78,22 @@ func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
 	}
 	//查询今天已经领取获取这完成的 订单数量
 	var haveDone int
-	db.Model(&TaskOrder{}).Where("worker_id=?", g.WorkerId).Where("status=?  or status=?  or status=?", 1, 2, 3).Count(&haveDone)
-	//今日的次数已经用完了
-	if haveDone >= vip.TaskTimes {
-		return false, eeor.OtherError("I have run out of times today")
+	db.Model(&TaskOrder{}).Where("worker_id=?", g.WorkerId).Where("status=?  or status=?  or status=?", 1, 2, 3).Where("date=?", time.Now().Format("2006-01-02")).Count(&haveDone)
+	//信用分小于30分的时候  任务减半 	//今日的次数已经用完了
+	if g.CreditScore < 31 {
+		if g.CreditScore <= 0 {
+			return false, eeor.OtherError("Sorry, the account is illegal")
+		}else {
+			if haveDone >= (vip.TaskTimes / 2) {
+				return false, eeor.OtherError("I have run out of times today")
+			}
+		}
+	} else {
+		if haveDone >= vip.TaskTimes {
+			return false, eeor.OtherError("I have run out of times today")
+		}
 	}
+
 	//领取
 	//上读锁
 	g.GetTaskDataLock.RLock()
@@ -96,7 +108,11 @@ func (g *GetTaskData) GetTask(db *gorm.DB) (bool, error) {
 		g.GetTaskDataLock.RUnlock() //解除读锁
 		return false, eeor.OtherError("Sorry, this assignment has been taken")
 	}
-
+	//查看任务是否过期
+	if task.EndTime < time.Now().Unix() {
+		g.GetTaskDataLock.RUnlock() //解除读锁
+		return false, eeor.OtherError("Sorry, The task has expired")
+	}
 	db = db.Begin()
 	//解除读锁
 	g.GetTaskDataLock.RUnlock()

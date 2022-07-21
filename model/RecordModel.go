@@ -11,23 +11,27 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/wangyi/GinTemplate/tools"
+	"math/rand"
 	"strconv"
 	"time"
 )
 
+
+
 type Record struct {
-	ID         uint    `gorm:"primaryKey;comment:'主键'"`
-	WorkerId   int     //用户id
-	Kinds      int     //类型 1充值  2提现   4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝  7任务提成(团队)
-	Money      float64 `gorm:"type:decimal(10,2);default:0"` //购买金额
-	Status     int     //1已完成  2审核中  3失败
-	Month      int     //月
-	Week       int     //周
-	Date       string  //日期
-	RecordNum  string
-	Created    int64
-	Updated    int64
-	WorkerName string `gorm:"-"`
+	ID               uint    `gorm:"primaryKey;comment:'主键'"`
+	WorkerId         int     //用户id
+	Kinds            int     //类型 1充值  2提现   4购买业务 5佣金奖励(邀请奖励) 6充值到余额宝  7任务提成(团队)
+	Money            float64 `gorm:"type:decimal(10,2);default:0"` //购买金额
+	AccountPractical float64 `gorm:"type:decimal(10,2);default:-1"` //充值订单的时候  实际充值的金额   -1 管理员操作 -2代表用户操作
+	Status           int    //1已完成  2审核中  3失败
+	Month            int    //月
+	Week             int    //周
+	Date             string //日期
+	RecordNum        string
+	Created          int64
+	Updated          int64
+	WorkerName       string `gorm:"-"`
 }
 
 func CheckIsExistModelRecord(db *gorm.DB) {
@@ -50,6 +54,7 @@ func (r *Record) AddRecord(db *gorm.DB) (bool, error) {
 	r.Date = time.Now().Format("2006-01-02")
 	r.Month = tools.ReturnTheMonth()
 	r.Week = tools.ReturnTheWeek()
+	r.AccountPractical =-2
 	r.RecordNum = time.Now().Format("20060102") + strconv.FormatFloat(float64(time.Now().Unix()), 'f', 0, 64) + strconv.Itoa(r.WorkerId)
 	err := db.Save(&r).Error
 	if err != nil {
@@ -98,4 +103,27 @@ func (r *Record) WithdrawDeposit(db *gorm.DB, status int) (bool, error) {
 		}
 	}
 	return true, nil
+}
+
+//创建充值订单
+func (r *Record) CratedNewRechargeOrder(db *gorm.DB) string {
+	for i := 0; i < 5; i++ {
+		//首先生成一个订单号
+		r.RecordNum = "DzCz" + time.Now().Format("20060102150405") + strconv.Itoa(rand.Intn(1000000))
+		err := db.Where("record_num=?", r.RecordNum).First(&Record{}).Error
+		if err != nil {
+			r.Status = 2
+			r.Month = tools.ReturnTheMonth()
+			r.Week = tools.ReturnTheWeek()
+			r.Date = time.Now().Format("2006-01-02")
+			r.Updated = time.Now().Unix()
+			r.Created = time.Now().Unix()
+			err = db.Save(&r).Error
+			if err != nil {
+				continue
+			}
+			return r.RecordNum
+		}
+	}
+	return ""
 }

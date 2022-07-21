@@ -43,3 +43,23 @@ func ReturnSuccess(c *gin.Context, success string) {
 func ReturnSuccessData(c *gin.Context, data interface{}, success string) {
 	tools.JsonWrite(c, 200, data, success)
 }
+
+//第三方充值订单回调
+type RecordOrderBack struct {
+	Code   int    `json:"Code"`
+	Msg    string `json:"Msg"`
+	Result struct {
+		Data string `json:"Data"`
+	} `json:"Result"`
+}
+
+//第三方充值订单回调(订单参数)
+type RecordOrderBackParameter struct {
+	PlatformOrder string `json:"PlatformOrder"`
+	RechargeAddress string `json:"RechargeAddress"`
+	Username string `json:"Username"`
+	AccountOrders float64 `json:"AccountOrders"`
+	AccountPractical float64 `json:"AccountPractical"`
+	RechargeType string `json:"RechargeType"`
+	BackURL string `json:"BackUrl"`
+}

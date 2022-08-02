@@ -24,6 +24,12 @@
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/appUser.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/appUser.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/appUserLoginLog.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/appUserLoginLog.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/statistics.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/statistics.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/upload.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/appuser.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/appuser.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +49,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/tools/tools.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/tools/tools_test.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/cmd/server.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/config.yaml" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -72,7 +79,7 @@
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Test.TestGetRootPath in github.com/wangyi/GinTemplate/tools (1)">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GinTemplate" />
       <working_directory value="$PROJECT_DIR$" />
@@ -80,6 +87,18 @@
       <package value="github.com/wangyi/GinTemplate" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetRootPath in github.com/wangyi/GinTemplate/tools (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GinTemplate" />
+      <working_directory value="$PROJECT_DIR$/tools" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/wangyi/GinTemplate/tools" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetRootPath\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestGetRootPath in github.com/wangyi/GinTemplate/tools" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -106,6 +125,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestGetRootPath in github.com/wangyi/GinTemplate/tools (1)" />
         <item itemvalue="Go Test.TestGetRootPath in github.com/wangyi/GinTemplate/tools" />
       </list>
     </recent_temporary>
@@ -134,7 +154,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/upload.go</url>
-          <line>155</line>
+          <line>156</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -144,13 +164,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/statistics.go</url>
-          <line>102</line>
+          <line>108</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/statistics.go</url>
-          <line>122</line>
+          <line>128</line>
           <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/appUser.go</url>
+          <line>12</line>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

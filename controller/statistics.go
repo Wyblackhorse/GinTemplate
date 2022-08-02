@@ -21,7 +21,7 @@ func SetStatistics(c *gin.Context) {
 		st := make([]model.Recharge, 0)
 		//按照日期分组(目的:取出充值的所有日期)
 		mysql.DB.Group("date").Find(&st)
-		var peopleNum []int
+
 		for _, recharge := range st {
 			add := model.Statistics{}
 			//获取充值的日期   SELECT   *   FROM  recharges   WHERE date='2022-06-14'    GROUP BY user_id
@@ -29,6 +29,7 @@ func SetStatistics(c *gin.Context) {
 			mysql.DB.Model(&model.Recharge{}).Where("date=? and status=?", recharge.Date, "成功").Group("user_id").Count(&add.TodayWithdrawNums)
 			st1 := make([]model.Recharge, 0)
 			mysql.DB.Where("date=? and status=?", recharge.Date, "成功").Find(&st1)
+			var peopleNum []int
 			for _, i2 := range st1 {
 				if tools.InArray(peopleNum, i2.UserId) == false {
 					peopleNum = append(peopleNum, recharge.UserId)
@@ -37,12 +38,13 @@ func SetStatistics(c *gin.Context) {
 					tt, _ := time.ParseInLocation("2006-01-02", recharge.Date, loc) //2006-01-02 15:04:05是转换的格式如php的"Y-m-d H:i:s"
 					err := mysql.DB.Where("date_timestamp < ? and status=? and user_id=?", tt.Unix(), "成功", i2.UserId).First(&model.Recharge{}).Error
 					if err != nil {
-						add.TodayWithdrawNums = add.TodayWithdrawNums + 1
+						add.TodayWithdrawFirst = add.TodayWithdrawFirst + 1
 					}
+
 					//今日充值没有下注的人数
 					err = mysql.DB.Where("bet_date =?  and user_id=?", recharge.Date, i2.UserId).First(&model.BettingRecord{}).Error
-					if err == nil {
-						add.TodayWithdrawBetNums = add.TodayWithdrawBetNums + 1
+					if err == nil { //找到了下注
+						add.TodayWithdrawBetNums = add.TodayWithdrawBetNums + 1 //今日充值下注活跃人数+1
 					}
 					//今日私自下注人数
 					mysql.DB.Model(&model.BettingRecord{}).Where("bet_date=? and break_even!=?", recharge.Date, "正常").Group("user_id").Count(&add.TodayPrivatelyBetNums)
@@ -67,12 +69,13 @@ func SetStatistics(c *gin.Context) {
 				mysql.DB.Save(&add)
 
 			} else {
-				//更新数据
+				//更新数
 				add.Updated = time.Now().Unix()
-				mysql.DB.Model(&model.Statistics{}).Update(&add)
+				mysql.DB.Model(&model.Statistics{}).Where("id=?", stt.ID).Update(&add)
 			}
 
 			//fmt.Println(add)
+
 		}
 
 		tools.JsonWrite(c, 200, nil, "OK")
@@ -82,22 +85,25 @@ func SetStatistics(c *gin.Context) {
 	if action == "GET" {
 		page, _ := strconv.Atoi(c.Query("page"))
 		limit, _ := strconv.Atoi(c.Query("limit"))
+
 		var total int = 0
 		Db := mysql.DB
 		fish := make([]model.Statistics, 0)
 		Db.Table("statistics").Count(&total)
-		Db = Db.Model(&model.Statistics{}).Offset((page - 1) * limit).Limit(limit).Order("updated desc")
+		Db = Db.Model(&fish).Offset((page - 1) * limit).Limit(limit).Order("date desc")
+
 		if err := Db.Find(&fish).Error; err != nil {
 			tools.JsonWrite(c, -101, nil, err.Error())
 			return
 		}
+
 		c.JSON(http.StatusOK, gin.H{
 			"code":   1,
 			"count":  total,
 			"result": fish,
 		})
-		return
 
+		return
 	}
 	//首页
 	if action == "HOMEPAGE" {
@@ -124,8 +130,6 @@ func SetStatistics(c *gin.Context) {
 			if tools.InArray(peopleNum, i2.UserId) == false {
 				APP := model.AppUser{}
 				APPEAR := mysql.DB.Where("user_number=?", i2.UserId).First(&APP).Error
-				fmt.Println(APPEAR)
-
 				peopleNum = append(peopleNum, i2.UserId)
 				//今日首冲人数
 				loc, _ := time.LoadLocation("Asia/Shanghai")           //设置时区
@@ -137,12 +141,21 @@ func SetStatistics(c *gin.Context) {
 						returnData.TodayWithdrawFirstDetail = append(returnData.TodayWithdrawFirstDetail, model.User{Username: APP.Username, TheGeneralAgentOf: APP.TheGeneralAgentOf})
 					}
 				}
+
 				//今日充值没有下注的人数
 				err = mysql.DB.Where("bet_date =?  and user_id=?", date, i2.UserId).First(&model.BettingRecord{}).Error
-				if err == nil {
+				if err != nil { //没有找到这个投注记录
 					if APPEAR == nil {
+						fmt.Println("----")
 						returnData.TodayWithdrawNoBetNumsDetail = append(returnData.TodayWithdrawNoBetNumsDetail, model.User{Username: APP.Username, TheGeneralAgentOf: APP.TheGeneralAgentOf})
 					}
+				} else {
+					//今日下注人员明细
+					if APPEAR == nil {
+
+						returnData.TodayWithdrawBetNumsDetail = append(returnData.TodayWithdrawBetNumsDetail, model.User{Username: APP.Username, TheGeneralAgentOf: APP.TheGeneralAgentOf})
+					}
+
 				}
 				//今日私自下注人数
 				err = mysql.DB.Where("bet_date=? and break_even!=?", date, "正常").First(&model.BettingRecord{}).Error
@@ -150,10 +163,6 @@ func SetStatistics(c *gin.Context) {
 					if APPEAR == nil {
 						returnData.TodayPrivatelyBetNumsDetail = append(returnData.TodayPrivatelyBetNumsDetail, model.User{Username: APP.Username, TheGeneralAgentOf: APP.TheGeneralAgentOf})
 					}
-				}
-				//今日下注人员明细
-				if APPEAR == nil {
-					returnData.TodayWithdrawBetNumsDetail = append(returnData.TodayWithdrawBetNumsDetail, model.User{Username: APP.Username, TheGeneralAgentOf: APP.TheGeneralAgentOf})
 				}
 
 			}

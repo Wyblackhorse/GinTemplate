@@ -21,8 +21,8 @@ func GetReceiveAddress(c *gin.Context) {
 		role := make([]model.ReceiveAddress, 0)
 		Db := mysql.DB
 		var total int
-		Db = Db.Model(&model.ReceiveAddress{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("receive_addresses").Count(&total)
+		Db = Db.Model(&model.ReceiveAddress{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&role).Error
 		if err != nil {
 			tools.ReturnError101(c, "ERR:"+err.Error())

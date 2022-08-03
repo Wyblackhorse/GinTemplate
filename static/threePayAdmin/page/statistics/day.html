@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>账单</title>
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css"/>
+    <link rel="stylesheet" href="../../assets/module/admin.css?v=318"/>
+
+    <style>
+
+        .currSerachBtn{
+            box-shadow: 0 15px 18px -6px rgb(45 140 240 / 65%) !important;
+        }
+
+        .currReloadBtn{
+            box-shadow: 0 15px 18px -6px rgb(146 109 222 / 65%) !important;
+        }
+
+        .layui-table-cell{
+            height:36px;
+            line-height: 36px;
+        }
+
+
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!-- 表格工具栏 -->
+            <form class="layui-form toolbar">
+                <div class="layui-form-item" style="margin-left: -40px">
+<!--                    <div class="layui-inline">-->
+<!--                        <label class="layui-form-label">充值地址</label>-->
+<!--                        <div class="layui-input-inline">-->
+<!--                            <input type="text" id="From"  name="From" autocomplete="off" class="layui-input">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="layui-inline">-->
+<!--                        <label class="layui-form-label">收账地址</label>-->
+<!--                        <div class="layui-input-inline">-->
+<!--                            <input type="text" id="ToAddress" name="ToAddress" autocomplete="off" class="layui-input">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="layui-inline">-->
+<!--                        <label class="layui-form-label">用户名</label>-->
+<!--                        <div class="layui-input-inline">-->
+<!--                            <input type="text" id="UserID" name="UserID" autocomplete="off" class="layui-input">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="layui-inline">-->
+<!--                        <label class="layui-form-label">开始时间</label>-->
+<!--                        <div class="layui-input-inline">-->
+<!--                            <input type="text" id="startDate" name="startDate" autocomplete="off" class="layui-input">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="layui-inline">-->
+<!--                        <label class="layui-form-label">结束时间</label>-->
+<!--                        <div class="layui-input-inline">-->
+<!--                            <input type="text" id="endDate" name="endDate" autocomplete="off" class="layui-input">-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="layui-inline">&emsp;
+                        <button class="layui-btn icon-btn currSerachBtn" lay-filter="userTbSearch" lay-submit style="margin-left: 20px">
+                            <i class="layui-icon">&#xe615;</i>搜索
+                        </button>
+                        <button class="layui-btn icon-btn currReloadBtn" lay-filter="reloadData" lay-submit style="background-color: #926dde;border-color: #926dde;">
+                            <i class="layui-icon layui-icon-refresh"></i>刷新数据
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table id="userTable" lay-filter="userTable" style="margin-top:10px"></table>
+        </div>
+    </div>
+</div>
+
+
+<!-- js部分 -->
+<script type="text/javascript" src="../../assets/libs/layui/layui.js"></script>
+<script type="text/javascript" src="../../assets/js/common.js?v=318"></script>
+
+<script type="text/javascript" src="../../assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../assets/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../../assets/js/config.url.js"></script>
+
+<!--数据表格操作工具栏-->
+<script type="text/html" id="orderListBar">
+    <a class="layui-btn layui-btn-xs " lay-event="rechargebtn"><i class="layui-icon">&#xe605;</i>充值</a>
+    <a class="layui-btn layui-btn-xs " lay-event="changebtn"><i class="layui-icon">&#xe605;</i>修改</a>
+<!--    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delbtn"><i class="layui-icon">&#x1006;</i>删除</a>-->
+</script>
+<script>
+
+    var mybck= $.cookie('tokenMyb');
+    //alert(document.cookie);
+    //console.log(mybck)
+    if(mybck == "" || mybck == null){
+
+        window.top.location.href="../../login.html";
+
+    }else{
+
+        let currDateVal
+        let currDateVal_end
+        layui.use(['layer', 'form', 'table', 'util', 'admin', 'xmSelect','laydate'], function () {
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var form = layui.form;
+            var table = layui.table;
+            var util = layui.util;
+            var admin = layui.admin;
+            var laydate = layui.laydate;
+            var xmSelect = layui.xmSelect;
+
+
+            laydate.render({
+                elem: '#startDate'
+                // ,value: currDate
+                ,isInitValue: true
+                ,theme: 'molv'
+                ,type: 'datetime'
+                ,done: function(value, date){//选中后的回调
+                    // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+                    // console.log("自带的",date)
+                    // console.log("jquery",$("#buildDate").val())
+                    currDateVal = ""
+                    currDateVal = value
+                    // let currStart = date.year+"-"+date.month+"-"+date.date+" 00:00:00"
+                    // $("#startDate").val(currStart)
+                }
+            });
+
+            laydate.render({
+                elem: '#endDate'
+                // ,value: currDate
+                ,isInitValue: true
+                ,theme: 'molv'
+                ,type: 'datetime'
+                ,done: function(value, date){//选中后的回调
+                    // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+                    // console.log("自带的",date)
+                    // console.log("jquery",$("#buildDate").val())
+                    currDateVal_end = ""
+                    currDateVal_end = value
+                    // let currEnd= date.year+"-"+date.month+"-"+date.date+" 23:59:59"
+                    // $("#endDate").val(currEnd)
+                }
+            });
+
+
+
+            var log_login_request_param = {};
+            // log_login_request_param['player_id']= '1';
+            log_login_request_param['token']= $.cookie('tokenMyb');
+            log_login_request_param['kinds']= 1;
+            log_login_request_param['status']= 4;
+
+
+
+            /* 渲染表格 */
+            var insTb = table.render({
+                elem: '#userTable',
+                url: global_requestAddressJs_getDailyStatistics+"?action=GET",
+                // method: 'post',
+                // where:log_login_request_param,
+                // toolbar: ['<p>',
+                //     '<button lay-event="add" class="layui-btn layui-btn-sm icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>&nbsp;',
+                //     '<button lay-event="del" class="layui-btn layui-btn-sm layui-btn-danger icon-btn"><i class="layui-icon">&#xe640;</i>删除</button>',
+                //     '</p>'].join(''),
+                cellMinWidth: 100,
+                page :  { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    ,groups: 10 //只显示 1 个连续页码
+                    ,first: "首页" //不显示首页
+                    ,last: "尾页"//不显示尾页
+                },
+                height : "full-100",
+                limit : 15,
+                limits : [15,30,50,100],
+                // id : "systemLog",
+                cols: [[
+                    {type: "checkbox", width: 50},
+                    {field: 'ID', width: 80, title: 'ID', sort: true},
+                    {field: 'Date', width: 300, title: '日期', align: "center"},
+                    {field: 'RechargeAccount', width: 100, title: '充值金额', align: "center"},
+                    {field: 'RechargeNums', title: '充值笔数', minWidth: 150, align: "center"},
+                    {
+                        field: 'Created', width: 200, title: '创建时间',align:"center", templet: function (d) {
+                            return util.toDateString(d.Created* 1000);
+                        }, sort: true
+                    },
+                    // {
+                    //     field: 'updated_at', title: '更新时间',align:"center", templet: function (d) {
+                    //         return util.toDateString(d.updated_at* 1000);
+                    //     }, sort: true
+                    // },
+                    // {title: '操作', width:250, templet:'#orderListBar',fixed:"right",align:"center"}
+                ]],
+                done: function (res, curr, count) {
+                    $('tr').css({'background-color': '#fff', 'color': '#191a1c'});
+                }
+            });
+
+            /* 表格搜索 */
+            var bet_tb_this;
+            var currTempObj = {};
+            form.on('submit(userTbSearch)', function (data) {
+                // console.log("datafield",data.field);
+
+                currTempObj = {}
+                currTempObj.token = $.cookie('tokenMyb');
+
+
+                let resultObj = data.field
+                console.log("result",resultObj)
+
+                if(resultObj.From){
+
+                    currTempObj.From = resultObj.From
+                }
+
+                if(resultObj.ToAddress){
+                    currTempObj.ToAddress = resultObj.ToAddress
+                }
+
+                if(resultObj.UserID){
+                    currTempObj.UserID = resultObj.UserID
+                }
+
+                if(resultObj.startDate && resultObj.endDate){
+                    currTempObj.start_time = get_unix_time(resultObj.startDate)
+                    currTempObj.end_time = get_unix_time(resultObj.endDate)
+                }else if(!resultObj.startDate && resultObj.endDate){
+                    currTempObj.start_time = 0
+                    currTempObj.end_time = get_unix_time(resultObj.endDate)
+                    // console.log("getDateFromString",get_unix_time(resultObj.endDate))
+                }else if(resultObj.startDate && !resultObj.endDate){
+                    currTempObj.start_time = get_unix_time(resultObj.startDate)
+                    currTempObj.end_time = parseInt(Date.now()/1000)
+                }
+
+
+                //2.6.0之前清除保留之前的数据的最有用的方式
+                if (bet_tb_this != null) {
+                    // console.log("book_tb_this--不为null",bet_tb_this)
+                    bet_tb_this.where = {};  //置空where
+                }
+
+                insTb.reload({
+                    where: {...currTempObj}
+                    , page: {curr: 1},
+                    done:function(){
+                        bet_tb_this = this;
+                        // console.log("book_tb_this----重载后的值",bet_tb_this)
+                    }
+                });
+
+                return false;
+            });
+
+            /* 表格工具条点击事件 */
+            table.on('tool(userTable)', function (obj) {
+                var currDatas  = obj.data;
+                if (obj.event === 'changebtn') { // 修改
+                    // showEditModel(obj.data);
+                    layer.prompt({title: '系统将对该用户进行封禁操作,确定当前用户进行封禁状态吗?', formType:2}, function(text, index){
+                        var param={};
+                        param['token']= $.cookie('tokenMyb');
+                        param['status']= '2';
+                        param['remark']= text;
+                        param['id']= currDatas.id;
+
+                        // param = wxgl_tgsh_btgbtn_jinyongbtn_Request($.cookie('tokenMyb'),'2',text,currDatas.wx_number,currDatas.id);
+                        $.post(js_global_requestAddress_change_players_status, param,
+                            function(lookResult){
+                                if(lookResult.code === 200 ){
+                                    layer.msg(lookResult.msg);
+                                    insTb.reload();
+                                    layer.close(index);
+                                }else{
+
+
+                                }
+
+
+                            });
+
+
+                    });
+
+                } else if (obj.event === 'del') { // 删除
+                    doDel(obj);
+                } else if (obj.event === 'rechargebtn') { // 充值
+                    resetPsw(obj);
+                }
+            });
+
+            /* 表格头工具栏点击事件 */
+            table.on('toolbar(userTable)', function (obj) {
+                if (obj.event === 'add') { // 添加
+                    showEditModel();
+                } else if (obj.event === 'del') { // 删除
+                    var checkRows = table.checkStatus('userTable');
+                    if (checkRows.data.length === 0) {
+                        layer.msg('请选择要删除的数据', {icon: 2});
+                        return;
+                    }
+                    var ids = checkRows.data.map(function (d) {
+                        return d.userId;
+                    });
+                    doDel({ids: ids});
+                }
+            });
+
+            /* 显示表单弹窗 */
+            function showEditModel(mData) {
+                admin.open({
+                    type: 1,
+                    title: (mData ? '修改' : '添加') + '用户',
+                    content: $('#userEditDialog').html(),
+                    success: function (layero, dIndex) {
+                        // 回显表单数据
+                        form.val('userEditForm', mData);
+                        // 表单提交事件
+                        form.on('submit(userEditSubmit)', function (data) {
+                            data.field.roleIds = insRoleSel.getValue('valueStr');
+                            var loadIndex = layer.load(2);
+                            $.get(mData ? '../../json/ok.json' : '../../json/ok.json', data.field, function (res) {  // 实际项目这里url可以是mData?'user/update':'user/add'
+                                layer.close(loadIndex);
+                                if (res.code === 200) {
+                                    layer.close(dIndex);
+                                    layer.msg(res.msg, {icon: 1});
+                                    insTb.reload({page: {curr: 1}});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            }, 'json');
+                            return false;
+                        });
+                        // 渲染多选下拉框
+                        var insRoleSel = xmSelect.render({
+                            el: '#userEditRoleSel',
+                            name: 'userEditRoleSel',
+                            layVerify: 'required',
+                            layVerType: 'tips',
+                            data: [{
+                                name: '管理员',
+                                value: 1
+                            }, {
+                                name: '普通用户',
+                                value: 2
+                            }, {
+                                name: '游客',
+                                value: 3
+                            }]
+                        });
+                        // 回显选中角色
+                        if (mData && mData.roles) {
+                            insRoleSel.setValue(mData.roles.map(function (item) {
+                                return item.roleId;
+                            }));
+                        }
+                        // 禁止弹窗出现滚动条
+                        $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                    }
+                });
+            }
+
+            /* 删除 */
+            function doDel(obj) {
+                layer.confirm('确定要删除选中数据吗？', {
+                    skin: 'layui-layer-admin',
+                    shade: .1
+                }, function (i) {
+                    layer.close(i);
+                    var loadIndex = layer.load(2);
+                    $.get('../../json/ok.json', {
+                        id: obj.data ? obj.data.userId : '',
+                        ids: obj.ids ? obj.ids.join(',') : ''
+                    }, function (res) {
+                        layer.close(loadIndex);
+                        if (res.code === 200) {
+                            layer.msg(res.msg, {icon: 1});
+                            insTb.reload({page: {curr: 1}});
+                        } else {
+                            layer.msg(res.msg, {icon: 2});
+                        }
+                    }, 'json');
+                });
+            }
+
+            /* 修改用户状态 */
+            form.on('switch(userTbStateCk)', function (obj) {
+                var loadIndex = layer.load(2);
+                $.get('../../json/ok.json', {
+                    userId: obj.elem.value,
+                    state: obj.elem.checked ? 0 : 1
+                }, function (res) {
+                    layer.close(loadIndex);
+                    if (res.code === 200) {
+                        layer.msg(res.msg, {icon: 1});
+                    } else {
+                        layer.msg(res.msg, {icon: 2});
+                        $(obj.elem).prop('checked', !obj.elem.checked);
+                        form.render('checkbox');
+                    }
+                }, 'json');
+            });
+
+            /* 重置密码 */
+            function resetPsw(obj) {
+                layer.confirm('确定要重置“' + obj.data.nickName + '”的登录密码吗？', {
+                    skin: 'layui-layer-admin',
+                    shade: .1
+                }, function (i) {
+                    layer.close(i);
+                    var loadIndex = layer.load(2);
+                    $.get('../../json/ok.json', {
+                        userId: obj.data.userId
+                    }, function (res) {
+                        layer.close(loadIndex);
+                        if (res.code === 200) {
+                            layer.msg(res.msg, {icon: 1});
+                        } else {
+                            layer.msg(res.msg, {icon: 2});
+                        }
+                    }, 'json');
+                });
+            }
+
+        });
+
+    }
+
+
+
+</script>
+</body>
+</html>

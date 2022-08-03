@@ -130,9 +130,8 @@ func GetPayInformation(c *gin.Context) {
 				Db = Db.Where("timestamp >= ?", start).Where("timestamp<=?", end)
 			}
 		}
-
-		Db = Db.Model(&model.PayOrder{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("pay_orders").Count(&total)
+		Db = Db.Model(&model.PayOrder{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&role).Error
 		if err != nil {
 			tools.ReturnError101(c, "ERR:"+err.Error())

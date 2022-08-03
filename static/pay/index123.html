@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div>
+    <a>类型:TRC20</a>
+    <a>充值地址:</a>
+    <a id="add"></a>
+
+</div>
+<div>
+    <a>充值币种:</a><a id="Bz"></a>
+
+</div>
+
+<div>
+    <a>充值金额:</a><a id="my"></a>
+
+</div>
+
+
+<script type="text/javascript" language="javascript">
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+
+    var a = document.getElementById("add")
+
+    a.text = GetQueryString("Address")
+
+    var a = document.getElementById("Bz")
+
+    a.text = GetQueryString("RechargeType")
+
+
+    var a = document.getElementById("my")
+
+    a.text = GetQueryString("AccountOrders")
+</script>
+
+</body>
+</html>

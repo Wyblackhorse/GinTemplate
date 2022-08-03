@@ -17,9 +17,8 @@ func GetDailyStatistics(c *gin.Context) {
 		role := make([]model.DailyStatistics, 0)
 		Db := mysql.DB
 		var total int
-
-		Db = Db.Model(&model.DailyStatistics{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("daily_statistics").Count(&total)
+		Db = Db.Model(&model.DailyStatistics{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&role).Error
 		if err != nil {
 			tools.ReturnError101(c, "ERR:"+err.Error())

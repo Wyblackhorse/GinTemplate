@@ -184,9 +184,8 @@ func GetPrepaidPhoneOrders(c *gin.Context) {
 				Db = Db.Where("successfully >= ?", start).Where("successfully<=?", end)
 			}
 		}
-
-		Db = Db.Model(&model.PrepaidPhoneOrders{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		Db.Table("prepaid_phone_orders").Count(&total)
+		Db = Db.Model(&model.PrepaidPhoneOrders{}).Offset((page - 1) * limit).Limit(limit).Order("created desc")
 		err := Db.Find(&role).Error
 		if err != nil {
 			tools.ReturnError101(c, "ERR:"+err.Error())

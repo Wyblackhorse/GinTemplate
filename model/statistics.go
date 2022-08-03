@@ -14,13 +14,15 @@ type Statistics struct {
 	InAllPrivatelyBetNums  int     `json:"in_all_privately_bet_nums"`   //私自下注人数  下注订单并且下注不是保本的
 	InAllWithdrawDeposit   float64 `json:"in_all_withdraw_deposit"`     //存款提现数据
 	InAllCommission        float64 `json:"in_all_commission"`           //佣金数据
-	TodayWithdrawNoBetNums int     `json:"today_withdraw_no_bet_nums"`  //今日充值没有下注的人数
-	TodayWithdrawBetNums   int     `json:"today_withdraw_bet_nums"`     //今日充值下注活跃人数
-	TodayWithdrawNums      int     `json:"today_withdraw_nums"`         //今日充值人数
-	TodayWithdrawFirst     int     `json:"today_withdraw_first"`        //今日首冲人数
-	TodayPrivatelyBetNums  int     `json:"today_privately_bet_nums"`    //今日私自下注人数  下注订单并且下注不是保本的
-	TodayWithdrawDeposit   float64 `json:"today_withdraw_deposit"`      //今日存款提现数据
-	TodayCommission        float64 `json:"today_commission"`            //今日佣金数据
+
+	TodayWithdrawNoBetNums int     `json:"today_withdraw_no_bet_nums"` //今日充值没有下注的人数
+	TodayWithdrawBetNums   int     `json:"today_withdraw_bet_nums"`    //今日充值下注活跃人数
+	TodayWithdrawNums      int     `json:"today_withdraw_nums"`        //今日充值人数
+	TodayWithdrawFirst     int     `json:"today_withdraw_first"`       //今日首冲人数
+	TodayPrivatelyBetNums  int     `json:"today_privately_bet_nums"`   //今日私自下注人数  下注订单并且下注不是保本的
+	TodayAllBetNums        int     `json:"today_all_bet_nums"`         //今日总下注人数
+	TodayWithdrawDeposit   float64 `json:"today_withdraw_deposit"`     //今日存款提现数据
+	TodayCommission        float64 `json:"today_commission"`           //今日佣金数据
 	Created                int64   `json:"created"`
 	Updated                int64   `json:"updated"`
 	Date                   string  `json:"date"`

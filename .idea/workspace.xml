@@ -24,12 +24,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2636b3b3-daef-4eb3-9247-4c90831389bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/appUser.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/appUser.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/appUserLoginLog.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/appUserLoginLog.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MgHash.sock" beforeDir="false" afterPath="$PROJECT_DIR$/MgHash.sock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/statistics.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/statistics.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/upload.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/appuser.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/appuser.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/statistics.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/statistics.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app.log" beforeDir="false" afterPath="$PROJECT_DIR$/web_app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,18 +163,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/statistics.go</url>
-          <line>108</line>
+          <line>110</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/statistics.go</url>
-          <line>128</line>
+          <line>130</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controller/appUser.go</url>
           <line>12</line>
           <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/statistics.go</url>
+          <line>51</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/controller/statistics.go</url>
+          <line>121</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

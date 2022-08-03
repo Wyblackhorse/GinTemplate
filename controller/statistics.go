@@ -22,6 +22,8 @@ func SetStatistics(c *gin.Context) {
 		//按照日期分组(目的:取出充值的所有日期)
 		mysql.DB.Group("date").Find(&st)
 
+		fmt.Println("初始化开始.---")
+
 		for _, recharge := range st {
 			add := model.Statistics{}
 			//获取充值的日期   SELECT   *   FROM  recharges   WHERE date='2022-06-14'    GROUP BY user_id
@@ -40,26 +42,25 @@ func SetStatistics(c *gin.Context) {
 					if err != nil {
 						add.TodayWithdrawFirst = add.TodayWithdrawFirst + 1
 					}
-
 					//今日充值没有下注的人数
 					err = mysql.DB.Where("bet_date =?  and user_id=?", recharge.Date, i2.UserId).First(&model.BettingRecord{}).Error
 					if err == nil { //找到了下注
 						add.TodayWithdrawBetNums = add.TodayWithdrawBetNums + 1 //今日充值下注活跃人数+1
 					}
-					//今日私自下注人数
-					mysql.DB.Model(&model.BettingRecord{}).Where("bet_date=? and break_even!=?", recharge.Date, "正常").Group("user_id").Count(&add.TodayPrivatelyBetNums)
 					//今日存款提现数据
 					//mysql.DB.Model(&model.Withdraw{}).Where("status=?   and  date =? ","通过", recharge.Date).
 					mysql.DB.Raw("select sum(withdrawal_amount) as  today_withdraw_deposit from  withdraws where date  =? and status=?", recharge.Date, "通过").Scan(&add)
 
 				}
 			}
+			//今日私自下注人数
+			mysql.DB.Model(&model.BettingRecord{}).Where("bet_date=? and break_even=? and state=?", recharge.Date, "正常", "已结算").Group("user_id").Count(&add.TodayPrivatelyBetNums)
+
+			//今日总的下注人数
+			mysql.DB.Model(&model.BettingRecord{}).Where("bet_date=?  and state=?", recharge.Date, "已结算").Group("user_id").Count(&add.TodayAllBetNums)
 			add.TodayWithdrawNoBetNums = add.TodayWithdrawNums - add.TodayWithdrawBetNums
-
 			//判断统计数据是否已经存在这个日期的数据了
-
 			stt := model.Statistics{}
-
 			err := mysql.DB.Where("date=?", recharge.Date).First(&stt).Error
 			if err != nil {
 				//没有数据插入
@@ -77,6 +78,7 @@ func SetStatistics(c *gin.Context) {
 			//fmt.Println(add)
 
 		}
+		fmt.Println("初始化结束.---")
 
 		tools.JsonWrite(c, 200, nil, "OK")
 		return

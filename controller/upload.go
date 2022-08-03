@@ -74,7 +74,7 @@ func UploadFiles(c *gin.Context) {
 				add.ThreeOrders = row[12]
 				add.TopUpChannel, _ = strconv.Atoi(row[13])
 				add.Classify = row[14]
-				add.Date = strings.Split(add.Created, " ")[0]
+				add.Date = strings.Split(add.Updated, " ")[0]
 				loc, _ := time.LoadLocation("Asia/Shanghai")                        //设置时区
 				tt, _ := time.ParseInLocation("2006-01-02", add.Date, loc) //2006-01-02 15:04:05是转换的格式如php的"Y-m-d H:i:s"
 				add.DateTimestamp = tt.Unix()
